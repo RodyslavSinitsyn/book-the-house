@@ -20,7 +20,7 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(Model model) {
         model.addAttribute("posts", postService.getPosts(1));
-        return "posts";
+        return "post/posts";
     }
 
     @SneakyThrows
@@ -35,6 +35,6 @@ public class PostController {
     @GetMapping("/posts/details/{id}")
     public String getPosts(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        return "post";
+        return "post/post";
     }
 }
