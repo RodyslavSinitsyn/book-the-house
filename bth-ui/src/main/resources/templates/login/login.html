@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="~{fragments :: commonHead}"/>
-  <title>Login</title>
+    <th:block th:replace="~{fragments :: commonHead}"/>
+    <title>Login</title>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-
+<ul>
+    <li><a href="/oauth2/authorization/google">Login with Google</a></li>
+    <li><a href="/oauth2/authorization/github">Login with GitHub</a></li>
+</ul>
 </body>
 </html>
