@@ -5,8 +5,26 @@
 </th:block>
 
 <!--header fragment-->
-<header class="has-text-centered" th:fragment="header">
-    <h1 class="title is-2">Book the House</h1>
+<header class="navbar is-light">
+    <div class="navbar-brand">
+        <div class="navbar-item is-centered" style="margin: 0 auto; flex-grow: 1;">
+            <h1 class="title is-2">Book the House</h1>
+        </div>
+        <div class="navbar-item is-right">
+            <span th:with="pictureUrl=${#authentication.principal.attributes['picture'] ?: #authentication.principal.attributes['avatar_url']}"
+                  th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
+              <img th:if="${pictureUrl != null}"
+                   th:src="${pictureUrl}"
+                   class="profile-img"
+                   width="40" height="40">
+                <span th:text="${#authentication.principal.attributes['name']}"></span>
+                <a href="/logout">Logout</a>
+            </span>
+            <span th:if="${#authentication == null || #authentication.name == 'anonymousUser'}">
+                <a href="/login">Login</a>
+            </span>
+        </div>
+    </div>
 </header>
 
 <th:block th:fragment="noRecords">
