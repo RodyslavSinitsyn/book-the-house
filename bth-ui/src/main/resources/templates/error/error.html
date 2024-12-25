@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: commonHead}"/>
+    <title>Error</title>
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Something went wrong.</h1>
+        <p th:text="${errorMessage}"></p>
+    </div>
+</section>
+</body>
+</html>

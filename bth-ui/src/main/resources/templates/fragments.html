@@ -1,0 +1,36 @@
+<!--head elements fragment-->
+<th:block th:fragment="commonHead">
+    <meta charset="UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" rel="stylesheet">
+</th:block>
+
+<!--header fragment-->
+<header class="has-text-centered" th:fragment="header">
+    <h1 class="title is-2">Book the House</h1>
+</header>
+
+<th:block th:fragment="noRecords">
+    <p>No records</p>
+</th:block>
+
+<!-- postList fragment -->
+<th:block th:fragment="postList(posts)">
+    <div th:each="post : ${posts}" class="column is-one-third">
+        <!-- Use the postCard fragment for each post -->
+        <div th:replace="~{fragments :: postCard(post=${post})}"></div>
+    </div>
+</th:block>
+
+<!-- postCard fragment -->
+<th:block th:fragment="postCard(post)">
+    <a th:href="@{/posts/details/{id}(id=${post.id})}">
+        <div class="card">
+            <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image">
+            <div class="card-body">
+                <h5 class="card-title font-weight-bold" th:text="${post.title}"></h5>
+                <p class="card-text" th:text="${post.description}"></p>
+                <p class="font-weight-bold" th:text="${post.price}"></p>
+            </div>
+        </div>
+    </a>
+</th:block>
