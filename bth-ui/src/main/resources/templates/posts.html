@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: commonHead}"/>
+    <title>Posts</title>
+    <link th:href="@{/css/posts.css}" rel="stylesheet"/>
+    <script th:src="@{/js/posts.js}" type="text/javascript"></script>
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<div class="container mt-5">
+    <!-- Iterate over the list of posts -->
+    <div id="posts-container" class="columns is-multiline">
+        <th:block th:replace="${#lists.size(posts) > 0} ?
+        ~{fragments :: postList(posts=${posts})} :
+        ~{fragments :: noRecords}"></th:block>
+    </div>
+</div>
+
+<!-- Load More Button -->
+<div id="load-more-container" class="text-center" th:if="${#lists.size(posts) > 0}">
+    <button id="load-more-button" class="button is-primary">Load More</button>
+</div>
+
+<!-- Loading more posts indicator -->
+<div id="loading-indicator" class="loading" style="display:none;">
+    <p>Loading more posts...</p>
+</div>
+
+</body>
+</html>
