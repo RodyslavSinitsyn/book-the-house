@@ -15,7 +15,6 @@
             <groupId>org.rsinitsyn</groupId>
             <artifactId>bth-models</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
