@@ -1,25 +1,20 @@
-package bth.ui.service;
+package bth.dataservice.resolver;
 
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class MockPostService implements PostService {
-
+@Controller
+public class PostResolver implements PostService {
     public static final List<PostDto> POSTS = new ArrayList<>();
-    public static final int POSTS_PAGE_SIZE = 5;
-
-    private final RedisWrapper redisWrapper;
+    public static final int BATCH_SIZE = 5;
 
     static {
         for (int i = 1; i <= 25; i++) {
@@ -27,24 +22,21 @@ public class MockPostService implements PostService {
         }
     }
 
-    @Override
-    public List<PostDto> posts(int page) {
-        // save page to cache
-        redisWrapper.set("postsPage", String.valueOf(page), 30);
-
+    @QueryMapping
+    public List<PostDto> posts(@Argument("page") int page) {
         if (page <= 0) {
             return POSTS;
         }
-        int start = page * POSTS_PAGE_SIZE;
-        int end = Math.min(start + POSTS_PAGE_SIZE, POSTS.size());
+        int start = page * BATCH_SIZE;
+        int end = Math.min(start + BATCH_SIZE, POSTS.size());
         if (start >= POSTS.size()) {
             return Collections.emptyList();
         }
         return POSTS.subList(start, end);
     }
 
-    @Override
-    public PostDto post(String id) {
+    @QueryMapping
+    public PostDto post(@Argument("id") String id) {
         return POSTS.stream()
                 .filter(p -> p.id().equals(id))
                 .findFirst()

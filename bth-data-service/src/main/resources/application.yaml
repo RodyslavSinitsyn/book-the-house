@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+logging:
+  level:
+    root: debug

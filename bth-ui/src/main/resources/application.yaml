@@ -3,6 +3,8 @@ server:
 
 bth:
   ui:
+    data-service:
+      url: http://localhost:8081/graphql
     redis:
       host: localhost
       port: 8090

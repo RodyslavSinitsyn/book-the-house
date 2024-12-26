@@ -1,6 +1,6 @@
 package bth.ui.controller;
 
-import bth.ui.service.PostService;
+import bth.models.contract.PostService;
 import bth.ui.service.RedisWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -24,7 +24,7 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(Model model) {
         var page = Integer.parseInt(redisWrapper.getOrDefault("postsPage", 1));
-        model.addAttribute("posts", postService.getPosts(page));
+        model.addAttribute("posts", postService.posts(page));
         return "post/posts";
     }
 
@@ -33,13 +33,13 @@ public class PostController {
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
                             Model model) {
         TimeUnit.SECONDS.sleep(1); // TODO: Emulate long loading
-        model.addAttribute("posts", postService.getPosts(page));
+        model.addAttribute("posts", postService.posts(page));
         return "fragments :: postList";
     }
 
     @GetMapping("/posts/details/{id}")
     public String getPosts(@PathVariable("id") String id, Model model) {
-        model.addAttribute("post", postService.getPost(id));
+        model.addAttribute("post", postService.post(id));
         return "post/post";
     }
 }
