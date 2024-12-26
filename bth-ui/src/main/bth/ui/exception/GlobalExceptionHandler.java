@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataServiceException.class)
     public String handleDataServiceException(DataServiceException ex, Model model) {
-        model.addAttribute(ERROR_MESSAGE_KEY, "Data service error.");
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }
 }
