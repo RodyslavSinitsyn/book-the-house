@@ -1,11 +1,10 @@
 package bth.ui.exception;
 
+import bth.models.exception.PostNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
-import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,9 +19,15 @@ public class GlobalExceptionHandler {
         return ERROR_PAGE;
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public String handleNotFound(NoSuchElementException exception, Model model) {
+    @ExceptionHandler(PostNotFoundException.class)
+    public String handlePostNotFoundException(PostNotFoundException exception, Model model) {
         model.addAttribute(ERROR_MESSAGE_KEY, exception.getMessage());
+        return ERROR_PAGE;
+    }
+
+    @ExceptionHandler(DataServiceException.class)
+    public String handleDataServiceException(DataServiceException ex, Model model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }
 }

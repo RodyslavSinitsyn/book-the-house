@@ -5,14 +5,10 @@ services:
   bth-ui:
     image: bth-ui:latest
     container_name: bth-ui
+    env_file:
+      - bth-ui/.env
     ports:
       - "8080:8080"  # Map local port 8080 to container port 8080
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - GOOGLE_CLIENT_ID=1
-      - GOOGLE_CLIENT_SECRET=1
-      - GITHUB_CLIENT_SECRET=1
-      - GITHUB_CLIENT_ID=1
     networks:
       - bth-network
 
@@ -21,7 +17,7 @@ services:
     image: redis:latest
     container_name: bth-redis
     ports:
-      - "8090:6379"
+      - "6379:6379"
     command: [ "redis-server", "--loglevel", "debug" ]
     networks:
       - bth-network
