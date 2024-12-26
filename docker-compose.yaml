@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  bth-ui:
+    image: bth-ui:latest
+    container_name: bth-ui
+    ports:
+      - "8080:8080"  # Map local port 8080 to container port 8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - GOOGLE_CLIENT_ID=1
+      - GOOGLE_CLIENT_SECRET=1
+      - GITHUB_CLIENT_SECRET=1
+      - GITHUB_CLIENT_ID=1
+    networks:
+      - bth-network
+
+  # https://hub.docker.com/_/redis
+  redis:
+    image: redis:latest
+    container_name: bth-redis
+    ports:
+      - "8090:6379"
+    command: [ "redis-server", "--loglevel", "debug" ]
+    networks:
+      - bth-network
+
+  # https://hub.docker.com/r/rediscommander/redis-commander
+  redis-commander:
+    image: rediscommander/redis-commander
+    container_name: bth-redis-commander
+    environment:
+      - PORT=8091
+      - REDIS_HOSTS=redis:bth-redis:6379
+    ports:
+      - "8091:8091"
+    networks:
+      - bth-network
+
+networks:
+  bth-network:
+    driver: bridge  # Defines the network for communication between services
