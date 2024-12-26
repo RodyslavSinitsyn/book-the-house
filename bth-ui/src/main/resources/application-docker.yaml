@@ -1,0 +1,5 @@
+bth:
+  ui:
+    redis:
+      host: bth-redis
+      port: 6379

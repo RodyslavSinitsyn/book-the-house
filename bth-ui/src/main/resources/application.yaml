@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+bth:
+  ui:
+    redis:
+      host: localhost
+      port: 8090
+
 spring:
 
   thymeleaf:
