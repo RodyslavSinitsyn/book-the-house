@@ -5,6 +5,3 @@ spring:
   graphql:
     graphiql:
       enabled: true
-logging:
-  level:
-    root: debug

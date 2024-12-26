@@ -2,6 +2,7 @@ package bth.dataservice.resolver;
 
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
+import bth.models.exception.PostNotFoundException;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,6 @@ public class PostResolver implements PostService {
         return POSTS.stream()
                 .filter(p -> p.id().equals(id))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new PostNotFoundException(id));
     }
 }
