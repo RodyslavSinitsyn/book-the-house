@@ -7,13 +7,13 @@ import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-public class LocationDto {
+public class PostLocationDto {
     private String country;
     private String city;
     private String street;
     private String houseNumber;
 
-    public LocationDto(
+    public PostLocationDto(
             String country,
             String city,
             String street,
@@ -29,7 +29,7 @@ public class LocationDto {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (LocationDto) obj;
+        var that = (PostLocationDto) obj;
         return Objects.equals(this.country, that.country) &&
                 Objects.equals(this.city, that.city) &&
                 Objects.equals(this.street, that.street) &&

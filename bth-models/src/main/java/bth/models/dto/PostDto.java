@@ -11,8 +11,8 @@ public class PostDto {
     private String id;
     private String title;
     private String imageUrl;
-    private BookingDetailsDto details;
-    private LocationDto location;
+    private PostDetailsDto details;
+    private PostLocationDto location;
     private BookingStatus status;
 
     @Override

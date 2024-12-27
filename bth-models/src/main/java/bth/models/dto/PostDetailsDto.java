@@ -8,13 +8,13 @@ import java.util.Objects;
 
 @Data
 @NoArgsConstructor
-public class BookingDetailsDto {
+public class PostDetailsDto {
     private String description;
     private LocalDate availableFrom;
     private LocalDate availableTo;
     private int price;
 
-    public BookingDetailsDto(
+    public PostDetailsDto(
             String description,
             LocalDate availableFrom,
             LocalDate availableTo,
@@ -30,7 +30,7 @@ public class BookingDetailsDto {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (BookingDetailsDto) obj;
+        var that = (PostDetailsDto) obj;
         return Objects.equals(this.description, that.description) &&
                 Objects.equals(this.availableFrom, that.availableFrom) &&
                 Objects.equals(this.availableTo, that.availableTo) &&
