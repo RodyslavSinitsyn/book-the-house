@@ -2,6 +2,7 @@ package bth.dataservice.resolver;
 
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
+import bth.models.dto.filter.PostsFilterDto;
 import bth.models.exception.PostNotFoundException;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,18 +39,38 @@ public class PostResolver implements PostService {
     }
 
     @QueryMapping
-    public List<PostDto> posts(@Argument("page") int page) {
-        if (page <= 0) {
-            return POSTS;
+    public List<PostDto> posts(@Argument("page") int page, @Argument("filter") PostsFilterDto filter) {
+        var filteredPosts = filterPosts(filter);
+        if (page < 0) {
+            return filteredPosts;
         }
         int start = page * BATCH_SIZE;
-        int end = Math.min(start + BATCH_SIZE, POSTS.size());
-        if (start >= POSTS.size()) {
+        int end = Math.min(start + BATCH_SIZE, filteredPosts.size());
+        if (start >= filteredPosts.size()) {
             return Collections.emptyList();
         }
-        var postDtos = POSTS.subList(start, end);
+        var postDtos = filteredPosts.subList(start, end);
         log.debug("Successfully loaded {} posts", postDtos.size());
         return postDtos;
+    }
+
+    private List<PostDto> filterPosts(PostsFilterDto filter) {
+        if (!filter.isNotEmpty()) {
+            return POSTS;
+        }
+        return POSTS.stream() // TODO: Enhance filters but later with DB integration
+                .filter(p -> ObjectUtils.nullSafeEquals(p.getLocation().getCity(), filter.getCity())
+//                        && ObjectUtils.nullSafeEquals(p.getLocation().getCountry(), filter.getCountry())
+//                        && isWithinRange(p.getDetails().getPrice(), filter.getPriceMin(), filter.getPriceMax())
+                )
+                .toList();
+    }
+
+    private boolean isWithinRange(Integer price, Integer min, Integer max) {
+        if (price == null) return false;
+        if (min != null && price < min) return false;
+        if (max != null && price > max) return false;
+        return true;
     }
 
     @QueryMapping

@@ -2,6 +2,7 @@ package bth.ui.service;
 
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
+import bth.models.dto.filter.PostsFilterDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class MockPostService implements PostService {
     private final RedisWrapper redisWrapper;
 
     @Override
-    public List<PostDto> posts(int page) {
+    public List<PostDto> posts(int page, PostsFilterDto filter) {
         // save page to cache
         redisWrapper.set("postsPage", String.valueOf(page), 30);
 

@@ -2,6 +2,7 @@ package bth.ui.service;
 
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
+import bth.models.dto.filter.PostsFilterDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -19,11 +20,11 @@ public class GraphQLPostServiceClient implements PostService {
     private final HttpSyncGraphQlClient client;
 
     @Override
-    public List<PostDto> posts(int page) {
+    public List<PostDto> posts(int page, PostsFilterDto filter) {
         var query =
                 """
-                        query($page: Int) {
-                           posts(page: $page) {
+                        query($page: Int, $filter: PostFilterInput) {
+                           posts(page: $page, filter: $filter) {
                             id
                             title
                             status,
@@ -45,6 +46,7 @@ public class GraphQLPostServiceClient implements PostService {
                         """;
         return client.document(query)
                 .variable("page", page)
+                .variable("filter", filter)
                 .retrieveSync("posts")
                 .toEntityList(PostDto.class);
     }

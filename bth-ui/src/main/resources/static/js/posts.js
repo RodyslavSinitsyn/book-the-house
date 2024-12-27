@@ -1,4 +1,4 @@
-let currentPage = 1;
+let currentPage = 0;
 let isLoading = false;
 
 // Function to load more posts

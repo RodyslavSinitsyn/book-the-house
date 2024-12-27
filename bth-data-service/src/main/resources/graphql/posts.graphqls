@@ -26,9 +26,16 @@ enum BookingStatus {
     BOOKED
 }
 
+input PostFilterInput {
+    country: String
+    city: String
+    priceMin: Int
+    priceMax: Int
+}
+
 # The Root Query for the application
 type Query {
-    posts(page: Int): [Post]!,
+    posts(page: Int, filter: PostFilterInput): [Post]!,
     post(id: String): Post!,
 }
 

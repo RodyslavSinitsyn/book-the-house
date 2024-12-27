@@ -80,8 +80,40 @@
                 <span class="text-primary"> until:</span> <span th:text="${post.details.availableTo}"></span>
             </p>
             <div class="d-flex justify-content-between">
-                <a th:href="@{/posts/details/{id}(id=${post.id})}" class="btn btn-outline-primary btn-sm">View Details</a>
+                <a th:href="@{/posts/details/{id}(id=${post.id})}" class="btn btn-outline-primary btn-sm">View
+                    Details</a>
             </div>
         </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="postsFilter">
+    <div class="container mt-4">
+        <h4>Filter Posts</h4>
+        <form th:action="@{/posts}" method="get" class="mb-4">
+            <!-- Country Filter (Text input) -->
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" id="country" name="country" class="form-control" placeholder="Enter country name" th:value="${filter.country}">
+            </div>
+
+            <!-- City Filter (Text input) -->
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name" th:value="${filter.city}">
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="mb-3">
+                <label for="priceMin" class="form-label">Price Min</label>
+                <input type="number" id="priceMin" name="priceMin" class="form-control" placeholder="Min Price" th:value="${filter.priceMin}">
+            </div>
+            <div class="mb-3">
+                <label for="priceMax" class="form-label">Price Max</label>
+                <input type="number" id="priceMax" name="priceMax" class="form-control" placeholder="Max Price" th:value="${filter.priceMax}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
     </div>
 </th:block>

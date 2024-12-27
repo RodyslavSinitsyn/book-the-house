@@ -8,6 +8,9 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
+
+<th:block th:replace="~{fragments :: postsFilter}" />
+
 <div class="container mt-5">
     <!-- Iterate over the list of posts -->
     <div id="posts-container" class="columns is-multiline">
