@@ -3,6 +3,7 @@ package bth.dataservice.resolver;
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.models.exception.PostNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class PostResolver implements PostService {
     public static final List<PostDto> POSTS = new ArrayList<>();
     public static final int BATCH_SIZE = 5;
@@ -33,7 +35,9 @@ public class PostResolver implements PostService {
         if (start >= POSTS.size()) {
             return Collections.emptyList();
         }
-        return POSTS.subList(start, end);
+        var postDtos = POSTS.subList(start, end);
+        log.debug("Successfully loaded {} posts", postDtos.size());
+        return postDtos;
     }
 
     @QueryMapping
