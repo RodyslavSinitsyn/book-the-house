@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +19,6 @@ public class MockPostService implements PostService {
     public static final int POSTS_PAGE_SIZE = 5;
 
     private final RedisWrapper redisWrapper;
-
-    static {
-        for (int i = 1; i <= 25; i++) {
-            POSTS.add(new PostDto(UUID.randomUUID().toString(), "Post#" + i, "Description#" + i, "$49.99", "https://via.placeholder.com/150"));
-        }
-    }
 
     @Override
     public List<PostDto> posts(int page) {
@@ -46,7 +39,7 @@ public class MockPostService implements PostService {
     @Override
     public PostDto post(String id) {
         return POSTS.stream()
-                .filter(p -> p.id().equals(id))
+                .filter(p -> p.getId().equals(id))
                 .findFirst()
                 .orElseThrow();
     }

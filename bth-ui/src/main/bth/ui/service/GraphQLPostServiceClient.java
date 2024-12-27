@@ -22,16 +22,27 @@ public class GraphQLPostServiceClient implements PostService {
     public List<PostDto> posts(int page) {
         var query =
                 """
-                       query($page: Int) {
-                          posts(page: $page) {
+                        query($page: Int) {
+                           posts(page: $page) {
                             id
                             title
-                            description
-                            price
-                            imageUrl
+                            status,
+                            imageUrl,
+                            details {
+                              description
+                              availableFrom
+                              availableTo
+                              price
+                            }
+                            location {
+                              country
+                              city
+                              street
+                              houseNumber
+                            }
                           }
-                        }
-                       """;
+                         }
+                        """;
         return client.document(query)
                 .variable("page", page)
                 .retrieveSync("posts")
@@ -42,16 +53,27 @@ public class GraphQLPostServiceClient implements PostService {
     public PostDto post(String id) {
         var query =
                 """
-                       query($id: String) {
-                          post(id: $id) {
+                        query($id: String) {
+                           post(id: $id) {
                             id
                             title
-                            description
-                            price
-                            imageUrl
+                            status,
+                            imageUrl,
+                            details {
+                              description
+                              availableFrom
+                              availableTo
+                              price
+                            }
+                            location {
+                              country
+                              city
+                              street
+                              houseNumber
+                            }
                           }
                         }
-                       """;
+                        """;
         return client.document(query)
                 .variable("id", id)
                 .retrieveSync("post")

@@ -1,15 +1,35 @@
-type PostDto {
-    id: String
+type Post {
+    id: ID
     title: String
-    description: String
-    price: String
     imageUrl: String
+    details: BookingDetails
+    location: Location
+    status: BookingStatus
+}
+
+type Location {
+    country: String
+    city: String
+    street: String
+    houseNumber: String
+}
+
+type BookingDetails {
+    description: String
+    availableFrom: String
+    availableTo: String
+    price: Int
+}
+
+enum BookingStatus {
+    AVAILABLE
+    BOOKED
 }
 
 # The Root Query for the application
 type Query {
-    posts(page: Int): [PostDto]!,
-    post(id: String): PostDto!,
+    posts(page: Int): [Post]!,
+    post(id: String): Post!,
 }
 
 ## The Root Mutation for the application

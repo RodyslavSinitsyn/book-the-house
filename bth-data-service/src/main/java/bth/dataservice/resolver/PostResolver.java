@@ -3,6 +3,8 @@ package bth.dataservice.resolver;
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.models.exception.PostNotFoundException;
+import io.github.benas.randombeans.EnhancedRandomBuilder;
+import io.github.benas.randombeans.api.EnhancedRandom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -19,10 +20,20 @@ public class PostResolver implements PostService {
     public static final List<PostDto> POSTS = new ArrayList<>();
     public static final int BATCH_SIZE = 5;
 
+    private static final EnhancedRandom RANDOM = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+            .stringLengthRange(1, 10)
+            .build();
+
     static {
-        for (int i = 1; i <= 25; i++) {
-            POSTS.add(new PostDto(UUID.randomUUID().toString(), "Post#" + i, "Description#" + i, "$49.99", "https://via.placeholder.com/150"));
+        for (int i = 1; i <= 50; i++) {
+            POSTS.add(generateRandomPost());
         }
+    }
+
+    private static PostDto generateRandomPost() {
+        var postDto = RANDOM.nextObject(PostDto.class);
+        postDto.setImageUrl("https://via.placeholder.com/150");
+        return postDto;
     }
 
     @QueryMapping
@@ -43,7 +54,7 @@ public class PostResolver implements PostService {
     @QueryMapping
     public PostDto post(@Argument("id") String id) {
         return POSTS.stream()
-                .filter(p -> p.id().equals(id))
+                .filter(p -> p.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new PostNotFoundException(id));
     }
