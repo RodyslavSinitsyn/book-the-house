@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>bth-data-service</artifactId>
-    <version>1.0</version>
+    <version>1.5</version>
 
     <dependencies>
         <dependency>
