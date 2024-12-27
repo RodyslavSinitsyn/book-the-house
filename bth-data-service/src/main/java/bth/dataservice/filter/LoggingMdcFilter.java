@@ -1,4 +1,4 @@
-package bth.ui.filters;
+package bth.dataservice.filter;
 
 import com.google.common.io.Closer;
 import jakarta.servlet.FilterChain;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -25,7 +26,8 @@ public class LoggingMdcFilter extends OncePerRequestFilter {
     }
 
     private void populateMdcContext(Closer closer, HttpServletRequest request) {
-        closer.register(MDC.putCloseable("host", request.getRemoteHost()));
-        closer.register(MDC.putCloseable("correlationId", UUID.randomUUID().toString()));
+        var correlationId = Optional.ofNullable(request.getHeader("X-Correlation-ID"))
+                .orElse(UUID.randomUUID().toString());
+        closer.register(MDC.putCloseable("correlationId", correlationId));
     }
 }
