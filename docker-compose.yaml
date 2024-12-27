@@ -34,6 +34,31 @@ services:
     networks:
       - bth-network
 
+  opensearch:
+    image: opensearchproject/opensearch:2.10.0
+    container_name: bth-opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.ssl.http.enabled=false
+      - OPENSEARCH_JAVA_OPTS=-Xmx512m -Xms512m
+      - OPENSEARCH_USERNAME=admin
+      - OPENSEARCH_PASSWORD=admin
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin
+    ports:
+      - "9200:9200"
+    networks:
+      - bth-network
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.10.0
+    container_name: bth-opensearch-dashboards
+    environment:
+      - OPENSEARCH_HOSTS=http://bth-opensearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - bth-network
+
 networks:
   bth-network:
     driver: bridge  # Defines the network for communication between services
