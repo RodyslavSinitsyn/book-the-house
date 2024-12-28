@@ -7,7 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bth-data-service</artifactId>
+    <artifactId>bth-post-service</artifactId>
     <version>1.5</version>
 
     <dependencies>
@@ -20,6 +20,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
@@ -70,9 +71,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>bth.dataservice.BookTheHouseDataServiceApp</mainClass>
+                    <mainClass>bth.dataservice.BookTheHousePostServiceApp</mainClass>
                     <image>
-                        <name>bth-data-service</name>
+                        <name>bth-post-service</name>
                         <tags>
                             <tag>1.0</tag>
                         </tags>

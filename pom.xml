@@ -11,7 +11,7 @@
     <modules>
         <module>bth-models</module>
         <module>bth-ui</module>
-        <module>bth-data-service</module>
+        <module>bth-post-service</module>
     </modules>
 
     <properties>
@@ -37,7 +37,6 @@
             <artifactId>guava</artifactId>
             <version>33.3.1-jre</version>
         </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -69,13 +68,6 @@
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
-<!--                        <annotationProcessorPaths>-->
-<!--                            <path>-->
-<!--                                <groupId>org.projectlombok</groupId>-->
-<!--                                <artifactId>lombok</artifactId>-->
-<!--                                <version>${lombok.version}</version>-->
-<!--                            </path>-->
-<!--                        </annotationProcessorPaths>-->
                     </configuration>
                 </plugin>
                 <plugin>

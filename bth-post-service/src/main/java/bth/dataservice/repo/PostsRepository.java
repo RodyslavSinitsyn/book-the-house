@@ -2,6 +2,7 @@ package bth.dataservice.repo;
 
 import bth.dataservice.entity.Post;
 import bth.models.dto.filter.PostsFilterDto;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,12 +22,12 @@ public interface PostsRepository extends JpaRepository<Post, String>, JpaSpecifi
 
     static Specification<Post> hasCountry(String country) {
         return (root, query, criteriaBuilder) ->
-                country == null ? null : criteriaBuilder.equal(root.get("location").get("country"), country);
+                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location").get("country"), country);
     }
 
     static Specification<Post> hasCity(String city) {
         return (root, query, criteriaBuilder) ->
-                city == null ? null : criteriaBuilder.equal(root.get("location").get("city"), city);
+                StringUtils.isEmpty(city) ? null : criteriaBuilder.equal(root.get("location").get("city"), city);
     }
 
     static Specification<Post> hasPriceInRange(Integer minPrice, Integer maxPrice) {

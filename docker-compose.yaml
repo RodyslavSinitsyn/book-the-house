@@ -7,7 +7,7 @@ services:
     container_name: bth-postgres
     restart: always
     env_file:
-      - bth-data-service/.env
+      - bth-post-service/.env
     environment:
       POSTGRES_USER: bth-user # TODO: Check how to get form env
       POSTGRES_PASSWORD: password

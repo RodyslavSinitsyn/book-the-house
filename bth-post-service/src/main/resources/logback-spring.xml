@@ -1,7 +1,7 @@
 <configuration>
 
     <!-- Property Definitions -->
-    <property name="LOG_DIR" value="./bth-data-service/logs"/>
+    <property name="LOG_DIR" value="./bth-post-service/logs"/>
     <property name="LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss} %green([%thread]) %highlight(%-5level) %logger{36} - %msg%n"/>
     <property name="opensearchUrl" value="127.0.0.1:9200" />
