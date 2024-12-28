@@ -55,8 +55,8 @@
 
 <!-- postList fragment -->
 <th:block th:fragment="postList(posts)">
-    <div class="columns is-multiline">
-        <div th:each="post : ${posts}" class="column is-4">
+    <div class="row g-4">
+        <div th:each="post : ${posts}" class="col-md-4">
             <!-- Use the postCard fragment for each post -->
             <div th:replace="~{fragments :: postCard(post=${post})}"></div>
         </div>
@@ -65,7 +65,7 @@
 
 <!-- postCard fragment -->
 <th:block th:fragment="postCard(post)">
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4" th:classappend="${post.status.name() == 'BOOKED' ? 'disabled' : ''}">
         <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image" height="50" width="50">
         <div class="card-body">
             <h5 class="card-title fs-4 fw-bold" th:text="${post.title}"></h5>

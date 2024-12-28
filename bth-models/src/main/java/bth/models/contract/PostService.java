@@ -10,4 +10,6 @@ public interface PostService {
     List<PostDto> posts(int page, PostsFilterDto filterDto);
 
     PostDto post(String id);
+
+    PostDto createPost();
 }

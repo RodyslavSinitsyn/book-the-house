@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "posts")
@@ -13,19 +14,25 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @EqualsAndHashCode(of = "id")
-public class Post {
+public class Post implements HasStringId {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
     @Column(nullable = false)
     private String title;
     private String imageUrl;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
     @Embedded
     private PostDetails details;
     @Embedded
     private PostLocation location;
+
+    @Override
+    public String getId() {
+        return id != null ? id.toString() : null;
+    }
 
     @Embeddable
     @Data

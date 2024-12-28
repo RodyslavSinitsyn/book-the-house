@@ -9,6 +9,9 @@ import java.beans.Transient;
 @Data
 @NoArgsConstructor
 public class PostsFilterDto {
+
+    public static final PostsFilterDto EMPTY = new PostsFilterDto();
+
     private String country;
     private String city;
     private Integer priceMin;

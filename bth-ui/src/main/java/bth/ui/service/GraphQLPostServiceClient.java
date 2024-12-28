@@ -81,4 +81,18 @@ public class GraphQLPostServiceClient implements PostService {
                 .retrieveSync("post")
                 .toEntity(PostDto.class);
     }
+
+    @Override
+    public PostDto createPost() {
+        var mutation = """
+                mutation {
+                  createPost {
+                    id
+                  }
+                }
+                """;
+        return client.document(mutation)
+                .retrieveSync("post")
+                .toEntity(PostDto.class);
+    }
 }

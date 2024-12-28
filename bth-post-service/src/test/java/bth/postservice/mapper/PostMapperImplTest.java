@@ -5,10 +5,14 @@ import bth.postservice.entity.Post;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class PostMapperImplTest {
 
-    private final PostMapper postMapper = new PostMapperImpl();
+    @Autowired
+    private PostMapper postMapper;
 
     @Test
     void givenToEntity_whenDtoFieldsAreSet_thenConvertToEntity() {

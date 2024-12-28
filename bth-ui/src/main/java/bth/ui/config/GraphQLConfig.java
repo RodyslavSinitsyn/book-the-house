@@ -56,7 +56,7 @@ public class GraphQLConfig {
             var response = chain.next(request);
             if (!CollectionUtils.isEmpty(response.getErrors())) {
                 log.error("Error occurred while executing GraphQL query: {}", response.getErrors());
-                throw new PostServiceException("Data service error");
+                throw new PostServiceException("Post service error");
             }
             return response;
         }

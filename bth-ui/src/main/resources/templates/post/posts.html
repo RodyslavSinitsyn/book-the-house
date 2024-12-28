@@ -11,6 +11,10 @@
 
 <th:block th:replace="~{fragments :: postsFilter}" />
 
+<form th:action="@{/post}" method="POST">
+    <button type="submit" class="btn btn-primary">Publish Post</button>
+</form>
+
 <div class="container mt-5">
     <!-- Iterate over the list of posts -->
     <div id="posts-container" class="columns is-multiline">

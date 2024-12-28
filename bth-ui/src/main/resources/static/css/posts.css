@@ -2,3 +2,14 @@
     text-align: center;
     padding: 10px;
 }
+
+.disabled {
+    background-color: lightgrey;
+    color: #aaa;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.disabled:hover {
+    cursor: not-allowed;
+}

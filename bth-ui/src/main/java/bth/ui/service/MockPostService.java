@@ -44,4 +44,9 @@ public class MockPostService implements PostService {
                 .findFirst()
                 .orElseThrow();
     }
+
+    @Override
+    public PostDto createPost() {
+        return new PostDto();
+    }
 }

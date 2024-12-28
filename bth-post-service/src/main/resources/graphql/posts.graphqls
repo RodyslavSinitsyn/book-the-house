@@ -39,7 +39,7 @@ type Query {
     post(id: String): Post!,
 }
 
-## The Root Mutation for the application
-#type Mutation {
-#    createPost(title: String!, text: String!, category: String, authorId: String!) : Post!
-#}
+# The Root Mutation for the application
+type Mutation {
+    createPost : Post!
+}

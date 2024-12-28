@@ -8,10 +8,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +33,7 @@ public class PostController {
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
                             Model model) {
         TimeUnit.SECONDS.sleep(1); // TODO: Emulate long loading
-        model.addAttribute("posts", postService.posts(page, new PostsFilterDto())); // TODO: Get filters from AJAX
+        model.addAttribute("posts", postService.posts(page, PostsFilterDto.EMPTY)); // TODO: Get filters from AJAX
         return "fragments :: postList";
     }
 
@@ -44,5 +41,11 @@ public class PostController {
     public String getPosts(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.post(id));
         return "post/post";
+    }
+
+    @PostMapping("/post")
+    public String post(Model model) {
+        postService.createPost();
+        return "redirect:/posts";
     }
 }

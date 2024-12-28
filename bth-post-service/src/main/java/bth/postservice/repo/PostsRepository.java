@@ -1,7 +1,7 @@
 package bth.postservice.repo;
 
-import bth.postservice.entity.Post;
 import bth.models.dto.filter.PostsFilterDto;
+import bth.postservice.entity.Post;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,8 +10,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface PostsRepository extends JpaRepository<Post, String>, JpaSpecificationExecutor<Post> {
+public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecificationExecutor<Post> {
 
     default Page<Post> findFilteredPosts(PostsFilterDto filter, int page, int pageSize) {
         var specification = Specification.where(hasCountry(filter.getCountry()))
