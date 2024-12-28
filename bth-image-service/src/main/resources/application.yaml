@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+bth:
+  image-service:
+    aws:
+      url: http://localhost:4566
+      s3:
+        accessKey: test
+        secretKey: test
+        region: region
+        bucket: test-bucket
+logging:
+  level:
+    org.springframework: DEBUG

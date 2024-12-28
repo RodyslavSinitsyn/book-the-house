@@ -75,8 +75,24 @@ services:
       - bth-network
 
 
+  localstack:
+    image: localstack/localstack:latest
+    container_name: bth-localstack
+    ports:
+      - "4566:4566" # Main LocalStack port for all services
+      - "4572:4572" # S3 service
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+#    volumes: TODO: Add volume for persistance
+#      - bth-localstack-data:/tmp/localstack/data
+
 volumes:
   bth-postgres-data:
+  bth-localstack-data:
 
 networks:
   bth-network:

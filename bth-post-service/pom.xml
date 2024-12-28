@@ -14,7 +14,7 @@
         <dependency>
             <groupId>org.rsinitsyn</groupId>
             <artifactId>bth-models</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

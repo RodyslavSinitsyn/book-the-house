@@ -3,6 +3,7 @@ package bth.ui.config;
 import bth.ui.exception.PostServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +22,13 @@ import java.io.IOException;
 
 @Configuration
 @Slf4j
-public class GraphQLConfig {
+public class PostServiceIntegrationConfig {
 
     @Value("${bth.ui.post-service.url}")
     private String postServiceUrl;
 
     @Bean
+    @Qualifier("postServiceRestClient")
     public RestClient restClient() {
         return RestClient.builder()
                 .requestInterceptor(new HttpMdcInterceptor())
@@ -44,7 +46,7 @@ public class GraphQLConfig {
     }
 
     @Bean
-    public HttpSyncGraphQlClient graphQlClient(RestClient restClient) {
+    public HttpSyncGraphQlClient graphQlClient(@Qualifier("postServiceRestClient") RestClient restClient) {
         return HttpSyncGraphQlClient.builder(restClient)
                 .interceptor(new ErrorHandlerInterceptor())
                 .build();

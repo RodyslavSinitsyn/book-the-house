@@ -23,7 +23,9 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(@ModelAttribute PostsFilterDto filter, Model model) {
         var page = Integer.parseInt(redisWrapper.getOrDefault("postsPage", 0));
-        model.addAttribute("posts", postService.posts(page, filter));
+        model.addAttribute("posts", postService.posts(page, filter).stream()
+                .peek(p -> p.setImageUrl("/images/" + p.getId())) // TODO Get from server
+                .toList());
         model.addAttribute("filter", filter);
         return "post/posts";
     }
@@ -33,7 +35,10 @@ public class PostController {
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
                             Model model) {
         TimeUnit.SECONDS.sleep(1); // TODO: Emulate long loading
-        model.addAttribute("posts", postService.posts(page, PostsFilterDto.EMPTY)); // TODO: Get filters from AJAX
+        // TODO: Get filters from AJAX
+        model.addAttribute("posts", postService.posts(page, PostsFilterDto.EMPTY).stream()
+                .peek(p -> p.setImageUrl("/images/" + p.getId())) // TODO Get from server
+                .toList());
         return "fragments :: postList";
     }
 

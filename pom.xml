@@ -12,6 +12,7 @@
         <module>bth-models</module>
         <module>bth-ui</module>
         <module>bth-post-service</module>
+        <module>bth-image-service</module>
     </modules>
 
     <properties>
