@@ -3,6 +3,7 @@ package bth.ui.service;
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.models.dto.filter.PostsFilterDto;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -15,11 +16,13 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 @Slf4j
-public class GraphQLPostServiceClient implements PostService {
+public class PostServiceClient implements PostService {
 
     private final HttpSyncGraphQlClient client;
+    private final RedisWrapper redisWrapper;
 
     @Override
+    @Retry(name = "postService", fallbackMethod = "postsFallback")
     public List<PostDto> posts(int page, PostsFilterDto filter) {
         var query =
                 """
@@ -94,5 +97,10 @@ public class GraphQLPostServiceClient implements PostService {
         return client.document(mutation)
                 .retrieveSync("post")
                 .toEntity(PostDto.class);
+    }
+
+    private List<PostDto> postsFallback(int page, PostsFilterDto filter, Throwable e) {
+        log.warn("post-service unavailable: {}. ex class: {}", e.getMessage(), e.getClass().getName());
+        return redisWrapper.globalGetList("posts_" + page, PostDto.class);
     }
 }

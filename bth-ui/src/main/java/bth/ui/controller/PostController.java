@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -23,10 +24,14 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(@ModelAttribute PostsFilterDto filter, Model model) {
         var page = Integer.parseInt(redisWrapper.getOrDefault("postsPage", 0));
-        model.addAttribute("posts", postService.posts(page, filter).stream()
+        var postList = postService.posts(page, filter).stream()
                 .peek(p -> p.setImageUrl("/images/" + p.getId())) // TODO Get from server
-                .toList());
+                .toList();
+        model.addAttribute("posts", postList);
         model.addAttribute("filter", filter);
+        redisWrapper.globalSetListWithTtlCheck("posts_" + page,
+                postList,
+                Duration.ofMinutes(5));
         return "post/posts";
     }
 

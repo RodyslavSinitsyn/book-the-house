@@ -30,4 +30,10 @@ public class GlobalExceptionHandler {
         model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
+        return ERROR_PAGE;
+    }
 }

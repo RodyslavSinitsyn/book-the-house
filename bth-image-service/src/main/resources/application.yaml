@@ -12,4 +12,4 @@ bth:
         bucket: test-bucket
 logging:
   level:
-    org.springframework: DEBUG
+    org.springframework: info

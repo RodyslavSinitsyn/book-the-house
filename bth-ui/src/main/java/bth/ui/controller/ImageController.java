@@ -3,6 +3,7 @@ package bth.ui.controller;
 import bth.models.contract.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class ImageController {
 
+    @Value("${bth.ui.images.cache-control-min}")
+    private int minutes;
+
     private final ImageService imageService;
 
     @GetMapping("/images/{imageId}")
@@ -28,7 +32,7 @@ public class ImageController {
         String eTag = DigestUtils.md5DigestAsHex(imageBytes);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .cacheControl(CacheControl.maxAge(Duration.ofMinutes(10)))
+                .cacheControl(CacheControl.maxAge(Duration.ofMinutes(minutes)))
                 .eTag(eTag)
                 .body(imageBytes);
     }
