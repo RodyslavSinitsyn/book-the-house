@@ -1,6 +1,6 @@
 package bth.ui.config;
 
-import bth.ui.exception.DataServiceException;
+import bth.ui.exception.PostServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +56,7 @@ public class GraphQLConfig {
             var response = chain.next(request);
             if (!CollectionUtils.isEmpty(response.getErrors())) {
                 log.error("Error occurred while executing GraphQL query: {}", response.getErrors());
-                throw new DataServiceException("Data service error");
+                throw new PostServiceException("Data service error");
             }
             return response;
         }

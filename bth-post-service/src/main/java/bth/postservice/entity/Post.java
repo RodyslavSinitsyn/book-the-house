@@ -1,4 +1,4 @@
-package bth.dataservice.entity;
+package bth.postservice.entity;
 
 import bth.models.dto.BookingStatus;
 import jakarta.persistence.*;
@@ -29,7 +29,7 @@ public class Post {
 
     @Embeddable
     @Data
-    static class PostDetails {
+    public static class PostDetails {
         private String description;
         private LocalDate availableFrom;
         private LocalDate availableTo;
@@ -39,7 +39,7 @@ public class Post {
 
     @Embeddable
     @Data
-    static class PostLocation {
+    public static class PostLocation {
         @Column(nullable = false)
         private String country;
         @Column(nullable = false)

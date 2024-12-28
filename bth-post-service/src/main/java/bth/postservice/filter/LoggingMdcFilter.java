@@ -1,4 +1,4 @@
-package bth.dataservice.filter;
+package bth.postservice.filter;
 
 import com.google.common.io.Closer;
 import jakarta.servlet.FilterChain;

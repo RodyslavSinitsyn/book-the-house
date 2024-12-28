@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
         return ERROR_PAGE;
     }
 
-    @ExceptionHandler(DataServiceException.class)
-    public String handleDataServiceException(DataServiceException ex, Model model) {
+    @ExceptionHandler(PostServiceException.class)
+    public String handlePostServiceException(PostServiceException ex, Model model) {
         model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }

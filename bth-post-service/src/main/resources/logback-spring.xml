@@ -32,7 +32,7 @@
 
     <!-- Logger Configuration -->
     <logger name="org.springframework" level="WARN"/>
-    <logger name="bth.dataservice" level="DEBUG" />
+    <logger name="bth.postservice" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="FILE"/>

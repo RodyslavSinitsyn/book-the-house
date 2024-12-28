@@ -1,4 +1,4 @@
-package bth.dataservice.exception;
+package bth.postservice.exception;
 
 import bth.models.exception.PostNotFoundException;
 import graphql.GraphQLError;
