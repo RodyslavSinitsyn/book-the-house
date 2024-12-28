@@ -23,14 +23,14 @@ import java.io.IOException;
 @Slf4j
 public class GraphQLConfig {
 
-    @Value("${bth.ui.data-service.url}")
-    private String dataServiceUrl;
+    @Value("${bth.ui.post-service.url}")
+    private String postServiceUrl;
 
     @Bean
     public RestClient restClient() {
         return RestClient.builder()
                 .requestInterceptor(new HttpMdcInterceptor())
-                .baseUrl(dataServiceUrl)
+                .baseUrl(postServiceUrl)
                 .build();
     }
 

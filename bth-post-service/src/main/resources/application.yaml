@@ -7,8 +7,8 @@ spring:
       enabled: true
 
   datasource:
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    username: ${DB_USER:bth-user}
+    password: ${DB_PASSWORD:password}
     url: jdbc:postgresql://localhost:5432/bth-db
 
   jpa:
