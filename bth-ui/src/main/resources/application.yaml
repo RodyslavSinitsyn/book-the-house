@@ -2,7 +2,7 @@ server:
   port: 8080
 bth:
   ui:
-    data-service:
+    post-service:
       url: http://localhost:8081/graphql
     redis:
       host: localhost

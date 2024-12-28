@@ -2,6 +2,21 @@ version: '3.8'
 
 services:
 
+  postgres:
+    image: postgres:15
+    container_name: bth-postgres
+    restart: always
+    env_file:
+      - bth-post-service/.env
+    environment:
+      POSTGRES_USER: bth-user # TODO: Check how to get form env
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bth-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - bth-postgres-data:/var/lib/postgresql/data
+
   bth-ui:
     image: bth-ui:latest
     container_name: bth-ui
@@ -58,6 +73,10 @@ services:
       - "5601:5601"
     networks:
       - bth-network
+
+
+volumes:
+  bth-postgres-data:
 
 networks:
   bth-network:

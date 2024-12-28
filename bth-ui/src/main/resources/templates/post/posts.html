@@ -8,6 +8,9 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
+
+<th:block th:replace="~{fragments :: postsFilter}" />
+
 <div class="container mt-5">
     <!-- Iterate over the list of posts -->
     <div id="posts-container" class="columns is-multiline">
@@ -18,8 +21,11 @@
 </div>
 
 <!-- Load More Button -->
-<div id="load-more-container" class="text-center" th:if="${#lists.size(posts) > 0}">
-    <button id="load-more-button" class="button is-primary">Load More</button>
+<div id="load-more-container" class="text-center mt-4" th:if="${#lists.size(posts) > 0}">
+    <button id="load-more-button" class="btn btn-primary btn-lg" type="button">
+        <span id="load-more-text">Load More</span>
+        <span id="load-more-spinner" class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true" style="display: none;"></span>
+    </button>
 </div>
 
 <!-- Loading more posts indicator -->

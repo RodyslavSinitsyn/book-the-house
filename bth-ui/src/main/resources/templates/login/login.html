@@ -6,9 +6,26 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<ul>
-    <li><a href="/oauth2/authorization/google">Login with Google</a></li>
-    <li><a href="/oauth2/authorization/github">Login with GitHub</a></li>
-</ul>
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h3 class="card-title mb-4">Login to Your Account</h3>
+
+                    <!-- Login with Google -->
+                    <a href="/oauth2/authorization/google" class="btn btn-danger w-100 mb-3">
+                        <i class="fab fa-google me-2"></i> Login with Google
+                    </a>
+
+                    <!-- Login with GitHub -->
+                    <a href="/oauth2/authorization/github" class="btn btn-dark w-100">
+                        <i class="fab fa-github me-2"></i> Login with GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

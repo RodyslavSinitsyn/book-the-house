@@ -1,0 +1,45 @@
+type Post {
+    id: ID
+    title: String
+    imageUrl: String
+    details: PostDetails
+    location: PostLocation
+    status: BookingStatus
+}
+
+type PostLocation {
+    country: String
+    city: String
+    street: String
+    houseNumber: String
+}
+
+type PostDetails {
+    description: String
+    availableFrom: String
+    availableTo: String
+    price: Int
+}
+
+enum BookingStatus {
+    AVAILABLE
+    BOOKED
+}
+
+input PostFilterInput {
+    country: String
+    city: String
+    priceMin: Int
+    priceMax: Int
+}
+
+# The Root Query for the application
+type Query {
+    posts(page: Int, filter: PostFilterInput): [Post]!,
+    post(id: String): Post!,
+}
+
+## The Root Mutation for the application
+#type Mutation {
+#    createPost(title: String!, text: String!, category: String, authorId: String!) : Post!
+#}

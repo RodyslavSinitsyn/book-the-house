@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+
+  datasource:
+    username: ${DB_USER:bth-user}
+    password: ${DB_PASSWORD:password}
+    url: jdbc:postgresql://localhost:5432/bth-db
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy # underscore
+    show-sql: true
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: true

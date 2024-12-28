@@ -6,15 +6,6 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<div class="container mt-5">
-    <div class="card" style="width: 18rem;">
-        <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image">
-        <div class="card-body">
-            <h5 class="card-title font-weight-bold" th:text="${post.title}"></h5>
-            <p class="card-text" th:text="${post.description}"></p>
-            <p class="font-weight-bold" th:text="${post.price}"></p>
-        </div>
-    </div>
-</div>
+<th:block th:replace="~{fragments :: postCard(post=${post})}" />
 </body>
 </html>
