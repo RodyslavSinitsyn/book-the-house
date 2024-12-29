@@ -11,7 +11,8 @@
 
 <th:block th:replace="~{fragments :: postsFilter}" />
 
-<form th:action="@{/post}" enctype="multipart/form-data" method="POST">
+<form th:action="@{/post}" enctype="multipart/form-data" method="POST"
+      th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
     <div class="form-group">
         <label for="postImage">Image:</label>
         <input type="file" id="postImage" name="file" class="form-control">

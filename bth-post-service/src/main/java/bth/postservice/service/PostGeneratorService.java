@@ -38,6 +38,8 @@ public class PostGeneratorService {
         post.setLocation(location);
         post.setDetails(details);
 
+        post.setUserId(FAKER.name().fullName());
+
         return post;
     }
 }

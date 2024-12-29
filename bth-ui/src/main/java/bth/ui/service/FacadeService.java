@@ -3,6 +3,7 @@ package bth.ui.service;
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.ui.exception.PostServiceException;
+import bth.ui.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,12 @@ public class FacadeService {
     public PostDto createPost(MultipartFile file) {
         String imageId = "/img/house.jpeg";
         try {
-            if (!file.isEmpty()) {
-                imageId = "/images/" + imageService.uploadImage(file.getBytes());
+            if (file.isEmpty()) {
+                return postService.createPost(imageId, SessionUtils.getUsername());
+            } else {
+                imageId = imageService.uploadImage(file.getBytes());
+                return postService.createPost("/images/" + imageId, SessionUtils.getUsername());
             }
-            return postService.createPost(imageId);
         } catch (PostServiceException e) {
             if (!file.isEmpty()) {
                 log.error("Deleting saved image due to 'post-service' error: {}", e.getMessage());

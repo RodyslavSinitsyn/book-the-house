@@ -5,6 +5,7 @@ type Post {
     details: PostDetails
     location: PostLocation
     status: BookingStatus
+    userId: String
 }
 
 type PostLocation {
@@ -27,6 +28,7 @@ enum BookingStatus {
 }
 
 input PostFilterInput {
+    user: String
     country: String
     city: String
     priceMin: Int
@@ -41,5 +43,5 @@ type Query {
 
 # The Root Mutation for the application
 type Mutation {
-    createPost(imageUrl: String) : Post!
+    createPost(imageUrl: String, userId: String) : Post!
 }

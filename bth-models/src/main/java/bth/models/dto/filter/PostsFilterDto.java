@@ -12,6 +12,7 @@ public class PostsFilterDto {
 
     public static final PostsFilterDto EMPTY = new PostsFilterDto();
 
+    private String user;
     private String country;
     private String city;
     private Integer priceMin;
@@ -19,7 +20,8 @@ public class PostsFilterDto {
 
     @Transient
     public boolean isNotEmpty() {
-        return StringUtils.isNotEmpty(country) ||
+        return StringUtils.isNotEmpty(user) ||
+                StringUtils.isNotEmpty(country) ||
                 StringUtils.isNotEmpty(city) ||
                 priceMin != null ||
                 priceMax != null;

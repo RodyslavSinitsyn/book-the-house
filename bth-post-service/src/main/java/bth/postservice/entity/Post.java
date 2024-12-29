@@ -28,6 +28,8 @@ public class Post implements HasStringId {
     private PostDetails details;
     @Embedded
     private PostLocation location;
+    @Column(nullable = false)
+    private String userId;
 
     @Override
     public String getId() {

@@ -31,8 +31,9 @@ public class PostServiceClient implements PostService {
                            posts(page: $page, filter: $filter) {
                             id
                             title
-                            status,
-                            imageUrl,
+                            status
+                            imageUrl
+                            userId
                             details {
                               description
                               availableFrom
@@ -66,6 +67,7 @@ public class PostServiceClient implements PostService {
                             title
                             status,
                             imageUrl,
+                            userId
                             details {
                               description
                               availableFrom
@@ -89,15 +91,16 @@ public class PostServiceClient implements PostService {
 
     @Override
     @Retry(name = "postService")
-    public PostDto createPost(String imageUrl) {
+    public PostDto createPost(String imageUrl, String userId) {
         try {
             var mutation = """
-                    mutation($imageUrl: String) {
-                      createPost(imageUrl: $imageUrl) {
+                    mutation($imageUrl: String, $userId: String) {
+                      createPost(imageUrl: $imageUrl, userId: $userId) {
                         id
                         title
                         status
                         imageUrl
+                        userId
                         details {
                           description
                           availableFrom
@@ -115,6 +118,7 @@ public class PostServiceClient implements PostService {
                     """;
             return client.document(mutation)
                     .variable("imageUrl", imageUrl)
+                    .variable("userId", userId)
                     .retrieveSync("createPost")
                     .toEntity(PostDto.class);
         } catch (Exception e) {

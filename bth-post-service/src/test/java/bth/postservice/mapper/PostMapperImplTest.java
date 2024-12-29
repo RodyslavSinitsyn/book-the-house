@@ -22,6 +22,7 @@ class PostMapperImplTest {
         var entity = postMapper.toEntity(dto);
         // then
         Assertions.assertNotNull(entity);
+        Assertions.assertEquals(dto.getUserId(), entity.getUserId());
     }
 
     @Test
@@ -42,6 +43,7 @@ class PostMapperImplTest {
         var dto = postMapper.toDto(entity);
         // then
         Assertions.assertNotNull(dto);
+        Assertions.assertEquals(entity.getUserId(), dto.getUserId());
     }
 
     @Test

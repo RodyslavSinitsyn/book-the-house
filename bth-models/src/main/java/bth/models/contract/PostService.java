@@ -11,5 +11,5 @@ public interface PostService {
 
     PostDto post(String id);
 
-    PostDto createPost(String imageUrl);
+    PostDto createPost(String imageUrl, String userId);
 }

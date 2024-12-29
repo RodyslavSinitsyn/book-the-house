@@ -16,10 +16,17 @@ import java.util.UUID;
 public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecificationExecutor<Post> {
 
     default Page<Post> findFilteredPosts(PostsFilterDto filter, int page, int pageSize) {
-        var specification = Specification.where(hasCountry(filter.getCountry()))
+        var specification = Specification
+                .where(hasCountry(filter.getCountry()))
+                .and(hasUser(filter.getUser()))
                 .and(hasCity(filter.getCity()))
                 .and(hasPriceInRange(filter.getPriceMin(), filter.getPriceMax()));
         return findAll(specification, PageRequest.of(page, pageSize));
+    }
+
+    static Specification<Post> hasUser(String userId) {
+        return (root, query, criteriaBuilder) ->
+                StringUtils.isEmpty(userId) ? null : criteriaBuilder.equal(root.get("userId"), userId);
     }
 
     static Specification<Post> hasCountry(String country) {
