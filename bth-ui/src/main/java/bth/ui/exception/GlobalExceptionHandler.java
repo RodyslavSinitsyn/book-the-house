@@ -36,4 +36,10 @@ public class GlobalExceptionHandler {
         model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }
+
+    @ExceptionHandler(PostSavingException.class)
+    public String handlePostSavingException(PostSavingException ex, Model model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
+        return ERROR_PAGE;
+    }
 }

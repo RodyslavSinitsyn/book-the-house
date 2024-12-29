@@ -41,5 +41,5 @@ type Query {
 
 # The Root Mutation for the application
 type Mutation {
-    createPost : Post!
+    createPost(imageUrl: String) : Post!
 }

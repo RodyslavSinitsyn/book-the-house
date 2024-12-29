@@ -3,6 +3,7 @@ package bth.ui.service;
 import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.models.dto.filter.PostsFilterDto;
+import bth.ui.exception.PostServiceException;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class PostServiceClient implements PostService {
     }
 
     @Override
+    @Retry(name = "postService")
     public PostDto post(String id) {
         var query =
                 """
@@ -86,17 +88,38 @@ public class PostServiceClient implements PostService {
     }
 
     @Override
-    public PostDto createPost() {
-        var mutation = """
-                mutation {
-                  createPost {
-                    id
-                  }
-                }
-                """;
-        return client.document(mutation)
-                .retrieveSync("post")
-                .toEntity(PostDto.class);
+    @Retry(name = "postService")
+    public PostDto createPost(String imageUrl) {
+        try {
+            var mutation = """
+                    mutation($imageUrl: String) {
+                      createPost(imageUrl: $imageUrl) {
+                        id
+                        title
+                        status
+                        imageUrl
+                        details {
+                          description
+                          availableFrom
+                          availableTo
+                          price
+                        }
+                        location {
+                          country
+                          city
+                          street
+                          houseNumber
+                        }
+                      }
+                    }
+                    """;
+            return client.document(mutation)
+                    .variable("imageUrl", imageUrl)
+                    .retrieveSync("createPost")
+                    .toEntity(PostDto.class);
+        } catch (Exception e) {
+            throw new PostServiceException(e.getMessage(), e);
+        }
     }
 
     private List<PostDto> postsFallback(int page, PostsFilterDto filter, Throwable e) {

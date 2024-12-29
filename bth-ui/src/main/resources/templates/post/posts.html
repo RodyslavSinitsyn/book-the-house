@@ -11,7 +11,11 @@
 
 <th:block th:replace="~{fragments :: postsFilter}" />
 
-<form th:action="@{/post}" method="POST">
+<form th:action="@{/post}" enctype="multipart/form-data" method="POST">
+    <div class="form-group">
+        <label for="postImage">Image:</label>
+        <input type="file" id="postImage" name="file" class="form-control">
+    </div>
     <button type="submit" class="btn btn-primary">Publish Post</button>
 </form>
 

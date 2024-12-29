@@ -52,8 +52,8 @@
     <logger name="bth.ui" level="DEBUG" />
 
     <root level="INFO">
-        <appender-ref ref="FILE"/>
+<!--        <appender-ref ref="FILE"/>-->
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="OPENSEARCH"/>
+<!--        <appender-ref ref="OPENSEARCH"/>-->
     </root>
 </configuration>

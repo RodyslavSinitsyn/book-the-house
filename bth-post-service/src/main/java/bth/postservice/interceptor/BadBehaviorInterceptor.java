@@ -17,7 +17,7 @@ public class BadBehaviorInterceptor implements HandlerInterceptor {
 
     private final Random random = new SecureRandom();
 
-    private int unavailabilityPercentage = 25;
+    private int unavailabilityPercentage = 0;
     private int mockDelaySeconds = 5;
 
     @Override

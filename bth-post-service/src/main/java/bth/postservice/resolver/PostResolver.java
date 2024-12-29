@@ -46,8 +46,9 @@ public class PostResolver implements PostService {
 
     @Override
     @MutationMapping
-    public PostDto createPost() {
+    public PostDto createPost(@Argument("imageUrl") String imageUrl) {
         var post = postGeneratorService.generate();
+        post.setImageUrl(imageUrl);
         var savedPost = postsRepository.save(post);
         return postMapper.toDto(savedPost);
     }
