@@ -13,6 +13,7 @@
         <module>bth-ui</module>
         <module>bth-post-service</module>
         <module>bth-image-service</module>
+        <module>bth-notificator</module>
     </modules>
 
     <properties>

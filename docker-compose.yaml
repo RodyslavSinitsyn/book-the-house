@@ -74,7 +74,6 @@ services:
     networks:
       - bth-network
 
-
   localstack:
     image: localstack/localstack:latest
     container_name: bth-localstack
@@ -87,8 +86,22 @@ services:
       - DATA_DIR=/tmp/localstack/data
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
+    networks:
+      - bth-network
 #    volumes: TODO: Add volume for persistance
 #      - bth-localstack-data:/tmp/localstack/data
+
+  rabbitmq:
+    image: "rabbitmq:management"
+    container_name: bth-rabbitmq
+    ports:
+      - "15672:15672" # Management plugin port (web UI)
+      - "5672:5672"   # RabbitMQ AMQP protocol
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - bth-network
 
 volumes:
   bth-postgres-data:

@@ -4,11 +4,18 @@ import bth.models.contract.PostService;
 import bth.models.dto.PostDto;
 import bth.models.dto.filter.PostsFilterDto;
 import bth.models.exception.PostNotFoundException;
+import bth.models.message.PostCreatedMessage;
+import bth.models.rabbitmq.RabbitExchange;
+import bth.postservice.entity.Post;
 import bth.postservice.mapper.PostMapper;
+import bth.postservice.repo.PostSubscriptionRepository;
 import bth.postservice.repo.PostsRepository;
 import bth.postservice.service.PostGeneratorService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -24,8 +31,11 @@ public class PostResolver implements PostService {
     private static final int BATCH_SIZE = 6;
 
     private final PostsRepository postsRepository;
+    private final PostSubscriptionRepository postSubscriptionRepository;
     private final PostMapper postMapper;
     private final PostGeneratorService postGeneratorService;
+    private final AmqpTemplate amqpTemplate;
+    private final ObjectMapper objectMapper;
 
     @Override
     @QueryMapping
@@ -52,6 +62,28 @@ public class PostResolver implements PostService {
         post.setUserId(userId);
         post.setImageUrl(imageUrl);
         var savedPost = postsRepository.save(post);
+        notifySubscribers(savedPost);
         return postMapper.toDto(savedPost);
+    }
+
+    private void notifySubscribers(Post post) {
+        var subscriptionList = postSubscriptionRepository
+                .findAllBySubscribedUserIdAndEnabled(post.getUserId(), true);
+        log.debug("Found {} subscribers for user {}", subscriptionList.size(), post.getUserId());
+        var messages = subscriptionList.stream()
+                .map(sub -> new PostCreatedMessage(
+                        sub.getSubscribedUserId(),
+                        sub.getEmail(),
+                        post.getTitle()
+                ))
+                .toList();
+        messages.forEach(this::sendMessage);
+    }
+
+    @SneakyThrows
+    private void sendMessage(PostCreatedMessage message) {
+        amqpTemplate.convertAndSend(RabbitExchange.POST_SUBS_EMAIL_DIRECT.getExchangeName(),
+                "post.created",
+                message);
     }
 }

@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+bth:
+  rabbit:
+    queue:
+      post-subs-email-queue: post.subs.email.queue
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+
+logging:
+  level:
+    org.springframework.amqp: DEBUG
+    org.springframework.rabbit: DEBUG
