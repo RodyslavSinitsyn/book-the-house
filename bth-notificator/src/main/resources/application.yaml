@@ -6,6 +6,7 @@ bth:
     mail:
       whiteList:
         - radik200058@gmail.com
+        - fastysha.22@gmail.com
 
 spring:
   mail:

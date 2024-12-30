@@ -21,6 +21,9 @@ public class PostSubscription implements HasStringId {
     @GeneratedValue(strategy = GenerationType.UUID)
     public UUID id;
 
+    @Column
+    private String userId;
+
     @Column(nullable = false, length = 255)
     private String email;
 

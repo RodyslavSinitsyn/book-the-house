@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PostMapperImplTest {
+class PostMapperTest {
 
     @Autowired
     private PostMapper postMapper;

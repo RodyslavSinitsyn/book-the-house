@@ -14,7 +14,7 @@ import java.util.Locale;
 public class PostGeneratorService {
 
     public static final SecureRandom RANDOM = new SecureRandom();
-    private static final Faker FAKER = new Faker(Locale.ENGLISH, RANDOM);
+    private static final Faker FAKER = new Faker(Locale.ENGLISH);
 
     public Post generate() {
         var post = new Post();

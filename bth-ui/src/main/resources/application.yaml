@@ -60,3 +60,6 @@ resilience4j:
     instances:
       postService:
         base-config: default
+logging:
+  level:
+    org.springframework: debug

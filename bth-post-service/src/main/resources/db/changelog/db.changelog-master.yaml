@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/migrations/002-add-userid-column-to-posts.yaml
   - include:
       file: db/changelog/migrations/003-create-postsubscriptions-table.yaml
+  - include:
+      file: db/changelog/migrations/004-add-userid-to-postsubscriptions-table.yaml

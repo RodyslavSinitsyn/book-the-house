@@ -4,6 +4,7 @@ import bth.common.contract.PostService;
 import bth.common.dto.filter.PostsFilterDto;
 import bth.ui.service.FacadeService;
 import bth.ui.service.RedisWrapper;
+import bth.ui.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,7 @@ public class PostController {
     @GetMapping("/posts/details/{id}")
     public String getPosts(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.post(id));
+        model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
         return "post/post";
     }
 
