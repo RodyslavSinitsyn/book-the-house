@@ -4,14 +4,13 @@ import bth.common.contract.PostService;
 import bth.common.dto.PostDto;
 import bth.common.dto.filter.PostsFilterDto;
 import bth.common.exception.PostNotFoundException;
-import bth.common.message.PostCreatedMessage;
-import bth.common.rabbitmq.RabbitExchange;
+import bth.common.rabbitmq.RabbitProperties;
+import bth.common.rabbitmq.message.PostCreatedMessage;
 import bth.postservice.entity.Post;
 import bth.postservice.mapper.PostMapper;
 import bth.postservice.repo.PostSubscriptionRepository;
 import bth.postservice.repo.PostsRepository;
 import bth.postservice.service.PostGeneratorService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,7 @@ public class PostResolver implements PostService {
     private final PostMapper postMapper;
     private final PostGeneratorService postGeneratorService;
     private final AmqpTemplate amqpTemplate;
-    private final ObjectMapper objectMapper;
+    private final RabbitProperties rabbitProperties;
 
     @Override
     @QueryMapping
@@ -82,7 +81,7 @@ public class PostResolver implements PostService {
 
     @SneakyThrows
     private void sendMessage(PostCreatedMessage message) {
-        amqpTemplate.convertAndSend(RabbitExchange.POST_SUBS_EMAIL_DIRECT.getExchangeName(),
+        amqpTemplate.convertAndSend(rabbitProperties.getExchange().getPostSubsEmailExchange(),
                 "post.created",
                 message);
     }

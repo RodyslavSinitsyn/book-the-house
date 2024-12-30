@@ -1,4 +1,4 @@
-package bth.common.message;
+package bth.common.rabbitmq.message;
 
 import java.io.Serializable;
 

@@ -1,0 +1,18 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    listener:
+      simple:
+        concurrency: 3
+        max-concurrency: 10
+        prefetch: 1
+
+bth:
+  rabbit:
+    queue:
+      post-subs-email-queue: post.subs.email.queue
+    exchange:
+      post-subs-email-exchange: post.subs.email.exchange

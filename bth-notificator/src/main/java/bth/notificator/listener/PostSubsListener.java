@@ -1,6 +1,6 @@
 package bth.notificator.listener;
 
-import bth.common.message.PostCreatedMessage;
+import bth.common.rabbitmq.message.PostCreatedMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
