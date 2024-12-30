@@ -13,6 +13,6 @@ spring:
 bth:
   rabbit:
     queue:
-      post-subs-email-queue: post.subs.email.queue
+      postSubsEmailQueue: post.subs.email.queue
     exchange:
-      post-subs-email-exchange: post.subs.email.exchange
+      postSubsEmailExchange: post.subs.email.exchange
