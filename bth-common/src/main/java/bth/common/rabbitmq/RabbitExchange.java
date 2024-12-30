@@ -1,4 +1,4 @@
-package bth.models.rabbitmq;
+package bth.common.rabbitmq;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

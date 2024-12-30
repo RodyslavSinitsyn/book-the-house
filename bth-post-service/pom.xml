@@ -13,9 +13,8 @@
     <dependencies>
         <dependency>
             <groupId>org.rsinitsyn</groupId>
-            <artifactId>bth-models</artifactId>
-            <version>1.2</version>
-            <scope>compile</scope>
+            <artifactId>bth-common</artifactId>
+            <version>${bth.common.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -37,14 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>

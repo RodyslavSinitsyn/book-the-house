@@ -1,6 +1,6 @@
 package bth.postservice.repo;
 
-import bth.models.dto.filter.PostsFilterDto;
+import bth.common.dto.filter.PostsFilterDto;
 import bth.postservice.entity.Post;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

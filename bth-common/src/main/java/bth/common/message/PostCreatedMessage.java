@@ -1,4 +1,4 @@
-package bth.models.message;
+package bth.common.message;
 
 import java.io.Serializable;
 

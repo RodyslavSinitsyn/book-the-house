@@ -1,6 +1,6 @@
 package bth.ui.controller;
 
-import bth.models.contract.ImageService;
+import bth.common.contract.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;

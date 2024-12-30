@@ -1,6 +1,6 @@
 package bth.postservice.entity;
 
-import bth.models.dto.BookingStatus;
+import bth.common.dto.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

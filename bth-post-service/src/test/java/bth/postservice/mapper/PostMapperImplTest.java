@@ -1,6 +1,6 @@
 package bth.postservice.mapper;
 
-import bth.models.dto.PostDto;
+import bth.common.dto.PostDto;
 import bth.postservice.entity.Post;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.jupiter.api.Assertions;

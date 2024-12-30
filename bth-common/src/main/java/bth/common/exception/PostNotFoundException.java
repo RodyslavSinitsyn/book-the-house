@@ -1,4 +1,4 @@
-package bth.models.exception;
+package bth.common.exception;
 
 import lombok.Getter;
 

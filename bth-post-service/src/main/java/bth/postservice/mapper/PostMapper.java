@@ -1,6 +1,6 @@
 package bth.postservice.mapper;
 
-import bth.models.dto.PostDto;
+import bth.common.dto.PostDto;
 import bth.postservice.entity.Post;
 
 public interface PostMapper {

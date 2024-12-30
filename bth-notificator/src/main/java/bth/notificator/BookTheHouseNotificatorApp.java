@@ -1,12 +1,13 @@
 package bth.notificator;
 
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import bth.common.rabbitmq.RabbitConfig;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@EnableRabbit
+@Import(RabbitConfig.class)
 public class BookTheHouseNotificatorApp {
 
     public static void main(String[] args) {

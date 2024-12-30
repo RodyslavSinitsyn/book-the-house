@@ -1,6 +1,6 @@
 package bth.postservice.service;
 
-import bth.models.dto.BookingStatus;
+import bth.common.dto.BookingStatus;
 import bth.postservice.entity.Post;
 import com.github.javafaker.Faker;
 import org.springframework.stereotype.Service;

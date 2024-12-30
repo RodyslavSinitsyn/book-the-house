@@ -1,6 +1,6 @@
 package bth.postservice.exception;
 
-import bth.models.exception.PostNotFoundException;
+import bth.common.exception.PostNotFoundException;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;

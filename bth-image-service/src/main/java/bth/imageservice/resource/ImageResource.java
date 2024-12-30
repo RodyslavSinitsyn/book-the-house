@@ -1,7 +1,7 @@
 package bth.imageservice.resource;
 
 import bth.imageservice.service.S3Service;
-import bth.models.contract.ImageService;
+import bth.common.contract.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

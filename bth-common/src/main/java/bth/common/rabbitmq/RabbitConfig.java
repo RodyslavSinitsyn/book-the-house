@@ -1,7 +1,5 @@
-package bth.notificator.config;
+package bth.common.rabbitmq;
 
-import bth.models.rabbitmq.RabbitExchange;
-import bth.models.rabbitmq.RabbitQueue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;

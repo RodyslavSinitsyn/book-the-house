@@ -1,4 +1,4 @@
-package bth.models.dto;
+package bth.common.dto;
 
 public enum BookingStatus {
     AVAILABLE,

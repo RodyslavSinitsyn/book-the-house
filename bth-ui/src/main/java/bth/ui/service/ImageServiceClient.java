@@ -1,6 +1,6 @@
 package bth.ui.service;
 
-import bth.models.contract.ImageService;
+import bth.common.contract.ImageService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;

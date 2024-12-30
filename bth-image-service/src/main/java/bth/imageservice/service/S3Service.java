@@ -1,6 +1,6 @@
 package bth.imageservice.service;
 
-import bth.models.contract.ImageService;
+import bth.common.contract.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

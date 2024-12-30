@@ -1,7 +1,7 @@
 package bth.ui.controller;
 
-import bth.models.contract.PostService;
-import bth.models.dto.filter.PostsFilterDto;
+import bth.common.contract.PostService;
+import bth.common.dto.filter.PostsFilterDto;
 import bth.ui.service.FacadeService;
 import bth.ui.service.RedisWrapper;
 import lombok.RequiredArgsConstructor;

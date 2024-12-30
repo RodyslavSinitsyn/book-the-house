@@ -1,4 +1,4 @@
-package bth.models.dto.filter;
+package bth.common.dto.filter;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

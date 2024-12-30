@@ -1,4 +1,4 @@
-package bth.models.dto;
+package bth.common.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

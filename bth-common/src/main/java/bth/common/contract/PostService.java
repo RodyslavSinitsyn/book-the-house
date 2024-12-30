@@ -1,7 +1,7 @@
-package bth.models.contract;
+package bth.common.contract;
 
-import bth.models.dto.PostDto;
-import bth.models.dto.filter.PostsFilterDto;
+import bth.common.dto.PostDto;
+import bth.common.dto.filter.PostsFilterDto;
 
 import java.util.List;
 

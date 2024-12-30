@@ -1,6 +1,6 @@
 package bth.ui.exception;
 
-import bth.models.exception.PostNotFoundException;
+import bth.common.exception.PostNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

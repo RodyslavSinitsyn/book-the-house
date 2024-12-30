@@ -1,4 +1,4 @@
-package bth.models.contract;
+package bth.common.contract;
 
 public interface ImageService {
     String uploadImage(byte[] imageBytes);

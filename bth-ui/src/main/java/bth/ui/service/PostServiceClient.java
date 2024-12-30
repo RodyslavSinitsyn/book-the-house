@@ -1,8 +1,8 @@
 package bth.ui.service;
 
-import bth.models.contract.PostService;
-import bth.models.dto.PostDto;
-import bth.models.dto.filter.PostsFilterDto;
+import bth.common.contract.PostService;
+import bth.common.dto.PostDto;
+import bth.common.dto.filter.PostsFilterDto;
 import bth.ui.exception.PostServiceException;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;

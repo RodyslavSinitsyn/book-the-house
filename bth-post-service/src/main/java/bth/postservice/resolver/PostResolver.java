@@ -1,11 +1,11 @@
 package bth.postservice.resolver;
 
-import bth.models.contract.PostService;
-import bth.models.dto.PostDto;
-import bth.models.dto.filter.PostsFilterDto;
-import bth.models.exception.PostNotFoundException;
-import bth.models.message.PostCreatedMessage;
-import bth.models.rabbitmq.RabbitExchange;
+import bth.common.contract.PostService;
+import bth.common.dto.PostDto;
+import bth.common.dto.filter.PostsFilterDto;
+import bth.common.exception.PostNotFoundException;
+import bth.common.message.PostCreatedMessage;
+import bth.common.rabbitmq.RabbitExchange;
 import bth.postservice.entity.Post;
 import bth.postservice.mapper.PostMapper;
 import bth.postservice.repo.PostSubscriptionRepository;

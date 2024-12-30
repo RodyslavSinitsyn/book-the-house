@@ -7,8 +7,19 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>bth-models</artifactId>
-    <version>1.2</version>
+    <artifactId>bth-common</artifactId>
+    <version>${bth.common.version}</version>
 
     <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+    </dependencies>
 </project>

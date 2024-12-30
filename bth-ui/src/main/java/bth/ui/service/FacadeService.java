@@ -1,7 +1,7 @@
 package bth.ui.service;
 
-import bth.models.contract.PostService;
-import bth.models.dto.PostDto;
+import bth.common.contract.PostService;
+import bth.common.dto.PostDto;
 import bth.ui.exception.PostServiceException;
 import bth.ui.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
