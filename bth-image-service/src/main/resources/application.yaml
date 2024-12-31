@@ -10,11 +10,11 @@ bth:
         secretKey: test
         region: region
         bucket: test-bucket
-logging:
-  level:
-    org.springframework: debug
 
 spring:
+  application:
+    name: bth-image-service
+
   servlet:
     multipart:
       enabled: true

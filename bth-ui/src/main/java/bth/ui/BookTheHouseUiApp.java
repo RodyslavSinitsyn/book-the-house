@@ -8,7 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "bth.*")
 @EnableWebSecurity
 @EnableAspectJAutoProxy
 @Slf4j

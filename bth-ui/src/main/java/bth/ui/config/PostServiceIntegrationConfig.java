@@ -1,8 +1,8 @@
 package bth.ui.config;
 
 import bth.ui.exception.PostServiceException;
+import bth.ui.filter.MdcAppenderHttpInterceptor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +11,8 @@ import org.springframework.graphql.client.ClientGraphQlRequest;
 import org.springframework.graphql.client.ClientGraphQlResponse;
 import org.springframework.graphql.client.HttpSyncGraphQlClient;
 import org.springframework.graphql.client.SyncGraphQlClientInterceptor;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClient;
-
-import java.io.IOException;
 
 @Configuration
 @Slf4j
@@ -29,20 +23,11 @@ public class PostServiceIntegrationConfig {
 
     @Bean
     @Qualifier("postServiceRestClient")
-    public RestClient restClient() {
+    public RestClient restClient(MdcAppenderHttpInterceptor mdcAppenderHttpInterceptor) {
         return RestClient.builder()
-                .requestInterceptor(new HttpMdcInterceptor())
+                .requestInterceptor(mdcAppenderHttpInterceptor)
                 .baseUrl(postServiceUrl)
                 .build();
-    }
-
-    private static class HttpMdcInterceptor implements ClientHttpRequestInterceptor {
-        @Override
-        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                throws IOException {
-            request.getHeaders().add("X-Correlation-ID", MDC.get("correlationId"));
-            return execution.execute(request, body);
-        }
     }
 
     @Bean

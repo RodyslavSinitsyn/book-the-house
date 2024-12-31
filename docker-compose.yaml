@@ -49,30 +49,52 @@ services:
     networks:
       - bth-network
 
-  opensearch:
-    image: opensearchproject/opensearch:2.10.0
-    container_name: bth-opensearch
+  # https://hub.docker.com/_/elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+    container_name: bth-elasticsearch
     environment:
       - discovery.type=single-node
-      - plugins.security.ssl.http.enabled=false
-      - OPENSEARCH_JAVA_OPTS=-Xmx512m -Xms512m
-      - OPENSEARCH_USERNAME=admin
-      - OPENSEARCH_PASSWORD=admin
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin
+      - ELASTIC_PASSWORD=elasticpassword
+#      - xpack.security.enabled=true
     ports:
       - "9200:9200"
+    volumes:
+      - bth-elasticsearch-data:/usr/share/elasticsearch/data
     networks:
       - bth-network
 
-  opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:2.10.0
-    container_name: bth-opensearch-dashboards
+  # https://hub.docker.com/_/logstash
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.5.3
+    container_name: bth-logstash
     environment:
-      - OPENSEARCH_HOSTS=http://bth-opensearch:9200
+      - LS_JAVA_OPTS=-Xmx512m -Xms512m
+      - XPACK_MONITORING_ELASTICSEARCH_USERNAME=elastic
+      - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=elasticpassword
+      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=bth-elasticsearch:9200
+      - XPACK_MONITORING_ENABLED=true
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    networks:
+      - bth-network
+
+  # https://hub.docker.com/_/kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.5.3
+    container_name: bth-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://bth-elasticsearch:9200
+      - ELASTICSEARCH_SERVICEACCOUNTTOKEN=AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zYTpiSDdNbndhMlFoT0tnZkdSclZTQ2JR
     ports:
       - "5601:5601"
     networks:
       - bth-network
+    depends_on:
+      - elasticsearch
 
   localstack:
     image: localstack/localstack:latest
@@ -106,6 +128,7 @@ services:
 volumes:
   bth-postgres-data:
   bth-localstack-data:
+  bth-elasticsearch-data:
 
 networks:
   bth-network:

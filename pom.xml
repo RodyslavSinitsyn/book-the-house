@@ -21,7 +21,7 @@
         <spring.boot.version>3.4.1</spring.boot.version>
         <logstash.version>6.4</logstash.version>
         <lombok.version>1.18.36</lombok.version>
-        <bth.common.version>1.3</bth.common.version>
+        <bth.common.version>1.4</bth.common.version>
     </properties>
 
     <dependencies>

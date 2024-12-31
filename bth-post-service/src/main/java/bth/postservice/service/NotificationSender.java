@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class NotificationSender {
     private final RabbitProperties rabbitProperties;
     private final PostSubscriptionRepository postSubscriptionRepository;
     private final AmqpTemplate amqpTemplate;
+    private final MessagePostProcessor mdcMessagePostProcessor;
 
     @Async("taskExecutor")
     public void notifySubscribers(Post post) {
@@ -39,6 +41,7 @@ public class NotificationSender {
     private void sendMessage(PostCreatedMessage message) {
         amqpTemplate.convertAndSend(rabbitProperties.getExchange().getPostSubsEmailExchange(),
                 "post.created",
-                message);
+                message,
+                mdcMessagePostProcessor);
     }
 }

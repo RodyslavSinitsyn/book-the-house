@@ -13,6 +13,8 @@ bth:
       port: 6379
 
 spring:
+  application:
+    name: bth-ui
 
   thymeleaf:
     cache: false
@@ -62,4 +64,4 @@ resilience4j:
         base-config: default
 logging:
   level:
-    org.springframework: debug
+    org.springframework: info

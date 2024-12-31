@@ -5,10 +5,13 @@ bth:
   notificator:
     mail:
       whiteList:
-        - radik200058@gmail.com
-        - fastysha.22@gmail.com
+#        - radik200058@gmail.com
+#        - fastysha.22@gmail.com
 
 spring:
+  application:
+    name: bth-notificator
+
   mail:
     host: smtp.gmail.com            # The host of the Gmail SMTP server
     port: 587                       # The port used by Gmail's SMTP server for TLS (587 for STARTTLS)

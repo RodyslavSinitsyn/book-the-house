@@ -1,10 +1,10 @@
 <configuration>
 
     <!-- Property Definitions -->
-    <property name="LOG_DIR" value="./bth-post-service/logs"/>
+    <springProperty name="appName" source="spring.application.name" defaultValue="unknown-app"/>
+    <property name="LOG_DIR" value="./logs"/>
     <property name="LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss} %green([%thread]) %highlight(%-5level) %logger{36} - %msg%n"/>
-    <property name="opensearchUrl" value="127.0.0.1:9200" />
 
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -15,8 +15,26 @@
 
     <!-- File appender for logs -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/app.log</file>
+        <file>${LOG_DIR}/${appName}/app.log</file>
         <append>true</append>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <provider class="net.logstash.logback.composite.loggingevent.LoggingEventFormattedTimestampJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.ThreadNameJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.LogLevelJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.LoggerNameJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.MessageJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.StackTraceJsonProvider" />
+                <provider class="net.logstash.logback.composite.loggingevent.MdcJsonProvider" />
+                <pattern>
+                    <pattern>{ "appName": "${appName}" }</pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5044</destination>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <provider class="net.logstash.logback.composite.loggingevent.LoggingEventFormattedTimestampJsonProvider" />
@@ -32,10 +50,11 @@
 
     <!-- Logger Configuration -->
     <logger name="org.springframework" level="WARN"/>
-    <logger name="bth.postservice" level="DEBUG" />
+    <logger name="bth" level="DEBUG" />
 
     <root level="INFO">
-<!--        <appender-ref ref="FILE"/>-->
+        <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 </configuration>
