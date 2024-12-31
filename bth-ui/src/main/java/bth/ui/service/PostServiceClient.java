@@ -44,6 +44,24 @@ public class PostServiceClient implements PostService, PostSubscriptionService {
 
     @Override
     @Retry(name = "postService")
+    public List<PostDto> nearestPosts(double longitude, double latitude) {
+        var query =
+                """
+                        query($longitude: Float, $latitude: Float) {
+                           nearestPosts(longitude: $longitude, latitude: $latitude) {
+                           %s
+                          }
+                         }
+                        """.formatted(postFields());
+        return client.document(query)
+                .variable("longitude", longitude)
+                .variable("latitude", latitude)
+                .retrieveSync("nearestPosts")
+                .toEntityList(PostDto.class);
+    }
+
+    @Override
+    @Retry(name = "postService")
     public PostDto post(String id) {
         var query =
                 """
@@ -100,6 +118,7 @@ public class PostServiceClient implements PostService, PostSubscriptionService {
                 }
                 location {
                   country
+                  state
                   city
                   street
                   houseNumber

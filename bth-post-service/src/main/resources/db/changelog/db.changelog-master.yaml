@@ -27,3 +27,7 @@ databaseChangeLog:
       file: db/changelog/migrations/013-create-cities-table.yaml
   - include:
       file: db/changelog/migrations/014-populate-cities-table.yaml
+  - include:
+      file: db/changelog/migrations/015-install-postgis.yaml
+  - include:
+      file: db/changelog/migrations/016-update-posts-table-link-city-and-geo.yaml

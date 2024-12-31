@@ -5,11 +5,14 @@
     <title>Posts</title>
     <link th:href="@{/css/posts.css}" rel="stylesheet"/>
     <script th:src="@{/js/posts.js}" type="text/javascript"></script>
+    <script th:src="@{/js/geo.js}" type="text/javascript"></script>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
 <th:block th:replace="~{fragments :: postsFilter}" />
+
+<button type="submit" class="btn btn-primary" onclick="findNearestPosts()">Nearest Posts</button>
 
 <form th:action="@{/post}" enctype="multipart/form-data" method="POST"
       th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">

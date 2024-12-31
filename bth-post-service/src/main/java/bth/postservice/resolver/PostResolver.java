@@ -14,6 +14,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +22,9 @@ import java.util.UUID;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostResolver implements PostService {
-    private static final int BATCH_SIZE = 6;
+    private static final int BATCH_SIZE = 30;
 
     private final PostsRepository postsRepository;
     private final PostMapper postMapper;
@@ -41,6 +43,15 @@ public class PostResolver implements PostService {
 
     @Override
     @QueryMapping
+    public List<PostDto> nearestPosts(@Argument("longitude") double longitude,
+                                      @Argument("latitude") double latitude) {
+        return postsRepository.findAllPostsOrderedByDistance(longitude, latitude).stream()
+                .map(postMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    @QueryMapping
     public PostDto post(@Argument("id") String id) {
         return postMapper.toDto(
                 postsRepository.findById(UUID.fromString(id)).orElseThrow(() -> new PostNotFoundException(id)));
@@ -48,6 +59,7 @@ public class PostResolver implements PostService {
 
     @Override
     @MutationMapping
+    @Transactional
     public PostDto createPost(@Argument("imageUrl") String imageUrl,
                               @Argument("userId") String userId) {
         var post = postGeneratorService.generate();

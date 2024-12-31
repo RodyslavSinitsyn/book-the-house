@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Slf4j
 class PostGeneratorServiceTest {
 
-    private final PostGeneratorService postGeneratorService = new PostGeneratorService();
+    private final PostGeneratorService postGeneratorService = new PostGeneratorService(null); // TODO: Spring boot test
 
     @Test
     void testGenerate() {

@@ -3,6 +3,7 @@ package bth.postservice.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,10 +19,16 @@ public class BadBehaviorInterceptor implements HandlerInterceptor {
     private final Random random = new SecureRandom();
 
     private int unavailabilityPercentage = 0;
-    private int mockDelaySeconds = 5;
+    private int mockDelaySeconds = 1;
+
+    @Value("${bth.post-service.bad-enabled}")
+    private boolean badEnabled;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (!badEnabled) {
+            return true;
+        }
         int chance = random.nextInt(100);
         if (chance < unavailabilityPercentage) {
             log.warn("Unavailable, sorry...");

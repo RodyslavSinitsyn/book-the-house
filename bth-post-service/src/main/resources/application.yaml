@@ -1,6 +1,10 @@
 server:
   port: 8081
 
+bth:
+  post-service:
+    bad-enabled: false
+
 spring:
   application:
     name: bth-post-service
@@ -26,3 +30,7 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
+
+logging:
+  level:
+    org.springframework: debug

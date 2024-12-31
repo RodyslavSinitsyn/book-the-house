@@ -1,7 +1,9 @@
 package bth.postservice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,7 +12,6 @@ import java.time.LocalDateTime;
 @Table(name = "states")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = "wikiDataId")
 public class State {
 

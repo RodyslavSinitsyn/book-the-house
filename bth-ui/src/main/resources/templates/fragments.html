@@ -78,7 +78,7 @@
             <p class="card-text text-muted" th:text="${post.details.description}"></p>
             <div class="d-flex justify-content-between align-items-center">
                 <p class="fw-bold" th:text="${post.details.price} + '$'"></p>
-                <p class="text-muted small" th:text="${post.location.city} + ', ' + ${post.location.country}"></p>
+                <p class="text-muted small" th:text="${post.location.country} + ', ' + ${post.location.state} + ', ' + ${post.location.city}"></p>
             </div>
             <p class="text-muted font-italic" th:text="${post.status}"></p>
             <p class="fw-bold">

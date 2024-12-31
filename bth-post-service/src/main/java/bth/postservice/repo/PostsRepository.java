@@ -8,12 +8,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecificationExecutor<Post> {
+
+    @Query("SELECT p FROM Post p ORDER BY ST_Distance(p.location.locationPoint, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)) ASC")
+    List<Post> findAllPostsOrderedByDistance(@Param("longitude") double longitude,
+                                             @Param("latitude") double latitude);
 
     default Page<Post> findFilteredPosts(PostsFilterDto filter, int page, int pageSize) {
         var specification = Specification
@@ -31,12 +38,12 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
 
     static Specification<Post> hasCountry(String country) {
         return (root, query, criteriaBuilder) ->
-                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location").get("country"), country);
+                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location").get("city").get("country").get("name"), country);
     }
 
     static Specification<Post> hasCity(String city) {
         return (root, query, criteriaBuilder) ->
-                StringUtils.isEmpty(city) ? null : criteriaBuilder.equal(root.get("location").get("city"), city);
+                StringUtils.isEmpty(city) ? null : criteriaBuilder.equal(root.get("location").get("city").get("name"), city);
     }
 
     static Specification<Post> hasPriceInRange(Integer minPrice, Integer maxPrice) {

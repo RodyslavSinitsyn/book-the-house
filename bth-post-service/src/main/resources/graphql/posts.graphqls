@@ -10,6 +10,7 @@ type Post {
 
 type PostLocation {
     country: String
+    state: String
     city: String
     street: String
     houseNumber: String
@@ -39,6 +40,7 @@ input PostFilterInput {
 type Query {
     posts(page: Int, filter: PostFilterInput): [Post]!,
     post(id: String): Post!,
+    nearestPosts(longitude: Float, latitude: Float): [Post]!,
 }
 
 # The Root Mutation for the application

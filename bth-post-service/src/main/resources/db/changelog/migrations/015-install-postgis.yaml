@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 15
+      author: rsinitsyn
+      comment: Install 'postgis' extension
+      labels: geo
+      runAlways: false
+      runOnChange: false
+      rollback:
+        - delete:
+            tableName: cities
+      changes:
+        - sql: "CREATE EXTENSION IF NOT EXISTS postgis;"

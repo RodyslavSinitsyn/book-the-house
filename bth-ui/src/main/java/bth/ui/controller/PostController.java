@@ -36,6 +36,16 @@ public class PostController {
         return "post/posts";
     }
 
+    @GetMapping("/posts/nearest")
+    public String getPosts(@RequestParam("longitude") double longitude,
+                           @RequestParam("latitude") double latitude,
+                           Model model) {
+        var postList = postService.nearestPosts(longitude, latitude);
+        model.addAttribute("posts", postList);
+        model.addAttribute("filter", PostsFilterDto.EMPTY);
+        return "post/posts";
+    }
+
     @SneakyThrows
     @GetMapping("/posts/load")
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,

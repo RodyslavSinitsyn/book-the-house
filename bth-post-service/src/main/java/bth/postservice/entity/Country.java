@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 @Table(name = "countries")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = "wikiDataId")
 public class Country {
     @Id
@@ -85,6 +83,7 @@ public class Country {
     @Column(name = "emoji", length = 191)
     private String emoji;
 
+    @Transient
     @Column(name = "emojiU", length = 191)
     private String emojiU;
 

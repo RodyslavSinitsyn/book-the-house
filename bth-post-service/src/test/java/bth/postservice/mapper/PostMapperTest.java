@@ -1,14 +1,17 @@
 package bth.postservice.mapper;
 
 import bth.common.dto.PostDto;
+import bth.postservice.config.MapperConfig;
 import bth.postservice.entity.Post;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
+@ContextConfiguration(classes = {PostMapper.class, MapperConfig.class})
 class PostMapperTest {
 
     @Autowired
@@ -38,12 +41,14 @@ class PostMapperTest {
     @Test
     void givenToDto_whenEntityFieldsAreSet_thenConvertToDto() {
         // given
-        var entity = new Post();
+        var entity = EnhancedRandom.random(Post.class, "location.locationPoint");
         // when
         var dto = postMapper.toDto(entity);
         // then
         Assertions.assertNotNull(dto);
         Assertions.assertEquals(entity.getUserId(), dto.getUserId());
+        Assertions.assertEquals(entity.getLocation().getCity().getName(), dto.getLocation().getCity());
+        Assertions.assertEquals(entity.getLocation().getCity().getCountry().getName(), dto.getLocation().getCountry());
     }
 
     @Test

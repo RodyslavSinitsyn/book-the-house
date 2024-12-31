@@ -1,7 +1,9 @@
 package bth.postservice.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +11,6 @@ import java.time.LocalDateTime;
 @Table(name = "subregions")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = "wikiDataId")
 public class Subregion {
 

@@ -3,6 +3,10 @@ package bth.postservice.entity;
 import bth.common.dto.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,12 +53,21 @@ public class Post implements HasStringId {
     @Embeddable
     @Data
     public static class PostLocation {
-        @Column(nullable = false)
-        private String country;
-        @Column(nullable = false)
-        private String city;
+        public static final int SRID = 4326;
+
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "city_id", nullable = false)
+        private City city;
+        @Column(nullable = false, columnDefinition = "geometry(Point,4326)")
+        private Point locationPoint;
         @Column(nullable = false)
         private String street;
         private String houseNumber;
+
+        // TODO: check https://habr.com/ru/companies/domclick/articles/558876/
+        public void setLocationPoint(double latitude, double longitude) {
+            final var geometryFactory = new GeometryFactory(new PrecisionModel(), SRID);
+            locationPoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+        }
     }
 }

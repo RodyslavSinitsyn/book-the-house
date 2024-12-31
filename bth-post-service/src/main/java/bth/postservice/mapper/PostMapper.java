@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class PostMapper implements EntityMapper<Post, PostDto> {
@@ -19,6 +21,13 @@ public class PostMapper implements EntityMapper<Post, PostDto> {
 
     @Override
     public PostDto toDto(Post entity) {
-        return modelMapper.map(entity, PostDto.class);
+        var dto = modelMapper.map(entity, PostDto.class);
+        Optional.ofNullable(entity.getLocation())
+                .ifPresent(location -> {
+                    dto.getLocation().setCity(location.getCity().getName());
+                    dto.getLocation().setCountry(location.getCity().getCountry().getName());
+                    dto.getLocation().setState(location.getCity().getState().getName());
+                });
+        return dto;
     }
 }

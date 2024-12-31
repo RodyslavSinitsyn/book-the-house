@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 @Table(name = "regions")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(of = "wikiDataId")
 public class Region {
 
