@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12
+      author: rsinitsyn
+      comment: Populate 'states' table
+      labels: geo
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          tableExists:
+            tableName: states
+      rollback:
+        - delete:
+            tableName: states
+      changes:
+        - sqlFile:
+            path: populate-states.sql
+            relativeToChangelogFile: true

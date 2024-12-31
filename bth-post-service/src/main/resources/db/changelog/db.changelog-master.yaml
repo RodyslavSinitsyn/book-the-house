@@ -7,3 +7,23 @@ databaseChangeLog:
       file: db/changelog/migrations/003-create-postsubscriptions-table.yaml
   - include:
       file: db/changelog/migrations/004-add-userid-to-postsubscriptions-table.yaml
+  - include:
+      file: db/changelog/migrations/005-add-regions-table.yaml
+  - include:
+      file: db/changelog/migrations/006-populate-regions-table.yaml
+  - include:
+      file: db/changelog/migrations/007-create-subregions-table.yaml
+  - include:
+      file: db/changelog/migrations/008-populate-subregions-table.yaml
+  - include:
+      file: db/changelog/migrations/009-create-countries-table.yaml
+  - include:
+      file: db/changelog/migrations/010-populate-countires-table.yaml
+  - include:
+      file: db/changelog/migrations/011-create-states-table.yaml
+  - include:
+      file: db/changelog/migrations/012-populate-states-table.yaml
+  - include:
+      file: db/changelog/migrations/013-create-cities-table.yaml
+  - include:
+      file: db/changelog/migrations/014-populate-cities-table.yaml

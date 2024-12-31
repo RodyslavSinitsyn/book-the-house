@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 14
+      author: rsinitsyn
+      comment: Populate 'cities' table
+      labels: geo
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          tableExists:
+            tableName: cities
+      rollback:
+        - delete:
+            tableName: cities
+      changes:
+        - sqlFile:
+            path: populate-cities.sql
+            relativeToChangelogFile: true
