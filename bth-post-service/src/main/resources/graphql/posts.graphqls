@@ -5,10 +5,12 @@ type Post {
     details: PostDetails
     location: PostLocation
     status: BookingStatus
+    userId: String
 }
 
 type PostLocation {
     country: String
+    state: String
     city: String
     street: String
     houseNumber: String
@@ -27,6 +29,7 @@ enum BookingStatus {
 }
 
 input PostFilterInput {
+    user: String
     country: String
     city: String
     priceMin: Int
@@ -37,9 +40,10 @@ input PostFilterInput {
 type Query {
     posts(page: Int, filter: PostFilterInput): [Post]!,
     post(id: String): Post!,
+    nearestPosts(longitude: Float, latitude: Float): [Post]!,
 }
 
-## The Root Mutation for the application
-#type Mutation {
-#    createPost(title: String!, text: String!, category: String, authorId: String!) : Post!
-#}
+# The Root Mutation for the application
+type Mutation {
+    createPost(imageUrl: String, userId: String) : Post!
+}

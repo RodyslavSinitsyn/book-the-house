@@ -1,7 +1,14 @@
 server:
   port: 8081
 
+bth:
+  post-service:
+    bad-enabled: false
+
 spring:
+  application:
+    name: bth-post-service
+
   graphql:
     graphiql:
       enabled: true
@@ -14,7 +21,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
       naming:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy # underscore
     show-sql: true
@@ -23,3 +30,7 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
+
+logging:
+  level:
+    org.springframework: debug

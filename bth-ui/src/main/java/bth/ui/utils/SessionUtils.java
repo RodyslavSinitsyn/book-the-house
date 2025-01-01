@@ -16,7 +16,11 @@ public class SessionUtils {
                 .orElse(false);
     }
 
+    public String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     public String getAuthenticatedUserCacheKey() {
-        return "user_" + SecurityContextHolder.getContext().getAuthentication().getName();
+        return "user_" + getUsername();
     }
 }

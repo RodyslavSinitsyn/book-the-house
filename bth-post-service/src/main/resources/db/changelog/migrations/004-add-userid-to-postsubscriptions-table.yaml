@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: rsinitsyn
+      comment: Add 'user_id' column to 'post_subscriptions' table
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          tableExists:
+            tableName: post_subscriptions
+      rollback:
+        - dropColumn:
+            tableName: post_subscriptions
+            columnName: user_id
+      changes:
+        - addColumn:
+            tableName: post_subscriptions
+            columns:
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+                  remarks: "ID of the user who subscribed on updates"

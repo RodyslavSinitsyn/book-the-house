@@ -1,6 +1,6 @@
 package bth.ui.exception;
 
-import bth.models.exception.PostNotFoundException;
+import bth.common.exception.PostNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,8 +25,20 @@ public class GlobalExceptionHandler {
         return ERROR_PAGE;
     }
 
-    @ExceptionHandler(DataServiceException.class)
-    public String handleDataServiceException(DataServiceException ex, Model model) {
+    @ExceptionHandler(PostServiceException.class)
+    public String handlePostServiceException(PostServiceException ex, Model model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
+        return ERROR_PAGE;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
+        return ERROR_PAGE;
+    }
+
+    @ExceptionHandler(PostSavingException.class)
+    public String handlePostSavingException(PostSavingException ex, Model model) {
         model.addAttribute(ERROR_MESSAGE_KEY, ex.getMessage());
         return ERROR_PAGE;
     }

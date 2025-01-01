@@ -1,10 +1,17 @@
 package bth.ui.service;
 
 import bth.ui.utils.SessionUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
+import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -14,6 +21,7 @@ public class RedisWrapper {
     public static final String CACHE_KEY_FORMAT = "%s_%s";
 
     private final Jedis jedis;
+    private final ObjectMapper objectMapper;
 
     public String get(String key) {
         return jedis.get(getCacheKey(key));
@@ -32,6 +40,34 @@ public class RedisWrapper {
         if (seconds > 0) {
             jedis.expire(getCacheKey(key), seconds);
         }
+    }
+
+    @SneakyThrows
+    public <T> void globalSetListWithTtlCheck(String key,
+                                              @NonNull List<T> values,
+                                              Duration ttl) {
+        if (jedis.exists(key)) {
+            return;
+        }
+        var listAsJson = objectMapper.writeValueAsString(values);
+        jedis.set(key, listAsJson);
+        if (ttl.toSeconds() > 0) {
+            jedis.expire(key, ttl.toSeconds());
+        }
+    }
+
+    @SneakyThrows
+    public <T> List<T> globalGetList(String key, Class<T> clazz) {
+        var valueAsString = jedis.get(key);
+        if (valueAsString == null) {
+            return Collections.emptyList();
+        }
+        return objectMapper.readValue(valueAsString, new TypeReference<>() {
+            @Override
+            public java.lang.reflect.Type getType() {
+                return objectMapper.getTypeFactory().constructCollectionType(List.class, clazz);
+            }
+        });
     }
 
     private String getCacheKey(String cacheKey) {

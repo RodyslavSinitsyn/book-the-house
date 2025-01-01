@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: rsinitsyn
+      comment: Add 'user_id' column to 'posts' table
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          tableExists:
+            tableName: posts
+      rollback:
+        - dropColumn:
+            tableName: posts
+            columnName: user_id
+      changes:
+        - addColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  defaultValue: "anonymous"
+                  defaultOnNull: true
+                  remarks: "ID of the user who created the post"

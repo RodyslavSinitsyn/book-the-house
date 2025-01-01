@@ -8,14 +8,19 @@
     </parent>
 
     <artifactId>bth-ui</artifactId>
-    <version>1.5</version>
+    <version>1.7</version>
 
     <dependencies>
         <dependency>
             <groupId>org.rsinitsyn</groupId>
-            <artifactId>bth-models</artifactId>
-            <version>1.1</version>
-            <scope>compile</scope>
+            <artifactId>bth-common</artifactId>
+            <version>${bth.common.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-amqp</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -46,6 +51,11 @@
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
@@ -54,10 +64,6 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
     </dependencies>
 
@@ -71,7 +77,7 @@
                     <image>
                         <name>bth-ui</name>
                         <tags>
-                            <tag>1.4</tag>
+                            <tag>${version}</tag>
                         </tags>
                     </image>
                 </configuration>

@@ -1,19 +1,19 @@
 package bth.ui.controller;
 
-import bth.models.contract.PostService;
-import bth.models.dto.filter.PostsFilterDto;
+import bth.common.contract.PostService;
+import bth.common.dto.filter.PostsFilterDto;
+import bth.ui.service.FacadeService;
 import bth.ui.service.RedisWrapper;
+import bth.ui.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,13 +21,28 @@ import java.util.concurrent.TimeUnit;
 public class PostController {
 
     private final PostService postService;
+    private final FacadeService facadeService;
     private final RedisWrapper redisWrapper;
 
     @GetMapping("/posts")
     public String getPosts(@ModelAttribute PostsFilterDto filter, Model model) {
         var page = Integer.parseInt(redisWrapper.getOrDefault("postsPage", 0));
-        model.addAttribute("posts", postService.posts(page, filter));
+        var postList = postService.posts(page, filter);
+        model.addAttribute("posts", postList);
         model.addAttribute("filter", filter);
+        redisWrapper.globalSetListWithTtlCheck("posts_" + page,
+                postList,
+                Duration.ofMinutes(5));
+        return "post/posts";
+    }
+
+    @GetMapping("/posts/nearest")
+    public String getPosts(@RequestParam("longitude") double longitude,
+                           @RequestParam("latitude") double latitude,
+                           Model model) {
+        var postList = postService.nearestPosts(longitude, latitude);
+        model.addAttribute("posts", postList);
+        model.addAttribute("filter", PostsFilterDto.EMPTY);
         return "post/posts";
     }
 
@@ -35,14 +50,25 @@ public class PostController {
     @GetMapping("/posts/load")
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
                             Model model) {
-        TimeUnit.SECONDS.sleep(1); // TODO: Emulate long loading
-        model.addAttribute("posts", postService.posts(page, new PostsFilterDto())); // TODO: Get filters from AJAX
+//         TODO: Get filters from AJAX
+        var postList = postService.posts(page, PostsFilterDto.EMPTY);
+        model.addAttribute("posts", postList);
+        redisWrapper.globalSetListWithTtlCheck("posts_" + page,
+                postList,
+                Duration.ofMinutes(5));
         return "fragments :: postList";
     }
 
     @GetMapping("/posts/details/{id}")
     public String getPosts(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.post(id));
+        model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
         return "post/post";
+    }
+
+    @PostMapping("/post")
+    public String post(@RequestParam("file") MultipartFile file, Model model) {
+        facadeService.createPost(file);
+        return "redirect:/posts";
     }
 }

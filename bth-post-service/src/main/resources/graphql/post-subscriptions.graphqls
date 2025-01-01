@@ -1,0 +1,19 @@
+type PostSubscription {
+    id: String!
+    userId: String
+    email: String!
+    subscribedUserId: String!
+    createdAt: String
+    updatedAt: String
+    enabled: Boolean!
+}
+
+extend type Query {
+    subscriptions(userId: String, email: String): [PostSubscription]!
+}
+
+# The Root Mutation for the application
+extend type Mutation {
+    subscribe(subscribedUserId: String, email: String, userId: String) : PostSubscription!
+    unsubscribe(subscribedUserId: String, email: String, userId: String) : PostSubscription!
+}

@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 16
+      author: rsinitsyn
+      comment: Update 'posts' table, reference 'city' table and add 'locationPoint'
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          sql: "SELECT PostGIS_Version();"
+      rollback:
+        - dropColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: city_id
+              - column:
+                  name: location_point
+        - dropForeignKeyConstraint:
+            constraintName: posts_city_id_fkey
+        - addColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: country
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+      changes:
+        - dropColumn:
+            tableName: posts
+            columnName: country
+        - dropColumn:
+            tableName: posts
+            columnName: city
+        - addColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: city_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: posts_city_id_fkey
+                    referencedTableName: cities
+                    referencedColumnNames: id
+                    validateForeignKey: true
+              - column:
+                  name: location_point
+                  type: "geometry(POINT, 4326)"
+                  constraints:
+                    nullable: false

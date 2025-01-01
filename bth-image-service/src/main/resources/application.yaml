@@ -1,0 +1,22 @@
+server:
+  port: 8082
+
+bth:
+  image-service:
+    aws:
+      url: http://localhost:4566
+      s3:
+        accessKey: test
+        secretKey: test
+        region: region
+        bucket: test-bucket
+
+spring:
+  application:
+    name: bth-image-service
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB

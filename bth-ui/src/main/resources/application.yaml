@@ -2,13 +2,19 @@ server:
   port: 8080
 bth:
   ui:
+    images:
+      cache-control-min: 10
     post-service:
       url: http://localhost:8081/graphql
+    image-service:
+      url: http://localhost:8082/api
     redis:
       host: localhost
       port: 6379
 
 spring:
+  application:
+    name: bth-ui
 
   thymeleaf:
     cache: false
@@ -23,3 +29,39 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: count_based
+        sliding-window-size: 5
+        minimum-number-of-calls: 5 # Minimum calls required to evaluate failure rate
+        permitted-number-of-calls-in-half-open-state: 1 # Allow 3 test calls in half-open state
+        wait-duration-in-open-state: 5s # Keep circuit open for 5 seconds before trying again
+        failure-rate-threshold: 50 # Open circuit if 50% of calls fail
+        slow-call-rate-threshold: 50 # Trigger on 50% slow calls (optional)
+        slow-call-duration-threshold: 2s # Calls taking longer than 2s are considered slow
+    instances:
+      postService:
+        base-config: default
+      imageService:
+        base-config: default
+
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 1s
+        enable-exponential-backoff: false
+        retry-exceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - org.springframework.web.client.HttpServerErrorException.ServiceUnavailable
+          - java.io.IOException
+          - java.net.SocketTimeoutException
+    instances:
+      postService:
+        base-config: default
+logging:
+  level:
+    org.springframework: info

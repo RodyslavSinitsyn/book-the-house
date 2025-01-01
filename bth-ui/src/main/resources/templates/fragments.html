@@ -28,6 +28,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/profile">Profile</a>
                 </li>
+                <li class="nav-item" th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
+                    <a class="nav-link" href="/subscriptions">Subscriptions</a>
+                </li>
             </ul>
         </div>
 
@@ -55,8 +58,8 @@
 
 <!-- postList fragment -->
 <th:block th:fragment="postList(posts)">
-    <div class="columns is-multiline">
-        <div th:each="post : ${posts}" class="column is-4">
+    <div class="row g-4">
+        <div th:each="post : ${posts}" class="col-md-4">
             <!-- Use the postCard fragment for each post -->
             <div th:replace="~{fragments :: postCard(post=${post})}"></div>
         </div>
@@ -65,14 +68,17 @@
 
 <!-- postCard fragment -->
 <th:block th:fragment="postCard(post)">
-    <div class="card shadow-sm mb-4">
-        <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image" height="50" width="50">
+    <div class="card shadow-sm mb-4" th:classappend="${post.status.name() == 'BOOKED' ? 'disabled' : ''}">
+        <div class="image-wrapper">
+            <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image">
+        </div>
         <div class="card-body">
-            <h5 class="card-title fs-4 fw-bold" th:text="${post.title}"></h5>
+            <p class="fs-6 fw-italic" th:text="'Posted by: ' + ${post.userId}"></p>
+            <h4 class="card-title fs-4 fw-bold" th:text="${post.title}"></h4>
             <p class="card-text text-muted" th:text="${post.details.description}"></p>
             <div class="d-flex justify-content-between align-items-center">
                 <p class="fw-bold" th:text="${post.details.price} + '$'"></p>
-                <p class="text-muted small" th:text="${post.location.city} + ', ' + ${post.location.country}"></p>
+                <p class="text-muted small" th:text="${post.location.country} + ', ' + ${post.location.state} + ', ' + ${post.location.city}"></p>
             </div>
             <p class="text-muted font-italic" th:text="${post.status}"></p>
             <p class="fw-bold">
@@ -91,26 +97,37 @@
     <div class="container mt-4">
         <h4>Filter Posts</h4>
         <form th:action="@{/posts}" method="get" class="mb-4">
+            <!-- User name Filter (Text input) -->
+            <div class="mb-3">
+                <label for="user" class="form-label">User</label>
+                <input type="text" id="user" name="user" class="form-control" placeholder="Enter user name"
+                       th:value="${filter.user}">
+            </div>
+
             <!-- Country Filter (Text input) -->
             <div class="mb-3">
                 <label for="country" class="form-label">Country</label>
-                <input type="text" id="country" name="country" class="form-control" placeholder="Enter country name" th:value="${filter.country}">
+                <input type="text" id="country" name="country" class="form-control" placeholder="Enter country name"
+                       th:value="${filter.country}">
             </div>
 
             <!-- City Filter (Text input) -->
             <div class="mb-3">
                 <label for="city" class="form-label">City</label>
-                <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name" th:value="${filter.city}">
+                <input type="text" id="city" name="city" class="form-control" placeholder="Enter city name"
+                       th:value="${filter.city}">
             </div>
 
             <!-- Price Range Filter -->
             <div class="mb-3">
                 <label for="priceMin" class="form-label">Price Min</label>
-                <input type="number" id="priceMin" name="priceMin" class="form-control" placeholder="Min Price" th:value="${filter.priceMin}">
+                <input type="number" id="priceMin" name="priceMin" class="form-control" placeholder="Min Price"
+                       th:value="${filter.priceMin}">
             </div>
             <div class="mb-3">
                 <label for="priceMax" class="form-label">Price Max</label>
-                <input type="number" id="priceMax" name="priceMax" class="form-control" placeholder="Max Price" th:value="${filter.priceMax}">
+                <input type="number" id="priceMax" name="priceMax" class="form-control" placeholder="Max Price"
+                       th:value="${filter.priceMax}">
             </div>
 
             <button type="submit" class="btn btn-primary">Apply Filters</button>

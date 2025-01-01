@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: rsinitsyn
+      comment: Creates 'post_subscriptions' table
+      labels: post
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          not:
+            tableExists:
+              tableName: post_subscriptions
+      rollback:
+        - dropTable:
+            tableName: post_subscriptions
+      changes:
+        - createTable:
+            tableName: post_subscriptions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subscribed_user_id
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: BOOLEAN
+                  defaultValue: "false"
+                  constraints:
+                    nullable: false

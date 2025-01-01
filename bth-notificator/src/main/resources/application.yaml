@@ -1,0 +1,32 @@
+server:
+  port: 8083
+
+bth:
+  notificator:
+    mail:
+      whiteList:
+#        - radik200058@gmail.com
+#        - fastysha.22@gmail.com
+
+spring:
+  application:
+    name: bth-notificator
+
+  mail:
+    host: smtp.gmail.com            # The host of the Gmail SMTP server
+    port: 587                       # The port used by Gmail's SMTP server for TLS (587 for STARTTLS)
+    username: ${GMAIL_USER_EMAIL}  # Your Gmail email address (this is the username for SMTP authentication)
+    password: ${GMAIL_USER_PASSWORD}     # The App Password generated for Gmail (if 2FA is enabled)
+    protocol: smtp                  # The protocol we are using (SMTP in this case)
+    properties:
+      mail:
+        smtp:
+          auth: true                 # Enable SMTP authentication (required for Gmail)
+          starttls:
+            enable: true             # Enable STARTTLS, which upgrades the connection to a secure one
+
+logging:
+  level:
+    bth.notificator: DEBUG
+    org.springframework.amqp: DEBUG
+    org.springframework.rabbit: DEBUG

@@ -9,9 +9,11 @@
 
     <name>Book the House</name>
     <modules>
-        <module>bth-models</module>
+        <module>bth-common</module>
         <module>bth-ui</module>
         <module>bth-post-service</module>
+        <module>bth-image-service</module>
+        <module>bth-notificator</module>
     </modules>
 
     <properties>
@@ -19,6 +21,7 @@
         <spring.boot.version>3.4.1</spring.boot.version>
         <logstash.version>6.4</logstash.version>
         <lombok.version>1.18.36</lombok.version>
+        <bth.common.version>1.4</bth.common.version>
     </properties>
 
     <dependencies>
