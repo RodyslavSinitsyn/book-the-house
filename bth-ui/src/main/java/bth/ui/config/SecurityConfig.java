@@ -16,7 +16,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/login").not().authenticated();
-                    registry.requestMatchers("/post", "/subscriptions").authenticated();
+                    registry.requestMatchers("/post", "/subscriptions", "/chat/**").authenticated();
                     registry.anyRequest().permitAll();
                 })
                 .sessionManagement(session -> session

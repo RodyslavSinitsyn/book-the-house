@@ -6,13 +6,17 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<th:block th:replace="~{fragments :: postCard(post=${post})}" />
+<th:block th:replace="~{fragments :: postCard(post=${post})}"/>
+<a th:href="@{/chat/{chatId}/{recipientId}(chatId=${chatId}, recipientId=${post.userId})}"
+   class="btn btn-primary"
+   th:if="${isAuth and post.userId != authenticatedUserId}">Start chat</a>
 <form id="post-subscribe-form" th:action="@{/subscribe}" method="POST"
-      th:if="${post.userId != authenticatedUserId}">
+      th:if="${isAuth and post.userId != authenticatedUserId}">
     <div class="form-group">
         <div>
             <label for="post-subscribe-user-id">User ID:</label>
-            <input th:value="${post.userId}" type="text" id="post-subscribe-user-id" name="userId" class="form-control" readonly>
+            <input th:value="${post.userId}" type="text" id="post-subscribe-user-id" name="userId" class="form-control"
+                   readonly>
         </div>
         <div>
             <label for="post-subscribe-email">Email:</label>

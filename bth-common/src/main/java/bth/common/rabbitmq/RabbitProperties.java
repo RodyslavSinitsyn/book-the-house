@@ -12,6 +12,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @NoArgsConstructor
 public class RabbitProperties {
 
+    private String host;
+    private int port;
+    private String username;
+    private String password;
     private Queue queue;
     private Exchange exchange;
 

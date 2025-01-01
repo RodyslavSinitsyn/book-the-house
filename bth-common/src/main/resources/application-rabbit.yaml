@@ -12,6 +12,10 @@ spring:
 
 bth:
   rabbit:
+    host: ${spring.rabbitmq.host}
+    port: ${spring.rabbitmq.port}
+    username: ${spring.rabbitmq.username}
+    password: ${spring.rabbitmq.password}
     queue:
       postSubsEmailQueue: post.subs.email.queue
     exchange:

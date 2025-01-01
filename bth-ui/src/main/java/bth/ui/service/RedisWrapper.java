@@ -3,6 +3,7 @@ package bth.ui.service;
 import bth.ui.utils.SessionUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -20,6 +21,7 @@ public class RedisWrapper {
 
     public static final String CACHE_KEY_FORMAT = "%s_%s";
 
+    @Getter
     private final Jedis jedis;
     private final ObjectMapper objectMapper;
 
@@ -49,6 +51,13 @@ public class RedisWrapper {
         if (jedis.exists(key)) {
             return;
         }
+        globalSetList(key, values, ttl);
+    }
+
+    @SneakyThrows
+    public <T> void globalSetList(String key,
+                                  @NonNull List<T> values,
+                                  Duration ttl) {
         var listAsJson = objectMapper.writeValueAsString(values);
         jedis.set(key, listAsJson);
         if (ttl.toSeconds() > 0) {
