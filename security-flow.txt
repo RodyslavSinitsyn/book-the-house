@@ -1,0 +1,20 @@
+... - means chain if Spring filters executed
+
+- Unauthenticated user access forbidden resource
+- ... AuthorizationFilter denies request and send specific event/exception
+- ExceptionTranslationFilter catches exception and sends startAuthentication
+- LoginUrlAuthenticationEntryPoint redirects to /login
+- ... Login page rendered (since /login is permitAll)
+- User select 'Gmail'
+- ... OAuth2AuthorizationRequestRedirectFilter resolves auth request and sends redirect to OAuth2 provider (Google)
+- ... AbstractAuthenticationProcessingFilter decides that requires authentication
+    - OAuth2LoginAuthenticationFilter executes attemptAuthentication ->
+        - -> AuthenticationManager executes authentication
+    - OAuth2LoginAuthenticationFilter returns OAuth2AuthenticationToken (as Authentication)
+- AbstractAuthenticationProcessingFilter calls sessionStrategy
+    - CompositeSessionAuthenticationStrategy executes onAuthentication (after successful)
+- User authenticated
+- User exit the system via /logout
+- ... LogoutFilter catches logout request
+- CompositeLogoutHandler handles logoun logic (removes cookies, deletes session, clears session context)
+- User becomes unauthenticated

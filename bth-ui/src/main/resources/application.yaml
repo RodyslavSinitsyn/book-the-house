@@ -64,4 +64,5 @@ resilience4j:
         base-config: default
 logging:
   level:
+    org.springframework.security: debug
     org.springframework: info

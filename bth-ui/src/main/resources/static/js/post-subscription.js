@@ -8,6 +8,7 @@ document.querySelector('#post-subscribe-form').addEventListener('submit', functi
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            [csrfHeader()]: csrfToken()
         },
         body: `subscribedUserId=${subscribedUserId}&email=${email}`,
     })
