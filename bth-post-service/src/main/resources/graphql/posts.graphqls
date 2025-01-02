@@ -29,6 +29,7 @@ enum BookingStatus {
 }
 
 input PostFilterInput {
+    query: String
     user: String
     country: String
     city: String

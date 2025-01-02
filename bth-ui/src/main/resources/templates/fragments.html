@@ -103,6 +103,13 @@
     <div class="container mt-4">
         <h4>Filter Posts</h4>
         <form th:action="@{/posts}" method="get" class="mb-4">
+            <!-- Search Filter (Text input) -->
+            <div class="mb-3">
+                <label for="query" class="form-label">Search</label>
+                <input type="text" id="query" name="query" placeholder="Search posts..." class="form-control"
+                    th:value="${filter.query}"/>
+            </div>
+
             <!-- User name Filter (Text input) -->
             <div class="mb-3">
                 <label for="user" class="form-label">User</label>
