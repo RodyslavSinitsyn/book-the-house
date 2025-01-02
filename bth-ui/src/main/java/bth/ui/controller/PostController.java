@@ -73,7 +73,7 @@ public class PostController {
     }
 
     private String getChatId(String postCreator) {
-        return Optional.ofNullable(redisWrapper.get("chat_" + postCreator))
+        return Optional.ofNullable(redisWrapper.getJedis().hget(redisWrapper.getCacheKey("chat"), postCreator))
                 .orElse(UUID.randomUUID().toString());
     }
 

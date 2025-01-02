@@ -6,8 +6,18 @@ stompClient.connect({}, () => {
 
     stompClient.subscribe(`/user/topic/chat/${chatId}`, (message) => {
         const msg = JSON.parse(message.body);
-        console.log(msg)
-        appendMessage(msg.senderId, msg.text);
+        console.log('Message received: ', msg)
+        fetch(`/chat/read`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader()]: csrfToken()
+            },
+            body: `chatId=${chatId}&messageId=${msg.messageId}`
+        })
+            .then(result => result.text())
+            .then(value => console.log(value))
+        appendMessage(msg.text, false);
     });
 });
 
@@ -27,16 +37,31 @@ document.getElementById("chat-form").addEventListener("submit", (e) => {
     }
     stompClient.send(`/app/chat`, {}, JSON.stringify(messageBody));
     document.getElementById("message").value = '';
-    appendMessage(senderId, messageText)
+    appendMessage(messageText, true)
 });
 
-function appendMessage(sender, messageText) {
+document.querySelector("textarea#message").addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById("chat-form").dispatchEvent(new Event("submit"));
+    }
+});
+
+function appendMessage(text, isSender) {
     const chatMessages = document.getElementById("chat-messages");
 
-    const newMessage = document.createElement("div");
-    newMessage.className = "alert alert-secondary";
-    newMessage.textContent = sender + ": " + messageText;
+    // Create message element
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("mb-2", isSender ? "text-end" : "text-start");
 
-    chatMessages.appendChild(newMessage);
+    const messageContent = document.createElement("div");
+    messageContent.classList.add("alert", "d-inline-block", isSender ? "alert-primary" : "alert-secondary");
+    messageContent.style.maxWidth = "70%";
+    messageContent.textContent = `${text}`;
+
+    messageDiv.appendChild(messageContent);
+    chatMessages.appendChild(messageDiv);
+
+    // Scroll to the bottom of the chat
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }

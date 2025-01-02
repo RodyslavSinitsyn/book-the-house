@@ -20,3 +20,7 @@ bth:
       postSubsEmailQueue: post.subs.email.queue
     exchange:
       postSubsEmailExchange: post.subs.email.exchange
+
+logging:
+  level:
+    net.logstash.logback: ERROR

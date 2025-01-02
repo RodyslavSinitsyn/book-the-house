@@ -28,8 +28,4 @@ public class SessionUtils {
     public String getUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
-
-    public String getAuthenticatedUserCacheKey() {
-        return "user_" + getUsername();
-    }
 }

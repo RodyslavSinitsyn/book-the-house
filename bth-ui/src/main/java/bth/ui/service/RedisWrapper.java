@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RedisWrapper {
 
-    public static final String CACHE_KEY_FORMAT = "%s_%s";
+    public static final String CACHE_KEY_FORMAT = "user_%s_%s";
 
     @Getter
     private final Jedis jedis;
@@ -79,8 +79,11 @@ public class RedisWrapper {
         });
     }
 
-    private String getCacheKey(String cacheKey) {
-        return String.format(CACHE_KEY_FORMAT, SessionUtils.getAuthenticatedUserCacheKey(), cacheKey);
+    public String getCacheKey(String cacheKey) {
+        return getCacheKey(cacheKey, SessionUtils.getUsername());
     }
 
+    public String getCacheKey(String cacheKey, String username) {
+        return String.format(CACHE_KEY_FORMAT, username, cacheKey);
+    }
 }

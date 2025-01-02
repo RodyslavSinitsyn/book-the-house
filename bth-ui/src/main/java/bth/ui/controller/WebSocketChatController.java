@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
 import java.time.Duration;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -24,6 +25,7 @@ public class WebSocketChatController {
     public void sendMessage(ChatMessage message,
                             @AuthenticationPrincipal Principal sender) {
         log.debug("Received message: {}", message);
+        message.setMessageId(UUID.randomUUID().toString());
         message.setSenderId(sender.getName());
         var chatMessages = redisWrapper.globalGetList("chat_" + message.getChatId(), ChatMessage.class);
         chatMessages.add(message);

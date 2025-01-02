@@ -10,16 +10,21 @@
     <h2>Chat</h2>
     <div class="card">
         <div class="card-header">
-            Chat with User
+            Chat with <span th:text="${recipientId}">User</span>
         </div>
         <div class="card-body">
             <div id="chat-messages" class="mb-3"
                  style="height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
                 <div th:each="message : ${messages}"
-                     th:text="${message.senderId + ': ' + message.text}"
-                     class="alert alert-secondary">
+                     th:classappend="${message.senderId == senderId} ? 'text-end' : 'text-start'"
+                     class="mb-2">
+                    <div th:classappend="${message.senderId == senderId} ? 'alert-primary' : 'alert-secondary'"
+                         class="alert d-inline-block"
+                         style="max-width: 70%;">
+                        <span th:text="${message.text}">Message content</span>
+                    </div>
                 </div>
-                <!-- Messages will be appended here -->
+                <!-- Messages will be appended here dynamically -->
             </div>
             <form id="chat-form">
                 <input type="hidden" id="chatId" th:value="${chatId}">
