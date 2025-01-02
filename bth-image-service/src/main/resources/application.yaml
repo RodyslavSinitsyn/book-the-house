@@ -4,12 +4,12 @@ server:
 bth:
   image-service:
     aws:
-      url: http://localhost:4566
+      url: http://localhost:9000
       s3:
-        accessKey: test
-        secretKey: test
+        accessKey: testuser
+        secretKey: testpassword
         region: us-east-1
-        bucket: test-bucket
+        bucket: post-images
 
 spring:
   application:

@@ -76,7 +76,7 @@
 <th:block th:fragment="postCard(post)">
     <div class="card shadow-sm mb-4" th:classappend="${post.status.name() == 'BOOKED' ? 'disabled' : ''}">
         <div class="image-wrapper">
-            <img th:src="${post.imageUrl}" class="card-img-top" alt="Post Image">
+            <img th:src="'http://localhost:8082/api/v1/download/' + ${post.imageUrl}" class="card-img-top" alt="Post Image">
         </div>
         <div class="card-body">
             <p class="fs-6 fw-italic" th:text="'Posted by: ' + ${post.userId}"></p>

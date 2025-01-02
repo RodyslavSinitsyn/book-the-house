@@ -18,14 +18,12 @@ public class FacadeService {
     private final PostService postService;
 
     public PostDto createPost(MultipartFile file) {
-        String imageId = "/img/house.jpeg";
+        String imageId = "DEFAULT.jpg";
         try {
-            if (file.isEmpty()) {
-                return postService.createPost(imageId, SessionUtils.getUsername());
-            } else {
+            if (!file.isEmpty()) {
                 imageId = imageService.uploadImage(file.getBytes());
-                return postService.createPost("/images/" + imageId, SessionUtils.getUsername());
             }
+            return postService.createPost(imageId, SessionUtils.getUsername());
         } catch (PostServiceException e) {
             if (!file.isEmpty()) {
                 log.error("Deleting saved image due to 'post-service' error: {}", e.getMessage());
