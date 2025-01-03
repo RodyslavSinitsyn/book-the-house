@@ -4,8 +4,6 @@ import bth.common.models.chat.Chat;
 import bth.common.models.chat.ChatMessage;
 import bth.ui.service.RedisWrapper;
 import bth.ui.utils.SessionUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +22,9 @@ import java.util.function.Predicate;
 public class ChatController {
 
     private final RedisWrapper redisWrapper;
-    private final ObjectMapper objectMapper;
 
     @GetMapping("/chat/list")
-    public String chatList(Model model) throws JsonProcessingException {
+    public String chatList(Model model) {
         List<Chat> chats = new ArrayList<>();
         Map<String, String> map = redisWrapper.getJedis().hgetAll(redisWrapper.getCacheKey("chat"));
         map.entrySet().forEach(entry -> {

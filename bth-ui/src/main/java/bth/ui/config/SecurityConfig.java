@@ -24,7 +24,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/login").not().authenticated();
-                    registry.requestMatchers("/post", "/subscriptions", "/chat/**").authenticated();
+                    registry.requestMatchers("/post", "/subscriptions", "/chat/**", "/notification/token").authenticated();
                     registry.anyRequest().permitAll();
                 })
                 .sessionManagement(session -> session

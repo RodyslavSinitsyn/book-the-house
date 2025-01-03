@@ -15,7 +15,7 @@
 <button type="submit" class="btn btn-primary" onclick="findNearestPosts()">Nearest Posts</button>
 
 <form th:action="@{/post}" enctype="multipart/form-data" method="POST"
-      th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
+      th:if="${isAuth}">
     <div class="form-group">
         <label for="postImage">Image:</label>
         <input type="file" id="postImage" name="file" class="form-control">

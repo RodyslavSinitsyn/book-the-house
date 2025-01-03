@@ -67,7 +67,6 @@ public class PostController {
         PostDto post = postService.post(id);
         model.addAttribute("post", post);
         model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
-        model.addAttribute("isAuth", SessionUtils.isAuthenticated());
         model.addAttribute("chatId", getChatId(post.getUserId()));
         return "post/post";
     }

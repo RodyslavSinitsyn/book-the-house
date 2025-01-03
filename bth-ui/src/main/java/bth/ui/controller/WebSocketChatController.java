@@ -1,6 +1,7 @@
 package bth.ui.controller;
 
 import bth.common.models.chat.ChatMessage;
+import bth.ui.service.NotificationService;
 import bth.ui.service.RedisWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class WebSocketChatController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final RedisWrapper redisWrapper;
+    private final NotificationService notificationService;
 
     @MessageMapping("/chat")
     public void sendMessage(ChatMessage message,
@@ -33,5 +35,12 @@ public class WebSocketChatController {
         messagingTemplate.convertAndSendToUser(message.getRecipientId(),
                 "/topic/chat/" + message.getChatId(),
                 message);
+        var recipientNotificationToken = redisWrapper.getJedis().get(
+                redisWrapper.getCacheKey("notification_token", message.getRecipientId()));
+        if (recipientNotificationToken != null) {
+            notificationService.sendNotification(recipientNotificationToken,
+                    "New message!",
+                    "Message from: %s".formatted(message.getSenderId()));
+        }
     }
 }

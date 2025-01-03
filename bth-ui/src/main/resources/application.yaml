@@ -2,6 +2,9 @@ server:
   port: 8080
 bth:
   ui:
+    firebase:
+      apiKey: ${FIREBASE_API_KEY}
+      vapidKey: ${FIREBASE_VAPID_KEY}
     images:
       cache-control-min: 10
     post-service:
