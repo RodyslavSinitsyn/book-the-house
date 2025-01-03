@@ -3,7 +3,7 @@ package bth.postservice.service;
 import bth.common.rabbitmq.RabbitProperties;
 import bth.common.rabbitmq.message.PostCreatedMessage;
 import bth.postservice.entity.Post;
-import bth.postservice.repo.PostSubscriptionRepository;
+import bth.postservice.repo.jpa.PostSubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

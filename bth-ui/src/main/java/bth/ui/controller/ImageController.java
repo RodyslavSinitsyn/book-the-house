@@ -27,6 +27,7 @@ public class ImageController {
     @GetMapping("/images/{imageId}")
     @SneakyThrows
     @ResponseBody
+    @Deprecated
     public ResponseEntity<byte[]> image(@PathVariable("imageId") String imageId) {
         var imageBytes = imageService.downloadImage(imageId);
         String eTag = DigestUtils.md5DigestAsHex(imageBytes);

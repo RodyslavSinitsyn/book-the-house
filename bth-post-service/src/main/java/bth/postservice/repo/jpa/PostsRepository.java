@@ -1,4 +1,4 @@
-package bth.postservice.repo;
+package bth.postservice.repo.jpa;
 
 import bth.common.dto.filter.PostsFilterDto;
 import bth.postservice.entity.Post;
@@ -11,7 +11,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,13 +24,22 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
     List<Post> findAllPostsOrderedByDistance(@Param("longitude") double longitude,
                                              @Param("latitude") double latitude);
 
-    default Page<Post> findFilteredPosts(PostsFilterDto filter, int page, int pageSize) {
+    default Page<Post> findFilteredPosts(PostsFilterDto filter,
+                                         Collection<UUID> ids,
+                                         int page,
+                                         int pageSize) {
         var specification = Specification
-                .where(hasCountry(filter.getCountry()))
+                .where(hasIds(ids))
+                .and(hasCountry(filter.getCountry()))
                 .and(hasUser(filter.getUser()))
                 .and(hasCity(filter.getCity()))
                 .and(hasPriceInRange(filter.getPriceMin(), filter.getPriceMax()));
         return findAll(specification, PageRequest.of(page, pageSize));
+    }
+
+    static Specification<Post> hasIds(Collection<UUID> ids) {
+        return (root, query, criteriaBuilder) ->
+                CollectionUtils.isEmpty(ids) ? null : root.get("id").in(ids);
     }
 
     static Specification<Post> hasUser(String userId) {

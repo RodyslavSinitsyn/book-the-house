@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  test:
+    database:
+      replace: none
+
+  liquibase:
+    enabled: false

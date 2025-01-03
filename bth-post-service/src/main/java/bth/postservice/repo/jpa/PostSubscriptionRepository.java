@@ -1,4 +1,4 @@
-package bth.postservice.repo;
+package bth.postservice.repo.jpa;
 
 import bth.postservice.entity.PostSubscription;
 import org.springframework.data.jpa.repository.JpaRepository;

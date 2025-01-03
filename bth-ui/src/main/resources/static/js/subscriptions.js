@@ -4,6 +4,7 @@ function enableSubscription(subUserId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader()]: csrfToken()
             },
             body: `subscribedUserId=${subUserId}`,
         })
@@ -23,6 +24,7 @@ function disableSubscription(subUserId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader()]: csrfToken()
             },
             body: `subscribedUserId=${subUserId}`,
         })

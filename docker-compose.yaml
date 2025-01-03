@@ -96,22 +96,20 @@ services:
     depends_on:
       - elasticsearch
 
-  localstack:
-    image: localstack/localstack:latest
-    container_name: bth-localstack
+  minio:
+    image: minio/minio:latest
+    container_name: bth-minio
     ports:
-      - "4566:4566" # Main LocalStack port for all services
-      - "4572:4572" # S3 service
+      - "9000:9000" # MinIO browser/API
+      - "9001:9001" # MinIO management console
     environment:
-      - SERVICES=s3
-      - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
+      MINIO_ROOT_USER: testuser
+      MINIO_ROOT_PASSWORD: testpassword  # Root secret key
+    volumes:
+      - bth-minio-data:/data
     networks:
       - bth-network
-#    volumes: TODO: Add volume for persistance
-#      - bth-localstack-data:/tmp/localstack/data
+    command: server /data --console-address ":9001"
 
   rabbitmq:
     image: "rabbitmq:management"
@@ -128,6 +126,7 @@ services:
 volumes:
   bth-postgres-data:
   bth-localstack-data:
+  bth-minio-data:
   bth-elasticsearch-data:
 
 networks:

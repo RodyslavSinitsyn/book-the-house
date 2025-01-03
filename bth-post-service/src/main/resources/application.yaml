@@ -31,6 +31,16 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
 
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+    password: elasticpassword
+
 logging:
   level:
-    org.springframework: debug
+    org.springframework.data: debug

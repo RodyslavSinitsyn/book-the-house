@@ -4,7 +4,7 @@ import bth.common.contract.PostSubscriptionService;
 import bth.common.dto.PostSubscriptionDto;
 import bth.postservice.entity.PostSubscription;
 import bth.postservice.mapper.PostSubscriptionMapper;
-import bth.postservice.repo.PostSubscriptionRepository;
+import bth.postservice.repo.jpa.PostSubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;

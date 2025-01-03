@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -18,7 +17,6 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class PostGeneratorService {
 
-    public static final SecureRandom RANDOM = new SecureRandom();
     private static final Faker FAKER = new Faker(Locale.ENGLISH);
 
     private final LocationGeneratorService locationGeneratorService;
@@ -27,12 +25,12 @@ public class PostGeneratorService {
     public Post generate() {
         var post = new Post();
 
-        post.setTitle(FAKER.lorem().sentence(4));
+        post.setTitle(FAKER.book().title());
         post.setImageUrl(FAKER.internet().image());
-        post.setStatus(RANDOM.nextBoolean() ? BookingStatus.AVAILABLE : BookingStatus.BOOKED);
+        post.setStatus(FAKER.bool().bool() ? BookingStatus.AVAILABLE : BookingStatus.BOOKED);
 
         var details = new Post.PostDetails();
-        details.setDescription(FAKER.lorem().sentence());
+        details.setDescription(FAKER.weather().description());
         details.setAvailableFrom(LocalDate.now().plusDays(FAKER.number().numberBetween(1, 15)));
         details.setAvailableTo(LocalDate.now().plusDays(FAKER.number().numberBetween(16, 31)));
         details.setPrice(BigDecimal.valueOf(FAKER.number().randomDouble(2, 100, 10_000)));

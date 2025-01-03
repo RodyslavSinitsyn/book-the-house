@@ -1,6 +1,7 @@
 package bth.ui.controller;
 
 import bth.common.contract.PostService;
+import bth.common.dto.PostDto;
 import bth.common.dto.filter.PostsFilterDto;
 import bth.ui.service.FacadeService;
 import bth.ui.service.RedisWrapper;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,9 +64,16 @@ public class PostController {
 
     @GetMapping("/posts/details/{id}")
     public String getPosts(@PathVariable("id") String id, Model model) {
-        model.addAttribute("post", postService.post(id));
+        PostDto post = postService.post(id);
+        model.addAttribute("post", post);
         model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
+        model.addAttribute("chatId", getChatId(post.getUserId()));
         return "post/post";
+    }
+
+    private String getChatId(String postCreator) {
+        return Optional.ofNullable(redisWrapper.getJedis().hget(redisWrapper.getCacheKey("chat"), postCreator))
+                .orElse(UUID.randomUUID().toString());
     }
 
     @PostMapping("/post")

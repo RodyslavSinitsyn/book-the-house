@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>bth-ui</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
 
     <dependencies>
         <dependency>
@@ -51,6 +51,14 @@
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot3</artifactId>
             <version>2.2.0</version>
@@ -64,6 +72,21 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

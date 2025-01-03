@@ -6,17 +6,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.Duration;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:8080")
 @Slf4j
 public class ImageResource {
 
@@ -48,8 +53,11 @@ public class ImageResource {
     @GetMapping("/v1/download/{imageId}")
     public ResponseEntity<byte[]> getImage(@PathVariable("imageId") String imageId) {
         byte[] imageBytes = s3Service.downloadImage(imageId);
+        String eTag = DigestUtils.md5DigestAsHex(imageBytes);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
+                .cacheControl(CacheControl.maxAge(Duration.ofMinutes(60)))
+                .eTag(eTag)
                 .body(imageBytes);
     }
 
