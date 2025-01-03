@@ -12,6 +12,10 @@
     <artifactId>bth-image-service</artifactId>
     <version>1.8</version>
 
+    <properties>
+        <spring.docs.version>2.5.0</spring.docs.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.rsinitsyn</groupId>
@@ -31,6 +35,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+            <version>${spring.docs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>${spring.docs.version}</version>
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
