@@ -18,6 +18,21 @@ import java.util.UUID;
 @Setter
 @ToString
 @EqualsAndHashCode(of = "id")
+@NamedEntityGraph(
+        name = "Post.single",
+        attributeNodes = {
+                @NamedAttributeNode(value = "location", subgraph = "location-subgraph")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "location-subgraph", attributeNodes = {
+                        @NamedAttributeNode(value = "city", subgraph = "city-subgraph")
+                }),
+                @NamedSubgraph(name = "city-subgraph", attributeNodes = {
+                        @NamedAttributeNode("state"),
+                        @NamedAttributeNode("country")
+                })
+        }
+)
 public class Post implements HasStringId {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

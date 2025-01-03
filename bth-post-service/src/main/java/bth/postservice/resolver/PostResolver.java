@@ -6,6 +6,7 @@ import bth.common.dto.filter.PostsFilterDto;
 import bth.common.exception.PostNotFoundException;
 import bth.postservice.entity.Post;
 import bth.postservice.entity.PostDocument;
+import bth.postservice.mapper.PostDistanceMapper;
 import bth.postservice.mapper.PostMapper;
 import bth.postservice.repo.elastic.PostSearchRepository;
 import bth.postservice.repo.jpa.PostsRepository;
@@ -36,6 +37,7 @@ public class PostResolver implements PostService {
     private final PostSearchRepository postSearchRepository;
     private final ElasticsearchClient elasticsearchClient;
     private final PostMapper postMapper;
+    private final PostDistanceMapper postDistanceMapper;
     private final PostGeneratorService postGeneratorService;
     private final NotificationSender notificationSender;
 
@@ -63,7 +65,7 @@ public class PostResolver implements PostService {
     public List<PostDto> nearestPosts(@Argument("longitude") double longitude,
                                       @Argument("latitude") double latitude) {
         return postsRepository.findAllPostsOrderedByDistance(longitude, latitude).stream()
-                .map(postMapper::toDto)
+                .map(postDistanceMapper::toDto)
                 .toList();
     }
 
