@@ -16,6 +16,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @Slf4j
@@ -44,6 +46,7 @@ public class PostResolver implements PostService {
     @Override
     @QueryMapping
     public List<PostDto> posts(@Argument("page") int page, @Argument("filter") PostsFilterDto filter) {
+        var sw = StopWatch.createStarted();
         List<UUID> postIds = new ArrayList<>();
         if (StringUtils.isNotEmpty(filter.getQuery())) {
             var query = filter.getQuery();
@@ -54,7 +57,11 @@ public class PostResolver implements PostService {
             postIds = postDocumentsMultimatch.stream().map(PostDocument::getId).toList();
         }
         var postsPage = postsRepository.findFilteredPosts(filter, postIds, page, BATCH_SIZE);
-        log.debug("Successfully loaded {} posts, total size: {}", postsPage.getNumberOfElements(), postsPage.getTotalElements());
+        sw.stop();
+        log.debug("Successfully loaded {} posts, total size: {}, {} ms",
+                postsPage.getNumberOfElements(),
+                postsPage.getTotalElements(),
+                sw.getTime(TimeUnit.MILLISECONDS));
         return postsPage.stream()
                 .map(postMapper::toDto)
                 .toList();

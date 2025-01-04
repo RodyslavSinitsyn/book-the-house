@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public interface PostDistanceProjection {
     String getId();
+    String userId();
     String getTitle();
     String getDescription();
     String getImageUrl();

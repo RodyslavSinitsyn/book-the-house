@@ -41,6 +41,15 @@ spring:
     username: elastic
     password: elasticpassword
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info,env,sessions,threaddump
+  endpoint:
+    health:
+      show-details: always
+
 logging:
   level:
-    org.springframework.data: debug
+    org.springframework: info
