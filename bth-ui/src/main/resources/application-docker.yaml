@@ -1,5 +1,9 @@
 bth:
   ui:
+    post-service:
+      url: http://bth-post-service:8081/graphql
+    image-service:
+      url: http://bth-image-service:8082/api
     redis:
       host: bth-redis
       port: 6379

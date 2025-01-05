@@ -110,6 +110,19 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>bth.postservice.BookTheHousePostServiceApp</mainClass>
+                    <image>
+                        <name>bth-post-service</name>
+                        <tags>
+                            <tag>${version}</tag>
+                        </tags>
+                    </image>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>4.2.9</version>

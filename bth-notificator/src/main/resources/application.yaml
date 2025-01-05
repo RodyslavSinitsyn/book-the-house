@@ -5,7 +5,7 @@ bth:
   notificator:
     mail:
       whiteList:
-#        - radik200058@gmail.com
+        - radik200058@gmail.com
 #        - fastysha.22@gmail.com
 
 spring:

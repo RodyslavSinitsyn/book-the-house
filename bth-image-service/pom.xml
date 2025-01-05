@@ -58,4 +58,21 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>bth.imageservice.BookTheHouseImageServiceApp</mainClass>
+                    <image>
+                        <name>bth-image-service</name>
+                        <tags>
+                            <tag>${version}</tag>
+                        </tags>
+                    </image>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
