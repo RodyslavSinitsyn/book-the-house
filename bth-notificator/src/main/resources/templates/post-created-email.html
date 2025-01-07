@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post Alert</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            color: #888;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Hello,</h1>
+    <p>
+        We hope you're having a great day!
+        <br>
+        We just wanted to let you know that <strong>${userId}</strong> has created a new post titled
+        "<strong>${postTitle}</strong>" on the platform.
+    </p>
+
+    <p>
+        This could be just what you were looking for, so why not check it out?
+        You can explore the new post and all the details at your convenience.
+    </p>
+
+    <div class="footer">
+        <p>
+            You are receiving this email because you have subscribed to notifications for new posts by users you follow.
+            <br>
+            If you no longer wish to receive notifications, you can <a href="">unsubscribe here</a>.
+        </p>
+        <p>Thanks for being part of our community!</p>
+    </div>
+</div>
+</body>
+</html>
