@@ -68,6 +68,7 @@ public class PostController {
         model.addAttribute("post", post);
         model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
         model.addAttribute("chatId", getChatId(post.getUserId()));
+        model.addAttribute("userEmail", SessionUtils.getUserEmailIfPresent());
         return "post/post";
     }
 

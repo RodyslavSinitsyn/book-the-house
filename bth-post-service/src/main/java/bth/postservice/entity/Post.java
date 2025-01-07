@@ -70,7 +70,7 @@ public class Post implements HasStringId {
     public static class PostLocation {
         public static final int SRID = 4326;
 
-        @ManyToOne(fetch = FetchType.EAGER)
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "city_id", nullable = false)
         private City city;
         @Column(nullable = false, columnDefinition = "geometry(Point,4326)")

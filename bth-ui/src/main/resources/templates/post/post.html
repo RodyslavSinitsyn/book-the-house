@@ -15,12 +15,13 @@
     <div class="form-group">
         <div>
             <label for="post-subscribe-user-id">User ID:</label>
-            <input th:value="${post.userId}" type="text" id="post-subscribe-user-id" name="userId" class="form-control"
-                   readonly>
+            <input th:value="${post.userId}"
+                   type="text" id="post-subscribe-user-id" name="userId" class="form-control" readonly>
         </div>
         <div>
             <label for="post-subscribe-email">Email:</label>
-            <input type="email" id="post-subscribe-email" name="email" class="form-control">
+            <input th:value="${userEmail}" th:attr="readonly=${userEmail != null ? 'readonly' : null}"
+                   type="email" id="post-subscribe-email" name="email" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Subscribe to User updates</button>
     </div>
