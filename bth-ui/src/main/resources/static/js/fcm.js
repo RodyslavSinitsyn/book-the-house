@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-navigator.serviceWorker.register("js/fcm-sw.js")
+navigator.serviceWorker.register("/js/fcm-sw.js")
     .then(registration => {
         const tokenStored = localStorage.getItem("fcm_token_stored")
         if (tokenStored) {

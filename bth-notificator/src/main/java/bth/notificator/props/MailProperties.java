@@ -8,5 +8,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "bth.notificator.mail")
 @Data
 public class MailProperties {
+    private String sender;
     private List<String> whiteList;
 }

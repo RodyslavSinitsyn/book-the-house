@@ -18,7 +18,7 @@ import java.util.Optional;
 @Configuration
 @EnableConfigurationProperties(RabbitProperties.class)
 @Slf4j
-@Profile({"rabbit", "rabbit-docker"})
+@Profile({"rabbit", "rabbit-docker", "rabbit-prod"})
 public class RabbitConfig {
 
     @Autowired

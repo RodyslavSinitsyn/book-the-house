@@ -51,10 +51,8 @@ public class PostResolver implements PostService {
         if (StringUtils.isNotEmpty(filter.getQuery())) {
             var query = filter.getQuery();
             var postDocumentsFuzzy = postSearchRepository.findFuzzy(query, elasticsearchClient);
-            var postDocumentsMultimatch = postSearchRepository.findMultimatch(query, elasticsearchClient);
             log.debug("Search fuzzy results for query: {}, posts {}", query, postDocumentsFuzzy.size());
-            log.debug("Search multimatch results for query: {}, posts {}", query, postDocumentsMultimatch.size());
-            postIds = postDocumentsMultimatch.stream().map(PostDocument::getId).toList();
+            postIds = postDocumentsFuzzy.stream().map(PostDocument::getId).toList();
         }
         var postsPage = postsRepository.findFilteredPosts(filter, postIds, page, BATCH_SIZE);
         sw.stop();

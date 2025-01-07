@@ -6,8 +6,8 @@ bth:
     aws:
       url: http://localhost:9000
       s3:
-        accessKey: testuser
-        secretKey: testpassword
+        accessKey: ${S3_ACCESS_KEY}
+        secretKey: ${S3_SECRET_KEY}
         region: us-east-1
         bucket: post-images
 

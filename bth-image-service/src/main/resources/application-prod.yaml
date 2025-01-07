@@ -1,0 +1,7 @@
+bth:
+  image-service:
+    aws:
+      url: https://bth-post-images.s3.eu-central-1.amazonaws.com
+      s3:
+        region: eu-central-1
+        bucket: bth-post-images

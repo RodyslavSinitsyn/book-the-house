@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-restless-dream-a2ci00v3.eu-central-1.aws.neon.tech/bth-db?sslmode=require
+
+  jpa:
+    show-sql: false

@@ -21,7 +21,7 @@ public class PostSubsListener {
             queues = "${bth.rabbit.queue.post-subs-email-queue}")
     public void listen(Message message, @Payload PostCreatedMessage payload) {
         MDC.put("correlationId", message.getMessageProperties().getCorrelationId());
-        log.info("Received post created message: {}", message);
+        log.info("Received post created message: {}", payload);
 
         if (!emailService.isWhiteListed(payload.receiverEmail())) {
             log.debug("Receiver email is not allowed: {}, skip sending email notification", payload.receiverEmail());
