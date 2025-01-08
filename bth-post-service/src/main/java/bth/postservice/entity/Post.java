@@ -47,8 +47,9 @@ public class Post implements HasStringId {
     private PostDetails details;
     @Embedded
     private PostLocation location;
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public String getId() {

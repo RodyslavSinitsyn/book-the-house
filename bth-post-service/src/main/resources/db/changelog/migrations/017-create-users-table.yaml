@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 17
+      author: rsinitsyn
+      comment: Creates 'users' table
+      labels: users
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          not:
+            tableExists:
+              tableName: users
+      rollback:
+        - dropTable:
+            tableName: users
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: users_username_uq
+              - column:
+                  name: friendly_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: users
+            indexName: users_username_idx
+            columns:
+              - column:
+                  name: username

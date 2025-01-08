@@ -5,6 +5,22 @@ html, body {
     padding: 0;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+footer {
+    clear: both;
+    position: relative;
+    height: 125px;
+    margin-top: -125px;
+}
+
 .disabled {
     background-color: lightgrey;
     color: #aaa;

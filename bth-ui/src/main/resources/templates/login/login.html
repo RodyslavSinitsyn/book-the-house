@@ -8,7 +8,7 @@
 <body>
 <header th:replace="~{fragments :: header}"></header>
 <!-- Main Login Form Container -->
-<div class="login-container fadeIn-container flex items-center justify-center min-h-screen">
+<div class="container fadeIn-container max-w-4xl mx-auto px-4 py-6 flex items-center justify-center">
     <div class="login-card w-full max-w-sm bg-white rounded-lg shadow-lg p-8 space-y-6">
         <!-- Title -->
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Login</h2>
@@ -22,5 +22,6 @@
         </a>
     </div>
 </div>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

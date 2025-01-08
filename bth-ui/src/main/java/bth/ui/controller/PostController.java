@@ -68,7 +68,7 @@ public class PostController {
         PostDto post = postService.post(id);
         model.addAttribute("post", post);
         model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
-        model.addAttribute("chatId", getChatId(post.getUserId()));
+        model.addAttribute("chatId", getChatId(post.getUsername()));
         model.addAttribute("userEmail", SessionUtils.getUserEmailIfPresent());
         model.addAttribute("hideDetails", true);
         return "post/post";

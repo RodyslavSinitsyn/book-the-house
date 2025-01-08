@@ -29,7 +29,8 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
 
     @Query("""
             SELECT p.id as id,
-                   p.userId as userId,
+                   p.user.username as username,
+                   p.user.friendlyName as friendlyName,
                    p.title as title,
                    p.details.description as description,
                    p.imageUrl as imageUrl,

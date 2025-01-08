@@ -5,7 +5,8 @@ type Post {
     details: PostDetails
     location: PostLocation
     status: BookingStatus
-    userId: String
+    username: String,
+    friendlyName: String
 }
 
 type PostLocation {

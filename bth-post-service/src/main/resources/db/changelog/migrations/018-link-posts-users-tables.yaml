@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 18
+      author: rsinitsyn
+      comment: Link 'posts' and 'users' by 'user_id'
+      labels: users, posts
+      runAlways: false
+      runOnChange: false
+      preConditions:
+        - onFail: HALT
+          tableExists:
+            tableName: posts
+      rollback:
+        - dropForeignKeyConstraint:
+            constraintName: posts_user_id_fkey
+      changes:
+        - dropColumn:
+            tableName: posts
+            columnName: user_id
+        - addColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: posts
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: posts_user_id_fkey

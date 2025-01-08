@@ -2,6 +2,7 @@ package bth.ui.service;
 
 import bth.common.contract.PostService;
 import bth.common.contract.PostSubscriptionService;
+import bth.common.contract.UserService;
 import bth.common.dto.PostDto;
 import bth.common.dto.PostSubscriptionDto;
 import bth.common.dto.filter.PostsFilterDto;
@@ -19,7 +20,7 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 @Slf4j
-public class PostServiceClient implements PostService, PostSubscriptionService {
+public class PostServiceClient implements PostService, PostSubscriptionService, UserService {
 
     private final HttpSyncGraphQlClient client;
     private final RedisWrapper redisWrapper;
@@ -109,7 +110,8 @@ public class PostServiceClient implements PostService, PostSubscriptionService {
                 title
                 status
                 imageUrl
-                userId
+                username
+                friendlyName
                 details {
                   description
                   availableFrom
@@ -195,5 +197,21 @@ public class PostServiceClient implements PostService, PostSubscriptionService {
                 .variable("userId", userId)
                 .retrieveSync("unsubscribe")
                 .toEntity(PostSubscriptionDto.class);
+    }
+
+    @Override
+    public String registerIfNotExist(String username, String friendlyUsername, String email) {
+        var mutation =
+                """
+                mutation($username: String!, $friendlyUsername: String, $email: String) {
+                  registerIfNotExist(username: $username, friendlyUsername: $friendlyUsername, email: $email)
+                }
+                """;
+        return client.document(mutation)
+                .variable("username", username)
+                .variable("friendlyUsername", friendlyUsername)
+                .variable("email", email)
+                .retrieveSync("registerIfNotExist")
+                .toEntity(String.class);
     }
 }

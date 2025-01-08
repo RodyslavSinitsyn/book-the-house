@@ -2,17 +2,32 @@ package bth.postservice.mapper;
 
 import bth.common.dto.PostDto;
 import bth.postservice.entity.Post;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class PostMapper implements EntityMapper<Post, PostDto> {
 
     private final ModelMapper modelMapper;
+
+    @PostConstruct
+    private void init() {
+        modelMapper.addMappings(new PropertyMap<Post, PostDto>() {
+            @Override
+            protected void configure() {
+                map().getLocation().setCity(source.getLocation().getCity().getName());
+                map().getLocation().setCountry(source.getLocation().getCity().getCountry().getName());
+                map().getLocation().setState(source.getLocation().getCity().getState().getName());
+
+                map().setUsername(source.getUser().getUsername());
+                map().setFriendlyName(source.getUser().getFriendlyName());
+            }
+        });
+    }
 
     @Override
     public Post toEntity(PostDto dto) {
@@ -21,13 +36,6 @@ public class PostMapper implements EntityMapper<Post, PostDto> {
 
     @Override
     public PostDto toDto(Post entity) {
-        var dto = modelMapper.map(entity, PostDto.class);
-        Optional.ofNullable(entity.getLocation())
-                .ifPresent(location -> {
-                    dto.getLocation().setCity(location.getCity().getName());
-                    dto.getLocation().setCountry(location.getCity().getCountry().getName());
-                    dto.getLocation().setState(location.getCity().getState().getName());
-                });
-        return dto;
+        return modelMapper.map(entity, PostDto.class);
     }
 }

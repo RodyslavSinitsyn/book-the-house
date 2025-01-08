@@ -70,6 +70,23 @@
     </div>
 </header>
 
+<!-- Footer fragment -->
+<footer class="bg-gradient-to-r from-blue-100 via-blue-300 to-blue-500 text-white text-center py-4 mt-auto">
+    <div class="container mx-auto">
+        <!-- Copyright -->
+        <p>&copy; 2025 rsinitsyn. All rights reserved.</p>
+
+        <!-- Social Links -->
+        <div class="flex justify-center space-x-4 my-2">
+            <a href="https://www.linkedin.com/in/rodyslav-sinitsyn-68493a1a1/" class="text-white" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/RodyslavSinitsyn" class="text-white" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+
+        <!-- Contact Info -->
+        <p class="my-2">Email: <a href="mailto:radik200058@gmail.com" class="text-white hover:underline">radik200058@gmail.com</a></p>
+    </div>
+</footer>
+
 <th:block th:fragment="noRecords">
     <div class="no-records flex items-center justify-center h-48">
         <div class="bg-gray-100 text-gray-600 text-lg font-medium px-6 py-3 rounded-lg shadow-sm">
@@ -110,6 +127,12 @@
                         th:text="${post.details.availableTo}"></span>
                 </strong>
             </p>
+            <p class="text-base mt-3 line-clamp-3"
+               th:with="isMyPost=${isAuth && #authentication.name == post.username}"
+               th:classappend="${(isMyPost ? 'bg-blue-500' : '') + ' ' + (isMyPost ? 'text-white' : 'text-black-600')}"
+               th:text="${isMyPost ? 'My publication' : 'Posted by: ' + post.friendlyName}">
+                Posted by
+            </p>
             <div class="flex items-center justify-between mt-6">
                 <span class="text-2xl font-bold text-blue-500" th:text="${post.details.price} + '$'">$123</span>
                 <a th:href="@{/posts/details/{id}(id=${post.id})}"
@@ -124,7 +147,7 @@
 
 <th:block th:fragment="postsFilter">
     <aside class="posts-filter w-full md:w-1/3 bg-white shadow-lg rounded-lg p-6 border border-gray-300 flex-shrink-0">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Create</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4" th:if="${isAuth}">Create</h2>
         <form th:action="@{/post}" enctype="multipart/form-data" method="POST" th:if="${isAuth}">
             <div class="mb-4">
                 <label for="postImage" class="block text-gray-600 font-medium mb-1">Image</label>

@@ -10,6 +10,7 @@ import bth.postservice.mapper.PostDistanceMapper;
 import bth.postservice.mapper.PostMapper;
 import bth.postservice.repo.elastic.PostSearchRepository;
 import bth.postservice.repo.jpa.PostsRepository;
+import bth.postservice.repo.jpa.UserRepository;
 import bth.postservice.service.NotificationSender;
 import bth.postservice.service.PostGeneratorService;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -37,6 +38,7 @@ public class PostResolver implements PostService {
 
     private final PostsRepository postsRepository;
     private final PostSearchRepository postSearchRepository;
+    private final UserRepository userRepository;
     private final ElasticsearchClient elasticsearchClient;
     private final PostMapper postMapper;
     private final PostDistanceMapper postDistanceMapper;
@@ -85,9 +87,11 @@ public class PostResolver implements PostService {
     @MutationMapping
     @Transactional
     public PostDto createPost(@Argument("imageUrl") String imageUrl,
-                              @Argument("userId") String userId) {
+                              @Argument("userId") String username) {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new PostNotFoundException("User not exist %s".formatted(username)));
         var post = postGeneratorService.generate();
-        post.setUserId(userId);
+        post.setUser(user);
         post.setImageUrl(imageUrl);
         var savedPost = postsRepository.save(post);
         postSearchRepository.save(createPostDocument(savedPost)); // save to elastic
