@@ -45,9 +45,9 @@ public class RedisWrapper {
     }
 
     @SneakyThrows
-    public <T> void globalSetListWithTtlCheck(String key,
-                                              @NonNull List<T> values,
-                                              Duration ttl) {
+    public <T> void globalSetListIfNotExist(String key,
+                                            @NonNull List<T> values,
+                                            Duration ttl) {
         if (jedis.exists(key)) {
             return;
         }

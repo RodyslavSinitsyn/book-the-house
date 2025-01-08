@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,9 +35,16 @@ public class PostController {
         var postList = postService.posts(page, filter);
         model.addAttribute("posts", postList);
         model.addAttribute("filter", filter);
-        redisWrapper.globalSetListWithTtlCheck("posts_" + page,
-                postList,
-                Duration.ofMinutes(5));
+        if (!filter.isNotEmpty()) {
+            redisWrapper.globalSetListIfNotExist("posts_" + page,
+                    postList,
+                    Duration.ofMinutes(5));
+            redisWrapper.globalSetListIfNotExist("countries",
+                    getDistinctSortedList(postList, post -> post.getLocation().getCountry()),
+                    Duration.ZERO);
+        }
+        model.addAttribute("filterCountries",
+                redisWrapper.globalGetList("countries", String.class));
         return "post/posts";
     }
 
@@ -49,6 +58,14 @@ public class PostController {
         return "post/posts";
     }
 
+    private List<String> getDistinctSortedList(List<PostDto> posts, Function<PostDto, String> mapper) {
+        return posts.stream()
+                .map(mapper)
+                .distinct()
+                .sorted()
+                .toList();
+    }
+
     @SneakyThrows
     @GetMapping("/posts/load")
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
@@ -57,7 +74,7 @@ public class PostController {
         Thread.sleep(Duration.ofSeconds(2).toMillis());
         var postList = postService.posts(page, PostsFilterDto.EMPTY);
         model.addAttribute("posts", postList);
-        redisWrapper.globalSetListWithTtlCheck("posts_" + page,
+        redisWrapper.globalSetListIfNotExist("posts_" + page,
                 postList,
                 Duration.ofMinutes(5));
         return "fragments :: postList";
@@ -82,6 +99,7 @@ public class PostController {
     @PostMapping("/post")
     public String post(@RequestParam("file") MultipartFile file, Model model) {
         facadeService.createPost(file);
+        redisWrapper.getJedis().del("countries");
         return "redirect:/posts";
     }
 }

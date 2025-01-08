@@ -186,12 +186,14 @@
                 <label for="country" class="block text-gray-600 font-medium mb-1">Country</label>
                 <input
                         th:value="${filter.country}"
-                        type="text"
+                        list="countries"
                         id="country"
                         name="country"
-                        placeholder="Enter country"
-                        class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
-                />
+                        placeholder="Choose country"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 focus:outline-none" />
+                <datalist id="countries">
+                    <option th:each="country : ${filterCountries}" th:value="${country}" th:text="${country}">Option</option>
+                </datalist>
             </div>
             <!-- City -->
             <div class="mb-4">
