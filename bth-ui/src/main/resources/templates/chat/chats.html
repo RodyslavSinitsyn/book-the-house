@@ -7,34 +7,39 @@
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4">
-    <div th:if="${chats.isEmpty()}">
-        <div th:replace="fragments :: noRecords"></div>
-    </div>
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-        <tr>
-            <th>Recipient</th>
-            <th>Last Message</th>
-            <th>Unread Count</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through the list of chat objects -->
-        <tr th:each="chat : ${chats}" th:if="${!chat.hide}">
-            <td th:text="${chat.recipient}">Recipient Name</td>
-            <td th:text="${chat.lastMessage}">Last message text</td>
-            <td th:text="${chat.unreadCount}">0</td>
-            <td>
-                <a th:href="@{/chat/{id}/{recipient}(id=${chat.id}, recipient=${chat.recipient})}"
-                   class="btn btn-sm btn-primary">
-                    Open Chat
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div th:if="${chats.isEmpty()}">
+    <div th:replace="fragments :: noRecords"></div>
 </div>
+
+<div class="container max-w-4xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-semibold mb-6">Your Chats</h2>
+    <div class="space-y-4 fadeIn-container">
+        <!-- Chat Item Example -->
+        <div th:each="chat : ${chats}"
+             th:if="${!chat.hide}"
+             class="block p-4 border rounded-lg shadow-md hover:bg-gray-100 cursor-pointer">
+            <a th:href="@{/chat/{id}/{recipient}(id=${chat.id}, recipient=${chat.recipient})}"
+               class="flex flex-col space-y-2">
+                <!-- Sender Name -->
+                <div class="font-semibold text-xl text-gray-800" th:text="${chat.recipient}">Sender Name</div>
+
+                <!-- Last Message Date and Unread Count -->
+                <div class="flex items-center justify-between text-gray-400 text-lg">
+                    <!-- Last Message Text with truncation (Left side) -->
+                    <div class="text-gray-600 truncate mr-4" th:text="${chat.lastMessage}">Last message text...</div>
+
+                    <!-- Last Message Time and Unread Count (Right side) -->
+                    <div class="flex items-center space-x-4">
+                        <span th:text="${chat.lastMessageTime}">MM-DD-YYYY</span>
+                        <div class="flex items-center justify-center w-6 h-6 bg-blue-500 text-white text-xs rounded-full">
+                            <span th:text="${chat.unreadCount}">3</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

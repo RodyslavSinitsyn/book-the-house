@@ -1,0 +1,9 @@
+spring:
+  mail:
+    host: email-smtp.eu-central-1.amazonaws.com
+    port: 587
+    protocol: smtp
+    properties:
+      mail.smtp.starttls.enable: true
+      mail.smtp.auth: true
+      mail.smtp.ssl.trust: email-smtp.eu-central-1.amazonaws.com

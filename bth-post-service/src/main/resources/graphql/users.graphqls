@@ -1,0 +1,3 @@
+extend type Mutation {
+    registerIfNotExist(username: String!, friendlyUsername: String, email: String): String!
+}

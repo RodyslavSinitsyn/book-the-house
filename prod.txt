@@ -1,0 +1,5 @@
+DB:
+https://console.neon.tech/
+
+SES, S3, RabbitMQ:
+https://eu-central-1.console.aws.amazon.com/

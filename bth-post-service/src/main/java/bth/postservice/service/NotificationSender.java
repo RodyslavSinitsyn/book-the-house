@@ -25,8 +25,8 @@ public class NotificationSender {
     @Async("taskExecutor")
     public void notifySubscribers(Post post) {
         var subscriptionList = postSubscriptionRepository
-                .findAllBySubscribedUserIdAndEnabled(post.getUserId(), true);
-        log.debug("Found {} subscribers for user {}", subscriptionList.size(), post.getUserId());
+                .findAllBySubscribedUserIdAndEnabled(post.getUser().getUsername(), true);
+        log.debug("Found {} subscribers for user {}", subscriptionList.size(), post.getUser().getUsername());
         var messages = subscriptionList.stream()
                 .map(sub -> new PostCreatedMessage(
                         sub.getSubscribedUserId(),

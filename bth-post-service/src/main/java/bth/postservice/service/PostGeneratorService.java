@@ -35,7 +35,7 @@ public class PostGeneratorService {
         details.setAvailableTo(LocalDate.now().plusDays(FAKER.number().numberBetween(16, 31)));
         details.setPrice(BigDecimal.valueOf(FAKER.number().randomDouble(2, 100, 10_000)));
 
-        var randomCity = locationGeneratorService.generateCityLocationByCountry("Ukraine");
+        var randomCity = locationGeneratorService.generateCityLocationByRegion("Europe");
         var location = new Post.PostLocation();
         location.setCity(randomCity);
         location.setLocationPoint(
@@ -46,8 +46,6 @@ public class PostGeneratorService {
 
         post.setLocation(location);
         post.setDetails(details);
-
-        post.setUserId(FAKER.name().fullName());
 
         return post;
     }

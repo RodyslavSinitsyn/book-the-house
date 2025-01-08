@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://bth-postgres:5432/bth-db
+
+  elasticsearch:
+    uris: http://bth-elasticsearch:9200

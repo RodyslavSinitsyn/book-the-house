@@ -17,12 +17,12 @@ public class SessionUtils {
                 .orElse(false);
     }
 
-    public String getFriendlyUsername() {
+    public String getUserEmailIfPresent() {
         if (!isAuthenticated()) {
             return getUsername();
         }
         var principal = (OAuth2AuthenticatedPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (String) principal.getAttributes().get("name");
+        return (String) principal.getAttributes().get("email");
     }
 
     public String getUsername() {

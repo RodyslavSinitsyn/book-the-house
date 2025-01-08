@@ -12,5 +12,6 @@ public class PostDto {
     private PostDetailsDto details;
     private PostLocationDto location;
     private BookingStatus status;
-    private String userId;
+    private String username;
+    private String friendlyName;
 }

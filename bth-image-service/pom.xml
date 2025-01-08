@@ -10,7 +10,11 @@
     </parent>
 
     <artifactId>bth-image-service</artifactId>
-    <version>1.8</version>
+    <version>1.9</version>
+
+    <properties>
+        <spring.docs.version>2.5.0</spring.docs.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -33,6 +37,16 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+            <version>${spring.docs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>${spring.docs.version}</version>
+        </dependency>
+        <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>2.29.0</version>
@@ -44,4 +58,21 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>bth.imageservice.BookTheHouseImageServiceApp</mainClass>
+                    <image>
+                        <name>bth-image-service</name>
+                        <tags>
+                            <tag>${version}</tag>
+                        </tags>
+                    </image>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

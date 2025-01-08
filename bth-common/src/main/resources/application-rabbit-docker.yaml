@@ -1,0 +1,4 @@
+spring:
+  rabbitmq:
+    host: bth-rabbitmq
+    port: 5672

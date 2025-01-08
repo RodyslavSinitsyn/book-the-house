@@ -1,0 +1,4 @@
+bth:
+  image-service:
+    aws:
+      url: http://bth-minio:9000

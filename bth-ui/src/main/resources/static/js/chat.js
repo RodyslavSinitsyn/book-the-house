@@ -51,17 +51,18 @@ function appendMessage(text, isSender) {
     const chatMessages = document.getElementById("chat-messages");
 
     // Create message element
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("mb-2", isSender ? "text-end" : "text-start");
+    const messageTemplate = document.getElementById(`message-${isSender ? "sender" : "receiver"}-template`);
+    const newMessage = messageTemplate.content.cloneNode(true);
+    const messageTextElement = newMessage.querySelector(".message-text");
+    messageTextElement.textContent = text;
 
-    const messageContent = document.createElement("div");
-    messageContent.classList.add("alert", "d-inline-block", isSender ? "alert-primary" : "alert-secondary");
-    messageContent.style.maxWidth = "70%";
-    messageContent.textContent = `${text}`;
-
-    messageDiv.appendChild(messageContent);
-    chatMessages.appendChild(messageDiv);
+    chatMessages.appendChild(newMessage);
 
     // Scroll to the bottom of the chat
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const chatMessages = document.getElementById("chat-messages");
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});

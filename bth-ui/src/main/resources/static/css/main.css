@@ -1,0 +1,89 @@
+/* Ensure the body and html take full height of the viewport */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+footer {
+    clear: both;
+    position: relative;
+    height: 125px;
+    margin-top: -125px;
+}
+
+.disabled {
+    background-color: lightgrey;
+    color: #aaa;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.disabled:hover {
+    cursor: not-allowed;
+}
+
+.no-records {
+    animation: shake 1s linear;
+}
+
+.fadeIn-container {
+    animation: fadeIn 1s ease-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/*
+linear - The animation progresses at a constant speed from start to finish.
+ease - A combination of acceleration and deceleration for a smooth effect.
+ease-out - The animation starts fast and slows down as it progresses.
+ease-in - The animation starts slow and speeds up as it progresses.
+ease-in-out - Combines both ease-in and ease-out. Starts slow, speeds up in the middle, and slows down again at the end.
+*/

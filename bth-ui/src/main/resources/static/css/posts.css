@@ -3,17 +3,6 @@
     padding: 10px;
 }
 
-.disabled {
-    background-color: lightgrey;
-    color: #aaa;
-    pointer-events: none;
-    opacity: 0.6;
-}
-
-.disabled:hover {
-    cursor: not-allowed;
-}
-
 .image-wrapper {
     height: 200px;
     display: flex;
@@ -26,4 +15,8 @@
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
+}
+
+.posts-filter {
+    animation: slideIn 0.5s ease-in-out;
 }

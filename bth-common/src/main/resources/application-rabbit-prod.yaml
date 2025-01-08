@@ -1,0 +1,5 @@
+spring:
+  rabbitmq:
+    host: amqps://b-929689fb-e0cb-473b-9d1d-9f1312eb2dcb.mq.eu-central-1.amazonaws.com
+    port: 5671
+    addresses: amqps://b-929689fb-e0cb-473b-9d1d-9f1312eb2dcb.mq.eu-central-1.amazonaws.com

@@ -2,6 +2,63 @@ version: '3.8'
 
 services:
 
+  bth-ui:
+    image: bth-ui:latest
+    container_name: bth-ui
+    env_file:
+      - bth-ui/.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+    networks:
+      - bth-network
+    depends_on:
+      - bth-post-service
+      - redis
+
+  bth-post-service:
+    image: bth-post-service:latest
+    container_name: bth-post-service
+    env_file:
+      - bth-post-service/.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker,rabbit-docker
+    ports:
+      - "8081:8081"
+    networks:
+      - bth-network
+    depends_on:
+      - postgres
+      - rabbitmq
+      - elasticsearch
+
+  bth-image-service:
+    image: bth-image-service:latest
+    container_name: bth-image-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    networks:
+      - bth-network
+    depends_on:
+      - minio
+
+  bth-notificator:
+    image: bth-notificator:latest
+    container_name: bth-notificator
+    env_file:
+      - bth-notificator/.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker,rabbit-docker
+    ports:
+      - "8083:8083"
+    networks:
+      - bth-network
+    depends_on:
+      - rabbitmq
+
   postgres:
     image: postgres:15
     container_name: bth-postgres
@@ -9,23 +66,15 @@ services:
     env_file:
       - bth-post-service/.env
     environment:
-      POSTGRES_USER: bth-user # TODO: Check how to get form env
+      POSTGRES_USER: bth-user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: bth-db
     ports:
       - "5432:5432"
-    volumes:
-      - bth-postgres-data:/var/lib/postgresql/data
-
-  bth-ui:
-    image: bth-ui:latest
-    container_name: bth-ui
-    env_file:
-      - bth-ui/.env
-    ports:
-      - "8080:8080"  # Map local port 8080 to container port 8080
     networks:
       - bth-network
+    volumes:
+      - bth-postgres-data:/var/lib/postgresql/data
 
   # https://hub.docker.com/_/redis
   redis:

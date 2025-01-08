@@ -18,6 +18,21 @@ import java.util.UUID;
 @Setter
 @ToString
 @EqualsAndHashCode(of = "id")
+@NamedEntityGraph(
+        name = "Post.single",
+        attributeNodes = {
+                @NamedAttributeNode(value = "location", subgraph = "location-subgraph")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "location-subgraph", attributeNodes = {
+                        @NamedAttributeNode(value = "city", subgraph = "city-subgraph")
+                }),
+                @NamedSubgraph(name = "city-subgraph", attributeNodes = {
+                        @NamedAttributeNode("state"),
+                        @NamedAttributeNode("country")
+                })
+        }
+)
 public class Post implements HasStringId {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,8 +47,9 @@ public class Post implements HasStringId {
     private PostDetails details;
     @Embedded
     private PostLocation location;
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public String getId() {
@@ -55,7 +71,7 @@ public class Post implements HasStringId {
     public static class PostLocation {
         public static final int SRID = 4326;
 
-        @ManyToOne(fetch = FetchType.EAGER)
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "city_id", nullable = false)
         private City city;
         @Column(nullable = false, columnDefinition = "geometry(Point,4326)")

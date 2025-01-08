@@ -8,6 +8,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class MdcAppenderHttpInterceptor implements ClientHttpRequestInterceptor {
@@ -17,7 +18,9 @@ public class MdcAppenderHttpInterceptor implements ClientHttpRequestInterceptor 
                                         byte[] body,
                                         ClientHttpRequestExecution execution)
             throws IOException {
-        request.getHeaders().add("X-Correlation-ID", MDC.get("correlationId"));
+        Optional.ofNullable(MDC.get("correlationId"))
+                .ifPresent(correlationId ->
+                        request.getHeaders().add("X-Correlation-ID", correlationId));
         return execution.execute(request, body);
     }
 }

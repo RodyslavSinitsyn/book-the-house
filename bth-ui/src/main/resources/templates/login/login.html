@@ -3,29 +3,25 @@
 <head>
     <th:block th:replace="~{fragments :: commonHead}"/>
     <title>Login</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<div class="container text-center">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-6">
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
-                    <h3 class="card-title mb-4">Login to Your Account</h3>
-
-                    <!-- Login with Google -->
-                    <a href="/oauth2/authorization/google" class="btn btn-danger w-100 mb-3">
-                        <i class="fab fa-google me-2"></i> Login with Google
-                    </a>
-
-                    <!-- Login with GitHub -->
-                    <a href="/oauth2/authorization/github" class="btn btn-dark w-100">
-                        <i class="fab fa-github me-2"></i> Login with GitHub
-                    </a>
-                </div>
-            </div>
-        </div>
+<!-- Main Login Form Container -->
+<div class="container fadeIn-container max-w-4xl mx-auto px-4 py-6 flex items-center justify-center">
+    <div class="login-card w-full max-w-sm bg-white rounded-lg shadow-lg p-8 space-y-6">
+        <!-- Title -->
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Login</h2>
+        <!-- Google Login Button -->
+        <a href="/oauth2/authorization/google" class="w-full inline-block text-center py-3 px-4 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transition duration-300">
+            Login with Google
+        </a>
+        <!-- GitHub Login Button -->
+        <a href="/oauth2/authorization/github" class="w-full inline-block text-center py-3 px-4 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-900 transition duration-300">
+            Login with GitHub
+        </a>
     </div>
 </div>
+<footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>

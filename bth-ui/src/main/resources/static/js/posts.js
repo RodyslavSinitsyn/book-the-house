@@ -39,5 +39,14 @@ async function loadMorePosts() {
 // Add event listener to the "Load More" button
 document.addEventListener("DOMContentLoaded", function () {
     const loadMoreButton = document.getElementById("load-more-button");
-    loadMoreButton.addEventListener("click", loadMorePosts);
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMorePosts);
+    }
+
+    const clearButton = document.getElementById('clear-filters-button');
+    const filterForm = document.getElementById('posts-filter-form');
+    clearButton.addEventListener("click", e => {
+        filterForm.reset();
+        window.location.assign('/posts')
+    });
 });

@@ -7,6 +7,7 @@ public class Chat {
     private String id;
     private String recipient;
     private String lastMessage;
+    private String lastMessageTime;
     private int unreadCount;
     private boolean hide = false;
 }
