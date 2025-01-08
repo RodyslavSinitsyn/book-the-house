@@ -3,49 +3,57 @@
 <head>
     <th:block th:replace="~{fragments :: commonHead}"/>
     <title>Subscriptions</title>
+    <link th:href="@{/css/subscriptions.css}" rel="stylesheet"/>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4">
-    <div th:if="${subscriptions.isEmpty()}">
-        <div th:replace="fragments :: noRecords"></div>
-    </div>
-    <table class="table table-striped table-hover" th:if="${!subscriptions.isEmpty()}">
-        <thead class="table-dark">
-        <tr>
-            <th>Email</th>
-            <th>Subscribed User ID</th>
-            <th>Created At</th>
-            <th>Enabled</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="subscription : ${subscriptions}">
-            <td th:text="${subscription.email}"></td>
-            <td th:text="${subscription.subscribedUserId}"></td>
-            <td th:text="${subscription.createdAt}"></td>
-            <td>
-                    <span th:classappend="${subscription.enabled ? 'badge bg-success' : 'badge bg-danger'}"
-                          th:text="${subscription.enabled ? 'Enabled' : 'Disabled'}"></span>
-            </td>
-            <td>
-                <button class="btn btn-sm btn-primary"
-                        th:if="${!subscription.enabled}"
-                        th:attr="onclick='enableSubscription(' + ${subscription.subscribedUserId} + ')'"
-                        type="button">Enable
-                </button>
-                <button class="btn btn-sm btn-danger"
-                        th:if="${subscription.enabled}"
-                        th:attr="onclick='disableSubscription(' + ${subscription.subscribedUserId} + ')'"
-                        type="button">Disable
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div th:if="${subscriptions.isEmpty()}">
+    <th:block th:replace="fragments :: noRecords" />
 </div>
+
+<div class="container max-w-4xl mx-auto px-4 py-6" th:if="${!subscriptions.isEmpty()}">
+    <h2 class="text-2xl font-semibold mb-6">Your Subscriptions</h2>
+
+    <!-- Table Container -->
+    <div class="subscriptions-container overflow-x-auto fadeIn-container">
+
+        <!-- Table -->
+        <table class="min-w-full table-auto">
+            <!-- Table Header -->
+            <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2 text-left text-gray-700">Subscribed User ID</th>
+                <th class="px-4 py-2 text-left text-gray-700">Created At</th>
+                <th class="px-4 py-2 text-center text-gray-700">Enabled</th>
+                <th class="px-4 py-2 text-center text-gray-700">Action</th>
+            </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+            <!-- Subscription Item 1 -->
+            <tr class="border-b" th:each="subscription : ${subscriptions}">
+                <td th:text="${subscription.subscribedUserId}" class="px-4 py-2 text-gray-500">12345</td>
+                <td th:text="${subscription.createdAt}" class="px-4 py-2 text-gray-500">2025-01-01</td>
+                <td th:text="${subscription.enabled}" class="px-4 py-2 text-center" th:classappend="${subscription.enabled ? 'text-green-500' : 'text-red-500'}">Enabled</td>
+                <td class="px-4 py-2 text-center">
+                    <button class="text-blue-500 hover:underline"
+                            th:if="${!subscription.enabled}"
+                            th:attr="onclick='enableSubscription(' + ${subscription.subscribedUserId} + ')'"
+                            type="button">Subscribe
+                    </button>
+                    <button class="text-blue-500 hover:underline"
+                            th:if="${subscription.enabled}"
+                            th:attr="onclick='disableSubscription(' + ${subscription.subscribedUserId} + ')'"
+                            type="button">Unsubscribe
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <script th:src="@{/js/subscriptions.js}" type="text/javascript"></script>
 </body>
 </html>

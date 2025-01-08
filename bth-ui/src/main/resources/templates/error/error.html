@@ -3,14 +3,24 @@
 <head>
     <th:block th:replace="~{fragments :: commonHead}"/>
     <title>Error</title>
+    <link th:href="@{/css/error.css}" rel="stylesheet"/>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<section class="section">
-    <div class="container">
-        <h1 class="title">Something went wrong.</h1>
-        <p th:text="${errorMessage}"></p>
-    </div>
-</section>
+<!-- Error Page Content -->
+<div class="error-container fadeIn-container">
+    <!-- Crashing House Image -->
+    <img src="/img/crashing-house.webp" alt="Crashing House"
+         class="w-56 h-56 mb-6 shake-animation">
+    <!-- Error Message -->
+    <h1 class="text-6xl font-bold text-red-600 mb-4">Oops!</h1>
+    <p class="text-gray-700 text-2xl mb-6">
+        <span th:text="${errorMessage}">Something went wrong. Try refreshing the page or come back later.</span>
+    </p>
+    <!-- Go Home Button -->
+    <a href="/posts" class="text-2l bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600">
+        Go Home
+    </a>
+</div>
 </body>
 </html>

@@ -10,10 +10,9 @@ function enableSubscription(subUserId) {
         })
         .then(response => {
             if (response.ok) {
-                alert('Subscription enabled');
-                location.reload();
+                showInfoNotification('Subscription enabled', 1000, () => location.reload());
             } else {
-                alert('Failed to enable subscription');
+                showInfoNotification('Failed to enable subscription');
             }
         });
 }
@@ -30,10 +29,10 @@ function disableSubscription(subUserId) {
         })
         .then(response => {
             if (response.ok) {
-                alert('Subscription disabled');
-                location.reload();
+                showInfoNotification('Subscription disabled', 1000, () => location.reload());
+                // location.reload();
             } else {
-                alert('Failed to disable subscription');
+                showInfoNotification('Failed to disable subscription');
             }
         });
 }

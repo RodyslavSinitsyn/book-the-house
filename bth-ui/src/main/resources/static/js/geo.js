@@ -16,11 +16,11 @@ function getGeoCoordinates() {
                 });
             }, function(error) {
                 console.error("Error occurred: ", error);
-                alert("Geolocation is not available or permission is denied.");
+                showInfoNotification("Geolocation is not available or permission is denied.");
                 reject(error);
             });
         } else {
-            alert("Geolocation is not supported by your browser.");
+            showInfoNotification("Geolocation is not supported by your browser.");
             reject(new Error("Geolocation not supported"));
         }
     });

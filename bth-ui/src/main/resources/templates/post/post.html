@@ -6,26 +6,51 @@
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
-<th:block th:replace="~{fragments :: postCard(post=${post})}"/>
-<a th:href="@{/chat/{chatId}/{recipientId}(chatId=${chatId}, recipientId=${post.userId})}"
-   class="btn btn-primary"
-   th:if="${isAuth and post.userId != authenticatedUserId}">Start chat</a>
-<form id="post-subscribe-form" th:action="@{/subscribe}" method="POST"
-      th:if="${isAuth and post.userId != authenticatedUserId}">
-    <div class="form-group">
-        <div>
-            <label for="post-subscribe-user-id">User ID:</label>
-            <input th:value="${post.userId}"
-                   type="text" id="post-subscribe-user-id" name="userId" class="form-control" readonly>
-        </div>
-        <div>
-            <label for="post-subscribe-email">Email:</label>
-            <input th:value="${userEmail}" th:attr="readonly=${userEmail != null ? 'readonly' : null}"
-                   type="email" id="post-subscribe-email" name="email" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">Subscribe to User updates</button>
+
+<div class="container max-w-4xl mx-auto px-4 py-6">
+    <div th:replace="~{fragments :: postCard(post=${post})}"></div>
+
+    <div class="post-card fadeIn-container max-w-3xl mx-auto mt-4 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300">
+        <!-- Start Chat Button -->
+        <a th:href="@{/chat/{chatId}/{recipientId}(chatId=${chatId}, recipientId=${post.userId})}"
+           th:if="${isAuth and post.userId != authenticatedUserId}"
+           class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 flex items-center justify-center space-x-2"
+           title="Start a conversation with the post owner">
+            Start chat
+        </a>
+        <!-- Subscribe Form -->
+        <form id="post-subscribe-form"
+              th:action="@{/subscribe}"
+              method="POST"
+              th:if="${isAuth and post.userId != authenticatedUserId}">
+            <div class="space-y-4 mt-4">
+                <!-- User ID Input -->
+                <div class="mb-4">
+                    <label for="post-subscribe-user-id" class="block text-gray-700 font-medium">User ID:</label>
+                    <input th:value="${post.userId}"
+                           type="text" id="post-subscribe-user-id" name="userId"
+                           class="w-full border-gray-300 rounded-md p-2 bg-gray-200"
+                           readonly>
+                </div>
+                <!-- Email Input with Dynamic Readonly -->
+                <div class="mb-4">
+                    <label for="post-subscribe-email" class="block text-gray-700 font-medium">Email:</label>
+                    <input th:value="${userEmail}"
+                           th:classappend="${userEmail != null ? 'bg-gray-200' : ''}"
+                           th:attr="readonly=${userEmail != null ? 'readonly' : null}"
+                           type="email" id="post-subscribe-email" name="email"
+                           class="w-full border-gray-300 rounded-md p-2"
+                           placeholder="Enter your email address">
+                </div>
+                <!-- Subscription Button -->
+                <button type="submit"
+                        class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 flex items-center justify-center space-x-2">
+                    <span>Subscribe to User Updates</span>
+                </button>
+            </div>
+        </form>
     </div>
-</form>
+</div>
 <script th:src="@{/js/post-subscription.js}" type="text/javascript"></script>
 </body>
 </html>

@@ -15,10 +15,10 @@ document.querySelector('#post-subscribe-form').addEventListener('submit', functi
         .then(response => response.text())
         .then(data => {
             console.log(data)
-            alert(data);
+            showInfoNotification("Successfully subscribed on user updates");
         })
         .catch(error => {
             console.error(error)
-            alert('Error:', error);
+            showInfoNotification('Not subscribed, try later');
         });
 });

@@ -54,6 +54,7 @@ public class PostController {
     public String loadPosts(@RequestParam(name = "page", defaultValue = "1", required = false) int page,
                             Model model) {
 //         TODO: Get filters from AJAX
+        Thread.sleep(Duration.ofSeconds(2).toMillis());
         var postList = postService.posts(page, PostsFilterDto.EMPTY);
         model.addAttribute("posts", postList);
         redisWrapper.globalSetListWithTtlCheck("posts_" + page,
@@ -69,6 +70,7 @@ public class PostController {
         model.addAttribute("authenticatedUserId", SessionUtils.getUsername());
         model.addAttribute("chatId", getChatId(post.getUserId()));
         model.addAttribute("userEmail", SessionUtils.getUserEmailIfPresent());
+        model.addAttribute("hideDetails", true);
         return "post/post";
     }
 

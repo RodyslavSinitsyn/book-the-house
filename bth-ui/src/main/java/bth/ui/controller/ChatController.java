@@ -3,6 +3,7 @@ package bth.ui.controller;
 import bth.common.models.chat.Chat;
 import bth.common.models.chat.ChatMessage;
 import bth.ui.service.RedisWrapper;
+import bth.ui.utils.DateUtils;
 import bth.ui.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 @Controller
@@ -43,9 +41,12 @@ public class ChatController {
                     .filter(m -> m.getRecipientId().equals(SessionUtils.getUsername()))
                     .filter(m -> !m.isRead())
                     .count();
-            String lastMessage = CollectionUtils.lastElement(chatMessages).getText();
             chat.setUnreadCount(unreadCount);
-            chat.setLastMessage(lastMessage);
+            Optional.ofNullable(CollectionUtils.lastElement(chatMessages))
+                    .ifPresent(lastMessage -> {
+                        chat.setLastMessage(lastMessage.getText());
+                        chat.setLastMessageTime(DateUtils.toDateTime(lastMessage.getTimestamp()));
+                    });
         });
         model.addAttribute("chats", chats);
         return "chat/chats";

@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostResolver implements PostService {
-    private static final int BATCH_SIZE = 30;
+    private static final int BATCH_SIZE = 50; // TODO: Fix JPA with join + pageable
 
     private final PostsRepository postsRepository;
     private final PostSearchRepository postSearchRepository;
