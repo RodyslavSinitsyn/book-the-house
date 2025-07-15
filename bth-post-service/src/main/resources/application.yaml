@@ -16,7 +16,8 @@ spring:
   datasource:
     username: ${DB_USER:bth-user}
     password: ${DB_PASSWORD:password}
-    url: jdbc:postgresql://localhost:5432/bth-db
+    url: jdbc:p6spy:postgresql://localhost:5432/bth-db
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -24,7 +25,6 @@ spring:
       ddl-auto: validate
       naming:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy # underscore
-    show-sql: true
     open-in-view: false
 
   liquibase:
@@ -53,3 +53,4 @@ management:
 logging:
   level:
     org.springframework: info
+    p6spy: debug

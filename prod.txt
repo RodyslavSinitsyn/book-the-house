@@ -3,3 +3,8 @@ https://console.neon.tech/
 
 SES, S3, RabbitMQ:
 https://eu-central-1.console.aws.amazon.com/
+
+# Postgres commands
+Postgis:
+apt-get update
+apt-get install -y postgis postgresql-15-postgis-3
