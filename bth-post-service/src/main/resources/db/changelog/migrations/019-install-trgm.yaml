@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19
+      author: rsinitsyn
+      comment: Install 'pg_trgm' extension
+      labels: search
+      runAlways: false
+      runOnChange: false
+      changes:
+        - sql: "CREATE EXTENSION IF NOT EXISTS pg_trgm;"

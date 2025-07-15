@@ -4,6 +4,7 @@ server:
 bth:
   post-service:
     bad-enabled: false
+    elastic-search: false
 
 spring:
   application:

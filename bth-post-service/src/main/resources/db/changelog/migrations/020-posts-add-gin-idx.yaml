@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20
+      author: rsinitsyn
+      comment: Add GIN index for full-text search on posts (title + description)
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      changes:
+        - sql: "CREATE INDEX posts_search_idx ON posts USING GIN (to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')));"

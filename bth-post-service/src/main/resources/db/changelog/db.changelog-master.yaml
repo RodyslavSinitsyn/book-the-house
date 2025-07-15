@@ -35,3 +35,7 @@ databaseChangeLog:
       file: db/changelog/migrations/017-create-users-table.yaml
   - include:
       file: db/changelog/migrations/018-link-posts-users-tables.yaml
+  - include:
+      file: db/changelog/migrations/019-install-trgm.yaml
+  - include:
+      file: db/changelog/migrations/020-posts-add-gin-idx.yaml
