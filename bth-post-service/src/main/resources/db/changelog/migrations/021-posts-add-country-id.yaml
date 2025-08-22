@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 021-add-country-id-column
+      author: rsinitsyn
+      comment: Add 'country_id' column to 'posts' table for partitioning by country
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      rollback:
+        - dropColumn:
+            tableName: posts
+            columnName: country_id
+      changes:
+        - addColumn:
+            tableName: posts
+            columns:
+              - column:
+                  name: country_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: 021-migrate-country-id
+      author: rsinitsyn
+      comment: Migrate existing data to set 'country_id' based on existing 'city_id'
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      rollback:
+        - sql: "
+            UPDATE posts
+            SET country_id = NULL;
+          "
+      changes:
+        - sql: "
+                UPDATE posts
+                SET country_id = c.country_id
+                FROM cities c
+                WHERE posts.city_id = c.id;
+          "
+
+  - changeSet:
+      id: 021-set-country-id-not-null
+      author: rsinitsyn
+      comment: Add foreign key constraint and set 'country_id' as NOT NULL
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      rollback:
+        - dropForeignKeyConstraint:
+            constraintName: posts_country_id_fkey
+            baseTableName: posts
+        - dropNotNullConstraint:
+            tableName: posts
+            columnName: country_id
+      changes:
+        - addNotNullConstraint:
+            tableName: posts
+            columnName: country_id
+            columnDataType: bigint
+        - addForeignKeyConstraint:
+            baseTableName: posts
+            baseColumnNames: country_id
+            referencedTableName: countries
+            referencedColumnNames: id
+            constraintName: posts_country_id_fkey
+            validate: true
