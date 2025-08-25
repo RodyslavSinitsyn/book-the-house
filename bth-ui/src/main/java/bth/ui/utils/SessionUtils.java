@@ -21,11 +21,20 @@ public class SessionUtils {
         if (!isAuthenticated()) {
             return getUsername();
         }
-        var principal = (OAuth2AuthenticatedPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (String) principal.getAttributes().get("email");
+        return getCurrentAppUser().getEmail();
     }
 
     public String getUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return isAuthenticated()
+                ? getCurrentAppUser().getFullName()
+                : "anonymousUser";
+    }
+
+    public CurrentAppUser getCurrentAppUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof CurrentAppUser currentAppUser) {
+            return currentAppUser;
+        }
+        return null;
     }
 }
