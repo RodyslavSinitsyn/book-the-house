@@ -25,10 +25,12 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -62,8 +64,12 @@ public class PostResolver implements PostService {
                     .toList();
         }
         if (StringUtils.isNotEmpty(filter.getQuery())) {
-            var posts = postsRepository.searchPosts(filter.getQuery(), BATCH_SIZE, page);
-            log.debug("GIN Search results for query: {}, posts {}", filter.getQuery(), posts.size());
+            var posts = postsRepository.searchPosts(buildSearchQuery(filter.getQuery(), '&'), BATCH_SIZE, page);
+            log.debug("GIN Search AND results for query: {}, posts {}", filter.getQuery(), posts.size());
+            if (posts.isEmpty()) {
+                posts = postsRepository.searchPosts(buildSearchQuery(filter.getQuery(), '|'), BATCH_SIZE, page);
+                log.debug("GIN Search OR results for query: {}, posts {}", filter.getQuery(), posts.size());
+            }
             return posts.stream().map(postMapper::toDto).toList();
         }
         var postsPage = postsRepository.findFilteredPosts(filter, Collections.emptyList(), page, BATCH_SIZE);
@@ -75,6 +81,12 @@ public class PostResolver implements PostService {
         return postsPage.stream()
                 .map(postMapper::toDto)
                 .toList();
+    }
+
+    private String buildSearchQuery(String query, char operator) {
+        return Arrays.stream(query.split(" "))
+                .map(String::trim)
+                .collect(Collectors.joining(" %s ".formatted(operator)));
     }
 
     @Override

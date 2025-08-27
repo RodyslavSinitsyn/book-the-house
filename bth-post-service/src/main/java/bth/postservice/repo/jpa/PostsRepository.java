@@ -59,11 +59,11 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
     @Query(value = """
             SELECT *, ts_rank_cd(
                 to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')),
-                plainto_tsquery('english', :query)
+                to_tsquery('english', :query)
             ) AS rank
             FROM posts
             WHERE to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, ''))
-                  @@ plainto_tsquery('english', :query)
+                  @@ to_tsquery('english', :query)
             ORDER BY rank DESC
             LIMIT :limit OFFSET :offset
             """, nativeQuery = true)
