@@ -137,7 +137,7 @@ services:
     container_name: bth-kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://bth-elasticsearch:9200
-      - ELASTICSEARCH_SERVICEACCOUNTTOKEN=AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zYTpiSDdNbndhMlFoT0tnZkdSclZTQ2JR
+      - ELASTICSEARCH_SERVICEACCOUNTTOKEN=AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zYToxUXEwQkllaVRicTNtemd4YXBGTjhB
     ports:
       - "5601:5601"
     networks:

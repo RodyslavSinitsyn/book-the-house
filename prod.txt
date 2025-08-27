@@ -8,3 +8,6 @@ https://eu-central-1.console.aws.amazon.com/
 Postgis:
 apt-get update
 apt-get install -y postgis postgresql-15-postgis-3
+
+# Generate token for Kibana (in the Elasticsearch container)
+bin/elasticsearch-service-tokens create elastic/kibana kibana-sa
