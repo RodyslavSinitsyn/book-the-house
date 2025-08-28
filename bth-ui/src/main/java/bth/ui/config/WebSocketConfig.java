@@ -30,13 +30,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
                 .addInterceptors(new HandshakeInterceptor() {
                     @Override
-                    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+                    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
+                                                   WebSocketHandler wsHandler,
+                                                   Map<String, Object> attributes) throws Exception {
                         log.trace("Before handshake completed");
                         return true;
                     }
 
                     @Override
-                    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
+                    public void afterHandshake(ServerHttpRequest request,
+                                               ServerHttpResponse response,
+                                               WebSocketHandler wsHandler, Exception exception) {
                         log.trace("After handshake completed");
                     }
                 })

@@ -105,7 +105,10 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
 
     static Specification<Post> hasCountry(String country) {
         return (root, query, criteriaBuilder) ->
-                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location").get("city").get("country").get("name"), country);
+                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location")
+                        .get("city")
+                        .get("country")
+                        .get("name"), country);
     }
 
     static Specification<Post> hasCity(String city) {

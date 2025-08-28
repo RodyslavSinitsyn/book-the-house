@@ -3,7 +3,6 @@ package bth.ui.utils;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.util.Optional;
 
