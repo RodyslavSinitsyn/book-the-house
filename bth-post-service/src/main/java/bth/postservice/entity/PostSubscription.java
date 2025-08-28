@@ -19,7 +19,7 @@ public class PostSubscription implements HasStringId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 
     @Column
     private String userId;
