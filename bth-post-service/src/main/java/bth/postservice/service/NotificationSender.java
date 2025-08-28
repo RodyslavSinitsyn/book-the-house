@@ -22,7 +22,7 @@ public class NotificationSender {
     private final AmqpTemplate amqpTemplate;
     private final MessagePostProcessor mdcMessagePostProcessor;
 
-    @Async("taskExecutor")
+    @Async("notificationsTaskExecutor")
     public void notifySubscribers(Post post) {
         var subscriptionList = postSubscriptionRepository
                 .findAllBySubscribedUserIdAndEnabled(post.getUser().getUsername(), true);

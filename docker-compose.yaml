@@ -172,11 +172,29 @@ services:
     networks:
       - bth-network
 
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.5-alpine
+    container_name: bth-clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9009:9009"
+    environment:
+      - CLICKHOUSE_DB=bth_db
+      - CLICKHOUSE_USER=bth-user
+      - CLICKHOUSE_PASSWORD=bth-password
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    volumes:
+      - bth-clickhouse-data:/var/lib/clickhouse
+    networks:
+      - bth-network
+
 volumes:
   bth-postgres-data:
   bth-localstack-data:
   bth-minio-data:
   bth-elasticsearch-data:
+  bth-clickhouse-data:
 
 networks:
   bth-network:

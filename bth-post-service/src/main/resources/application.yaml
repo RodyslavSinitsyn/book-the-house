@@ -3,6 +3,7 @@ server:
 
 bth:
   post-service:
+    monitoring-enabled: true
     bad-enabled: false
     elastic-search: true
 
@@ -20,6 +21,11 @@ spring:
     url: jdbc:p6spy:postgresql://localhost:5432/bth-db
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 
+    clickhouse:
+      url: jdbc:clickhouse://localhost:8123/bth_db
+      username: bth-user
+      password: "bth-password"
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -31,6 +37,9 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
+    url: jdbc:postgresql://localhost:5432/bth-db
+    user: ${DB_USER:bth-user}
+    password: ${DB_PASSWORD:password}
 
   data:
     elasticsearch:
@@ -55,3 +64,4 @@ logging:
   level:
     org.springframework: info
     p6spy: debug
+    com.clickhouse.jdbc: debug
