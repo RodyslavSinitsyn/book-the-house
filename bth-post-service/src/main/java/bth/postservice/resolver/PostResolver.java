@@ -25,10 +25,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -56,20 +53,20 @@ public class PostResolver implements PostService {
         var sw = StopWatch.createStarted();
         if (StringUtils.isNotEmpty(filter.getQuery()) && elasticSearch) {
             var query = filter.getQuery();
-            var postDocumentsFuzzy = postSearchRepository.findFuzzy(query, elasticsearchClient);
-            log.debug("Search fuzzy results for query: {}, posts {}", query, postDocumentsFuzzy.size());
-            var postIds = postDocumentsFuzzy.stream().map(PostDocument::getId).toList();
-            return postsRepository.findAllById(postIds).stream()
+            var postDocuments = postSearchRepository.searchPosts(query, BATCH_SIZE, elasticsearchClient);
+            log.debug("Elastic Search results for query: {}, posts {}", query, postDocuments.size());
+            var postIds = postDocuments.stream().map(PostDocument::getId).toList();
+            var postsById = postsRepository.findAllById(postIds).stream()
+                    .collect(Collectors.toMap(Post::getId, post -> post));
+            return postIds.stream()
+                    .map(postId -> postsById.get(postId.toString()))
+                    .filter(Objects::nonNull)
                     .map(postMapper::toDto)
                     .toList();
         }
         if (StringUtils.isNotEmpty(filter.getQuery())) {
-            var posts = postsRepository.searchPosts(buildSearchQuery(filter.getQuery(), '&'), BATCH_SIZE, page);
-            log.debug("GIN Search AND results for query: {}, posts {}", filter.getQuery(), posts.size());
-            if (posts.isEmpty()) {
-                posts = postsRepository.searchPosts(buildSearchQuery(filter.getQuery(), '|'), BATCH_SIZE, page);
-                log.debug("GIN Search OR results for query: {}, posts {}", filter.getQuery(), posts.size());
-            }
+            var posts = postsRepository.searchPosts(buildSearchQuery(filter.getQuery(), '|'), BATCH_SIZE, page);
+            log.debug("GIN Search results for query: {}, posts {}", filter.getQuery(), posts.size());
             return posts.stream().map(postMapper::toDto).toList();
         }
         var postsPage = postsRepository.findFilteredPosts(filter, Collections.emptyList(), page, BATCH_SIZE);
