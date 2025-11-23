@@ -51,6 +51,27 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
     List<PostDistanceProjection> findAllPostsOrderedByDistance(@Param("longitude") double longitude,
                                                                @Param("latitude") double latitude);
 
+
+//    to_tsquery → strict, expects proper syntax (will throw error for bad input)
+//    plainto_tsquery → safe for user input (plain text → AND search)
+//    phraseto_tsquery → phrase match (words appear in sequence)
+//    websearch_to_tsquery → best for user-facing search, parses Google-like syntax
+    @Query(value = """
+            SELECT *, ts_rank_cd(
+                to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')),
+                to_tsquery('english', :query)
+            ) AS rank
+            FROM posts
+            WHERE to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, ''))
+                  @@ to_tsquery('english', :query)
+            ORDER BY rank DESC
+            LIMIT :limit OFFSET :offset
+            """, nativeQuery = true)
+    List<Post> searchPosts(@Param("query") String query,
+                           @Param("limit") int limit,
+                           @Param("offset") int offset);
+
+
     default Page<Post> findFilteredPosts(PostsFilterDto filter,
                                          Collection<UUID> ids,
                                          int page,
@@ -84,7 +105,10 @@ public interface PostsRepository extends JpaRepository<Post, UUID>, JpaSpecifica
 
     static Specification<Post> hasCountry(String country) {
         return (root, query, criteriaBuilder) ->
-                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location").get("city").get("country").get("name"), country);
+                StringUtils.isEmpty(country) ? null : criteriaBuilder.equal(root.get("location")
+                        .get("city")
+                        .get("country")
+                        .get("name"), country);
     }
 
     static Specification<Post> hasCity(String city) {

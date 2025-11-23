@@ -19,7 +19,9 @@ import java.util.concurrent.TimeUnit;
 public class RequestTimeFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
@@ -28,9 +30,11 @@ public class RequestTimeFilter extends OncePerRequestFilter {
 
         stopWatch.stop();
         if (isStaticContent(request.getRequestURI())) {
-            log.trace("Static request completed. {}, {} ms", request.getRequestURI(), stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
+            log.trace("Static request completed. {}, {} ms",
+                    request.getRequestURI(), stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
         } else {
-            log.debug("HTTP request completed. {}, {} ms", request.getRequestURI(), stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
+            log.debug("HTTP request completed. {}, {} ms",
+                    request.getRequestURI(), stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
         }
     }
 

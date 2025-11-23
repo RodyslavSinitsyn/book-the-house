@@ -23,7 +23,7 @@ public class FacadeService {
             if (!file.isEmpty()) {
                 imageId = imageService.uploadImage(file.getBytes());
             }
-            return postService.createPost(imageId, SessionUtils.getUsername());
+            return postService.createPost(imageId, SessionUtils.getCurrentAppUser().getExternalId());
         } catch (PostServiceException e) {
             if (!file.isEmpty()) {
                 log.error("Deleting saved image due to 'post-service' error: {}", e.getMessage());

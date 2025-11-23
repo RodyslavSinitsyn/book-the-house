@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>bth-image-service</artifactId>
-    <version>1.9</version>
+    <version>2.0</version>
 
     <properties>
         <spring.docs.version>2.5.0</spring.docs.version>
@@ -72,6 +72,14 @@
                         </tags>
                     </image>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

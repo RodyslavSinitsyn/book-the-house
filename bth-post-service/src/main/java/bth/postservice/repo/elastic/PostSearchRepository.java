@@ -2,9 +2,11 @@ package bth.postservice.repo.elastic;
 
 import bth.postservice.entity.PostDocument;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import lombok.SneakyThrows;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -15,37 +17,29 @@ import java.util.UUID;
 
 @Repository
 public interface PostSearchRepository extends ElasticsearchRepository<PostDocument, UUID> {
-    List<PostDocument> findAllByTitleOrDescriptionContainingIgnoreCase(String title, String description);
-
 
     @SneakyThrows
-    default List<PostDocument> findMultimatch(String queryVal, ElasticsearchClient client) {
-        // Create a MultiMatch query to search across title and description fields
-        var multiMatchQuery = new MultiMatchQuery.Builder()
-                .query(queryVal)
-                .fields("title", "description")
-                .fuzziness("2")
-                .build();
-        var searchResponse = client.search(s -> s.index("posts").query(q -> q.multiMatch(multiMatchQuery)), PostDocument.class);
-        return searchResponse.hits().hits().stream().map(Hit::source).toList();
-    }
+    default List<PostDocument> searchPosts(String queryVal, int size, ElasticsearchClient client) {
+        MultiMatchQuery multiMatchQuery = MultiMatchQuery.of(
+                match -> match.query(queryVal)
+                        .fields("title^2", "description")
+                        .type(TextQueryType.MostFields)
+                        .operator(Operator.Or)
+                        .fuzziness("AUTO")
+                        .minimumShouldMatch("50%")
+                        .analyzer("english"));
 
-    @SneakyThrows
-    default List<PostDocument> findFuzzy(String queryVal, ElasticsearchClient client) {
-        var query = Query.of(q -> q.bool(b -> b
-                .should(s -> s.fuzzy(fuzzyQuery("title", queryVal)))
-                .should(s -> s.fuzzy(fuzzyQuery("description", queryVal)))
-        ));
-        var searchResponse = client.search(s -> s.index("posts").query(query), PostDocument.class);
-        return searchResponse.hits().hits().stream().map(Hit::source).toList();
-    }
+        Query query = Query.of(q -> q.multiMatch(multiMatchQuery));
 
-    private FuzzyQuery fuzzyQuery(String field, String queryVal) {
-        return new FuzzyQuery.Builder()
-                .field(field)
-                .value(queryVal)
-                .fuzziness("2")
-                .transpositions(true)
-                .build();
+        SearchRequest searchRequest = SearchRequest.of(s -> s
+                .index("posts")
+                .query(query)
+                .size(size));
+
+        var response = client.search(searchRequest, PostDocument.class);
+
+        return response.hits().hits().stream()
+                .map(Hit::source)
+                .toList();
     }
 }

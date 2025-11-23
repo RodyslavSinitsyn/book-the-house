@@ -38,10 +38,10 @@
 
             <!-- Avatar and Username -->
             <span class="text-sm" th:if="${isAuth}"
-                  th:text="${#authentication.principal.attributes['name']}">John Doe</span>
+                  th:text="${#authentication.fullName}">John Doe</span>
             <div class="relative"
                  th:if="${isAuth}"
-                 th:with="pictureUrl=${#authentication.principal.attributes['picture'] ?: #authentication.principal.attributes['avatar_url']}">
+                 th:with="pictureUrl=${#authentication.avatarUrl}">
                 <!-- Avatar Image (Clickable) -->
                 <img id="header-avatar"
                      th:if="${pictureUrl != null}"
@@ -128,7 +128,7 @@
                 </strong>
             </p>
             <p class="text-base mt-3 line-clamp-3"
-               th:with="isMyPost=${isAuth && #authentication.name == post.username}"
+               th:with="isMyPost=${isAuth && #authentication.fullName == post.username}"
                th:classappend="${(isMyPost ? 'bg-blue-500' : '') + ' ' + (isMyPost ? 'text-white' : 'text-black-600')}"
                th:text="${isMyPost ? 'My publication' : 'Posted by: ' + post.friendlyName}">
                 Posted by

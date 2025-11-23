@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 022-create-table-clone-with-partitioning
+      author: rsinitsyn
+      comment: Create a new 'posts_temp' table with partitioning by 'country_id'
+      labels: posts
+      rollback:
+        - dropTable:
+            tableName: posts_temp
+            cascadeConstraints: true
+      changes:
+        - sql: "
+        create table posts_temp
+        (
+            id             uuid                  not null,
+            title          varchar(255)          not null,
+            image_url      varchar(1000),
+            status         varchar(50)           not null,
+            description    varchar(500),
+            available_from date,
+            available_to   date,
+            price          numeric(10, 2)        not null,
+            street         varchar(255)          not null,
+            house_number   varchar(50),
+            city_id        bigint                not null,
+            location_point geometry(Point, 4326) not null,
+            user_id        uuid                  not null,
+            country_id     bigint                not null
+        ) PARTITION BY LIST (country_id);
+        "
+
+  - changeSet:
+      id: 022-create-partitions
+      author: rsinitsyn
+      comment: Add partitions for existing country IDs and a default partition
+      labels: posts
+      changes:
+        - sql:
+            "
+            CREATE TABLE posts_usa PARTITION OF posts_temp FOR VALUES IN (233);
+            CREATE TABLE posts_ukraine PARTITION OF posts_temp FOR VALUES IN (230);
+            CREATE TABLE posts_france PARTITION OF posts_temp FOR VALUES IN (75);
+            CREATE TABLE posts_spain PARTITION OF posts_temp FOR VALUES IN (207);
+            CREATE TABLE posts_default PARTITION OF posts_temp DEFAULT;
+            "
+
+  - changeSet:
+      id: 022-migrate-data-to-temp-table
+      author: rsintsyn
+      comment: Migrate existing data from 'posts' to 'posts_temp'
+      labels: posts
+      runAlways: false
+      runOnChange: false
+      changes:
+        - sql: "
+        INSERT INTO posts_temp SELECT * FROM posts;
+        "
+
+  - changeSet:
+      id: 022-rename-tables-and-drop-old
+      author: rsintsyn
+      comment: Rename original 'posts' table and 'posts_temp' to 'posts' and drop the old table
+      labels: posts
+      changes:
+        - renameTable:
+            oldTableName: posts
+            newTableName: posts_old
+        - renameTable:
+            oldTableName: posts_temp
+            newTableName: posts
+        - dropTable:
+            tableName: posts_old
+            cascadeConstraints: true
+
+  - changeSet:
+      id: 022-recreate-indexes-and-constraints
+      author: rsintisyn
+      comment: Recreate indexes and constraints on the new 'posts' table
+      labels: posts
+      changes:
+          - sql: "ALTER TABLE posts ADD CONSTRAINT posts_pkey PRIMARY KEY (id, country_id);"
+          - sql: "ALTER TABLE posts ADD CONSTRAINT posts_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);"
+          - sql: "ALTER TABLE posts ADD CONSTRAINT posts_city_id_fkey FOREIGN KEY (city_id) REFERENCES cities(id);"
+          - sql: "ALTER TABLE posts ADD CONSTRAINT posts_country_id_fkey FOREIGN KEY (country_id) REFERENCES countries(id);"
+          - sql: "CREATE INDEX posts_search_idx ON posts USING GIN (to_tsvector('english', coalesce(title, '') || ' ' || coalesce(description, '')));"

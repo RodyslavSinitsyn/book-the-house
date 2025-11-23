@@ -15,9 +15,9 @@ public class ImageServiceIntegrationConfig {
     @Bean
     @Qualifier("imageServiceRestTemplate")
     public RestTemplate restTemplate(MdcAppenderHttpInterceptor mdcAppenderHttpInterceptor) {
-        var builder = new RestTemplateBuilder();
-        builder.readTimeout(Duration.ofSeconds(10));
-        builder.interceptors(mdcAppenderHttpInterceptor);
-        return builder.build();
+        return new RestTemplateBuilder()
+                .readTimeout(Duration.ofSeconds(10))
+                .interceptors(mdcAppenderHttpInterceptor)
+                .build();
     }
 }

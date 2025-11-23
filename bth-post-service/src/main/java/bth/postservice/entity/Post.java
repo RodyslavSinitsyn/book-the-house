@@ -10,6 +10,7 @@ import org.locationtech.jts.geom.PrecisionModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -74,6 +75,8 @@ public class Post implements HasStringId {
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "city_id", nullable = false)
         private City city;
+        @Column(name = "country_id", nullable = false)
+        private Long countryId;
         @Column(nullable = false, columnDefinition = "geometry(Point,4326)")
         private Point locationPoint;
         @Column(nullable = false)
@@ -84,6 +87,14 @@ public class Post implements HasStringId {
         public void setLocationPoint(double latitude, double longitude) {
             final var geometryFactory = new GeometryFactory(new PrecisionModel(), SRID);
             locationPoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+        }
+
+        @PrePersist
+        @PreUpdate
+        public void prePersist() {
+            Optional.ofNullable(city)
+                    .map(City::getCountry)
+                    .ifPresent(country -> this.countryId = country.getId());
         }
     }
 }

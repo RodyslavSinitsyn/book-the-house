@@ -4,9 +4,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class NotificationService {
 
     public void sendNotification(String token, String title, String body) {
@@ -19,9 +21,9 @@ public class NotificationService {
                             .build())
                     .build();
             String response = FirebaseMessaging.getInstance().send(message);
-            System.out.println("Notification sent successfully: " + response);
+            log.debug("Firebase notification sent successfully: {}", response);
         } catch (FirebaseMessagingException e) {
-            System.err.println("Failed to send notification: " + e.getMessage());
+            log.error("Failed to send notification: {}", e.getMessage(), e);
         }
     }
 }

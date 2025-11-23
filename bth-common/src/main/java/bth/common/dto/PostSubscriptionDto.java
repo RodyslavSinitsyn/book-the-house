@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class PostSubscriptionDto {
-    public String id;
+    private String id;
     private String userId;
     private String email;
     private String subscribedUserId;

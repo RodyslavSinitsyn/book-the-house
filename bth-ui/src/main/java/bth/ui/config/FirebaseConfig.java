@@ -13,7 +13,7 @@ public class FirebaseConfig {
 
     @Bean
     public String firebaseAppRegistrationMockBean() {
-        try(var serviceAccount = getClass().getResourceAsStream("/book-the-house-firebase-key.json")) {
+        try (var serviceAccount = getClass().getResourceAsStream("/book-the-house-firebase-key.json")) {
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseOptions options = new FirebaseOptions.Builder()
                         .setCredentials(GoogleCredentials.fromStream(serviceAccount))

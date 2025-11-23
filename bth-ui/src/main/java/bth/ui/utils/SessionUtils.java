@@ -3,7 +3,6 @@ package bth.ui.utils;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.util.Optional;
 
@@ -21,11 +20,20 @@ public class SessionUtils {
         if (!isAuthenticated()) {
             return getUsername();
         }
-        var principal = (OAuth2AuthenticatedPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (String) principal.getAttributes().get("email");
+        return getCurrentAppUser().getEmail();
     }
 
     public String getUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return isAuthenticated()
+                ? getCurrentAppUser().getFullName()
+                : "anonymousUser";
+    }
+
+    public CurrentAppUser getCurrentAppUser() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof CurrentAppUser currentAppUser) {
+            return currentAppUser;
+        }
+        return null;
     }
 }

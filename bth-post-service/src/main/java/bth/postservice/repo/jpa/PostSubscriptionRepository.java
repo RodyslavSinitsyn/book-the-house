@@ -14,7 +14,9 @@ import java.util.UUID;
 public interface PostSubscriptionRepository extends JpaRepository<PostSubscription, UUID> {
     List<PostSubscription> findAllByUserIdOrEmail(String userId, String email);
     List<PostSubscription> findAllBySubscribedUserIdAndEnabled(String subscribedUserId, boolean enabled);
-    @Query("SELECT p FROM PostSubscription p WHERE p.subscribedUserId = :subscribedUserId AND (p.email = :email OR p.userId = :userId)")
+    @Query("SELECT p FROM PostSubscription p " +
+            "WHERE p.subscribedUserId = :subscribedUserId " +
+            "AND (p.email = :email OR p.userId = :userId)")
     Optional<PostSubscription> findBySubscribedUserIdAndEmailOrUserId(@Param("subscribedUserId") String subscribedUserId,
                                                                       @Param("email") String email,
                                                                       @Param("userId") String userId);

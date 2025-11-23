@@ -3,6 +3,7 @@ package bth.postservice;
 import bth.common.rabbitmq.RabbitConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = "bth.*")
 @EnableAsync
+@EnableAspectJAutoProxy
 @Import(RabbitConfig.class)
 @EnableElasticsearchRepositories("bth.postservice.repo.elastic")
 @EnableJpaRepositories("bth.postservice.repo.jpa")
